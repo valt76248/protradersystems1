@@ -8,7 +8,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Eye, Send, CheckCircle2, Sparkles, MessageCircle, Phone, User, Mail, DollarSign, Target, Heart, Check } from 'lucide-react';
+import { supabase } from '@/lib/supabaseClient';
+import { Eye, Send, CheckCircle2, Sparkles, MessageCircle, Phone, User, Mail, DollarSign, Target, Heart } from 'lucide-react';
 
 const PreRegistration = () => {
     const navigate = useNavigate();
@@ -66,51 +67,41 @@ const PreRegistration = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Create an AbortController for timeout
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 seconds timeout
-
         try {
-            // Here you would send to your backend/n8n
-            // Using the new domain as per migration plan: n8n.protradersystems.com
-            const response = await fetch('https://n8n.protradersystems.com/webhook/pre-registration', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData),
-                signal: controller.signal
+            // Save directly to Supabase (works 24/7, no local server needed)
+            const { error } = await supabase
+                .from('pre_registrations')
+                .insert([{
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    messenger: formData.messenger,
+                    telegram_nick: formData.telegramNick,
+                    instagram_nick: formData.instagramNick,
+                    income: formData.income,
+                    problems: formData.problems,
+                    main_request: formData.mainRequest,
+                    desired_result: formData.desiredResult,
+                    why_now: formData.whyNow,
+                    ready_to_pay: formData.readyToPay,
+                    status: 'pending'
+                }]);
+
+            if (error) {
+                throw error;
+            }
+
+            setIsSubmitted(true);
+            toast({
+                title: "Заявка отправлена!",
+                description: "Мы свяжемся с вами в ближайшее время.",
             });
-
-            clearTimeout(timeoutId);
-
-            if (response.ok) {
-                setIsSubmitted(true);
-                toast({
-                    title: "Заявка отправлена!",
-                    description: "Мы свяжемся с вами в ближайшее время.",
-                });
-            } else {
-                throw new Error('Failed to submit: ' + response.statusText);
-            }
         } catch (error: any) {
-            clearTimeout(timeoutId);
             console.error("Submission error:", error);
-
-            let errorMessage = "Не удалось отправить заявку. Попробуйте позже.";
-
-            if (error.name === 'AbortError') {
-                errorMessage = "Превышено время ожидания сервера (Timeout). Проверьте интернет.";
-            } else if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
-                errorMessage = "Ошибка соединения. Возможно, проблема с DNS или блокировщиком рекламы.";
-            } else if (error.message) {
-                errorMessage = `Ошибка: ${error.message}`;
-            }
-
             toast({
                 title: "Ошибка отправки",
-                description: errorMessage,
+                description: error.message || "Не удалось отправить заявку. Попробуйте позже.",
                 variant: "destructive"
             });
         } finally {
