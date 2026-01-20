@@ -8,7 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { supabase } from '@/lib/supabaseClient';
+
 import { Eye, Send, CheckCircle2, Sparkles, MessageCircle, Phone, User, Mail, DollarSign, Target, Heart } from 'lucide-react';
 
 const PreRegistration = () => {
@@ -68,29 +68,23 @@ const PreRegistration = () => {
         setIsSubmitting(true);
 
         try {
-            // Save directly to Supabase (works 24/7, no local server needed)
-            const { error } = await supabase
-                .from('pre_registrations')
-                .insert([{
-                    first_name: formData.firstName,
-                    last_name: formData.lastName,
-                    email: formData.email,
-                    phone: formData.phone,
-                    messenger: formData.messenger,
-                    telegram_nick: formData.telegramNick,
-                    instagram_nick: formData.instagramNick,
-                    income: formData.income,
-                    problems: formData.problems,
-                    main_request: formData.mainRequest,
-                    desired_result: formData.desiredResult,
-                    why_now: formData.whyNow,
-                    ready_to_pay: formData.readyToPay,
-                    status: 'pending'
-                }]);
+            // Version 2: Send to n8n Webhook
+            const response = await fetch('https://n8n.protradersystems.com/webhook/pre-registration', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
 
-            if (error) {
-                throw error;
+            const text = await response.text();
+            console.log("Raw response:", text);
+
+            if (!text) {
+                throw new Error("Server returned empty response. Check n8n Executions log.");
             }
+
+            const result = JSON.parse(text);
 
             setIsSubmitted(true);
             toast({
@@ -101,7 +95,7 @@ const PreRegistration = () => {
             console.error("Submission error:", error);
             toast({
                 title: "Ошибка отправки",
-                description: error.message || "Не удалось отправить заявку. Попробуйте позже.",
+                description: `Детали: ${error.message}`,
                 variant: "destructive"
             });
         } finally {
