@@ -335,8 +335,8 @@ const Account = () => {
                                   </div>
                                   <div className="w-full bg-gray-700 rounded-full h-2">
                                     <div
-                                      className="bg-green-500 h-2 rounded-full transition-all"
-                                      style={{ width: `${course.enrollment.progress}%` }}
+                                      className="bg-green-500 h-2 rounded-full transition-all progress-bar-fill"
+                                      style={{ '--progress-width': `${course.enrollment.progress}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                                     ></div>
                                   </div>
                                 </div>

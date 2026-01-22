@@ -136,7 +136,7 @@ const SessionOne = () => {
                                     key={section.id}
                                     id={section.id}
                                     className="scroll-mt-28 animate-in fade-in slide-in-from-bottom-4 duration-700"
-                                    style={{ animationDelay: `${index * 50}ms` }}
+                                    style={{ '--animation-delay': `${index * 50}ms`, animationDelay: 'var(--animation-delay)' } as React.CSSProperties}
                                 >
                                     <div className="flex items-center gap-3 mb-6">
                                         <div className="p-3 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-xl border border-blue-500/30 shadow-lg shadow-blue-900/20">

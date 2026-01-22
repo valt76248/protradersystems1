@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
-import { Eye, Send, CheckCircle2, Sparkles, MessageCircle, Phone, User, Mail, DollarSign, Target, Heart } from 'lucide-react';
+import { Send, CheckCircle2, Sparkles, MessageCircle, Phone, User, Mail, DollarSign, Target, Heart } from 'lucide-react';
 
 const PreRegistration = () => {
     const navigate = useNavigate();
@@ -139,13 +139,17 @@ const PreRegistration = () => {
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(86,70,252,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(86,70,252,0.03)_1px,transparent_1px)] bg-[size:32px_32px]" />
 
                 <div className="relative max-w-4xl mx-auto px-4 text-center">
-                    {/* Mystical Eye Icon */}
-                    <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-amber-500/20 to-purple-600/20 border border-amber-500/30 flex items-center justify-center">
-                        <Eye className="w-10 h-10 text-amber-400" />
+                    {/* Mystical Eye Image */}
+                    <div className="w-28 h-28 mx-auto mb-6">
+                        <img
+                            src="/mystic-eye.png"
+                            alt="Мистический символ"
+                            className="w-full h-full object-contain"
+                        />
                     </div>
 
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-200 to-purple-200">
-                        Анкета записи к целителю
+                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-200 to-amber-400">
+                        Путь к трансформации
                     </h1>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                         Заполните анкету ниже, и мы свяжемся с вами для обсуждения вашего пути к исцелению
