@@ -358,7 +358,7 @@ const QuizSection = () => {
                     <div className="absolute top-0 left-0 w-full h-1 bg-white/5 rounded-t-2xl overflow-hidden">
                         <div
                             className="h-full bg-trading-accent transition-all duration-500 ease-out progress-bar-fill"
-                            style={{ '--progress-width': `${((currentQuestion + 1) / totalQuestions) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
+                            style={{ width: `${((currentQuestion + 1) / totalQuestions) * 100}%` }}
                         />
                     </div>
 

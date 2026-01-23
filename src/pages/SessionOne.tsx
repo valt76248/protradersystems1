@@ -138,7 +138,7 @@ const SessionOne = () => {
                                     key={section.id}
                                     id={section.id}
                                     className="scroll-mt-28 animate-in fade-in slide-in-from-bottom-4 duration-700"
-                                    style={{ '--animation-delay': `${index * 50}ms`, animationDelay: 'var(--animation-delay)' } as React.CSSProperties}
+                                    style={{ animationDelay: `${index * 50}ms` }}
                                 >
                                     <div className="flex items-center gap-3 mb-6">
                                         <div className="p-3 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-xl border border-blue-500/30 shadow-lg shadow-blue-900/20">
@@ -177,22 +177,7 @@ const SessionOne = () => {
 
             <Footer />
 
-            <style>{`
-                .typography-protrade strong {
-                    color: white;
-                    font-weight: 600;
-                }
-                .typography-protrade ul {
-                    list-style-type: none;
-                    padding-left: 0;
-                }
-                .typography-protrade p {
-                    margin-bottom: 1rem;
-                }
-                .typography-protrade p:last-child {
-                    margin-bottom: 0;
-                }
-            `}</style>
+
         </div>
     );
 };

@@ -90,7 +90,7 @@
     -khtml-user-drag: none;
     -moz-user-drag: none;
     -o-user-drag: none;
-    user-drag: none;
+
   }
 
   .chart-gradient-bg {
@@ -251,5 +251,23 @@
 
   .animation-delay-600 {
     animation-delay: 600ms;
+  }
+
+  .typography-protrade strong {
+    color: white;
+    font-weight: 600;
+  }
+
+  .typography-protrade ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .typography-protrade p {
+    margin-bottom: 1rem;
+  }
+
+  .typography-protrade p:last-child {
+    margin-bottom: 0;
   }
 }

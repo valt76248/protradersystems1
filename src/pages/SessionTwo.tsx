@@ -177,22 +177,7 @@ const SessionTwo = () => {
 
             <Footer />
 
-            <style>{`
-                .typography-protrade strong {
-                    color: white;
-                    font-weight: 600;
-                }
-                .typography-protrade ul {
-                    list-style-type: none;
-                    padding-left: 0;
-                }
-                .typography-protrade p {
-                    margin-bottom: 1rem;
-                }
-                .typography-protrade p:last-child {
-                    margin-bottom: 0;
-                }
-            `}</style>
+
         </div>
     );
 };
