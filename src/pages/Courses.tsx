@@ -1,118 +1,27 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useToast } from '@/components/ui/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-import { Course, CourseCard } from '@/components/courses/CourseCard';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Bitcoin, CheckCircle, Infinity, BookOpen, Shield, Users } from 'lucide-react';
 import { FeaturesSection } from '@/components/courses/FeaturesSection';
 
 const Courses = () => {
   const { t } = useLanguage();
-  const [cart, setCart] = useState<string[]>([]);
-  const [processingPayment, setProcessingPayment] = useState<string | null>(null);
-  const { toast } = useToast();
 
-  const courses: Course[] = [
-    {
-      id: '1',
-      title: 'Система ProTrader Systems',
-      description: 'Освойте одну из самых мощных и прибыльных систем в мире трейдинга для получения стабильной прибыли.',
-      price: 1700,
-      duration: '21 час',
-      students: 850,
-      rating: 5.0,
-      level: 'advanced',
-      features: [
-        'Мощные торговые стратегии',
-        'Система управления рисками',
-        'Психология профессионального трейдера',
-        'Анализ рыночных тенденций',
-        'Практические торговые сессии',
-        'Пожизненная поддержка'
-      ],
-      image: '/lovable-uploads/a7a07a1f-0f0d-453b-8d07-32767312672d.png'
-    }
+  const courseFeatures = [
+    t('courses.feature1'),
+    t('courses.feature2'),
+    t('courses.feature3'),
+    t('courses.feature4'),
   ];
 
-  const addToCart = async (courseId: string) => {
-    if (cart.includes(courseId)) {
-      await handlePurchase(courseId);
-      return;
-    }
-
-    setCart([...cart, courseId]);
-    toast({
-      title: t('courses.added-to-cart'),
-      description: t('courses.proceed-to-checkout'),
-    });
-  };
-
-  const handlePurchase = async (courseId: string) => {
-    const course = courses.find(c => c.id === courseId);
-    if (!course) {
-      console.error('Course not found:', courseId);
-      return;
-    }
-
-    setProcessingPayment(courseId);
-    console.log('=== STARTING PAYMENT PROCESS ===');
-    console.log('Course:', course.title);
-    console.log('Price in USD:', course.price);
-    console.log('Amount to be sent to Stripe (should be in cents):', course.price * 100);
-
-    try {
-      console.log('Calling create-payment-intent function...');
-      const requestBody = {
-        amount: course.price, // Отправляем в долларах, Edge Function конвертирует в центы
-        currency: 'usd',
-        courseId: course.id,
-      };
-      console.log('Request body being sent:', requestBody);
-
-      const { data, error } = await supabase.functions.invoke('create-payment-intent', {
-        body: requestBody,
-      });
-
-      console.log('Function response data:', data);
-      console.log('Function response error:', error);
-
-      if (error) {
-        console.error('Supabase function error:', error);
-        throw new Error(error.message || 'Failed to create payment intent');
-      }
-
-      if (!data?.clientSecret) {
-        console.error('No clientSecret in response:', data);
-        throw new Error('No client secret received from server');
-      }
-
-      console.log('Payment intent created successfully for $' + course.price);
-      console.log('Client secret received:', data.clientSecret.substring(0, 20) + '...');
-
-      localStorage.setItem('stripe_client_secret', data.clientSecret);
-      localStorage.setItem('course_for_purchase', JSON.stringify(course));
-
-      console.log('Data saved to localStorage, redirecting to checkout...');
-
-      // Переходим на страницу оплаты
-      window.location.href = '/checkout';
-
-    } catch (error: any) {
-      console.error('=== PAYMENT ERROR ===');
-      console.error('Error type:', typeof error);
-      console.error('Error message:', error?.message);
-      console.error('Full format error:', error);
-
-      toast({
-        title: t('courses.payment-error'),
-        description: error?.message || t('courses.payment-error-desc'),
-        variant: 'destructive',
-      });
-    } finally {
-      setProcessingPayment(null);
-    }
+  const handleCryptoPayment = () => {
+    // Redirect to crypto payment page
+    window.location.href = '/pre-registration';
   };
 
   return (
@@ -128,16 +37,78 @@ const Courses = () => {
         </div>
 
         <div className="flex justify-center">
-          <div className="max-w-md">
-            {courses.map((course) => (
-              <CourseCard
-                key={course.id}
-                course={course}
-                isInCart={cart.includes(course.id)}
-                isProcessing={processingPayment === course.id}
-                onAction={addToCart}
-              />
-            ))}
+          <div className="max-w-md w-full">
+            <Card className="bg-trading-card border-gray-800 overflow-hidden group hover:border-blue-500 transition-colors">
+              <div className="relative">
+                <img
+                  src="/lovable-uploads/a7a07a1f-0f0d-453b-8d07-32767312672d.png"
+                  alt="ProTrader Systems"
+                  className="w-full h-48 object-cover"
+                />
+                <Badge className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                  {t('courses.badge_pro')}
+                </Badge>
+              </div>
+
+              <CardHeader>
+                <CardTitle className="text-xl mb-2">ProTrader Systems</CardTitle>
+                <div className="flex items-center gap-4 text-sm text-gray-400">
+                  <div className="flex items-center gap-1">
+                    <BookOpen className="h-4 w-4 text-blue-400" />
+                    <span>{t('courses.sessions_count')}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Infinity className="h-4 w-4 text-green-400" />
+                    <span>{t('courses.lifetime')}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Users className="h-4 w-4 text-purple-400" />
+                    <span>{t('courses.community')}</span>
+                  </div>
+                </div>
+              </CardHeader>
+
+              <CardContent>
+                <p className="text-gray-300 mb-4">
+                  {t('courses.description_new')}
+                </p>
+
+                <div className="mb-4">
+                  <h4 className="font-semibold mb-2">{t('course.what_you_learn')}</h4>
+                  <ul className="space-y-1">
+                    {courseFeatures.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2 text-sm text-gray-300">
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl font-bold text-green-400">$499</span>
+                    <span className="text-sm text-gray-500">USDT</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-gray-500">
+                    <Shield className="h-3 w-3" />
+                    <span>{t('courses.secure')}</span>
+                  </div>
+                </div>
+
+                <Button
+                  className="w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-semibold"
+                  onClick={handleCryptoPayment}
+                >
+                  <Bitcoin className="mr-2 h-4 w-4" />
+                  {t('courses.pay_crypto')}
+                </Button>
+
+                <p className="text-xs text-center text-gray-500 mt-3">
+                  {t('courses.crypto_note')}
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
 
@@ -150,4 +121,3 @@ const Courses = () => {
 };
 
 export default Courses;
-

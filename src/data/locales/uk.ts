@@ -849,5 +849,19 @@ export const uk = {
     'about.stat.lessons': 'Відеоуроків',
     'about.stat.access': 'Безстроковий доступ',
     'about.stat.risk_reward': 'Ризик/Прибуток',
-    'about.stat.telegram': 'Підтримка в Telegram'
+    'about.stat.telegram': 'Підтримка в Telegram',
+
+    // Courses page - updated
+    'courses.badge_pro': 'PRO Система',
+    'courses.sessions_count': '2 сесії',
+    'courses.lifetime': 'Назавжди',
+    'courses.community': 'Спільнота',
+    'courses.description_new': 'Повна система трейдингу ETF з покроковими інструкціями, практичними прикладами та підтримкою в Telegram.',
+    'courses.feature1': 'Структура ринку та тренди',
+    'courses.feature2': 'Точки входу та виходу',
+    'courses.feature3': 'Управління ризиками',
+    'courses.feature4': 'Психологія трейдера',
+    'courses.pay_crypto': 'Оплатити криптою',
+    'courses.crypto_note': 'USDT (TRC-20) • Миттєвий доступ після оплати',
+    'courses.secure': 'Безпечно'
 };

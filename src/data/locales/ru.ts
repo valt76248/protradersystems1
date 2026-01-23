@@ -852,5 +852,19 @@ export const ru = {
     'about.stat.lessons': 'Видеоуроков',
     'about.stat.access': 'Бессрочный доступ',
     'about.stat.risk_reward': 'Риск/Прибыль',
-    'about.stat.telegram': 'Поддержка в Telegram'
+    'about.stat.telegram': 'Поддержка в Telegram',
+
+    // Courses page - updated
+    'courses.badge_pro': 'PRO Система',
+    'courses.sessions_count': '2 сессии',
+    'courses.lifetime': 'Навсегда',
+    'courses.community': 'Сообщество',
+    'courses.description_new': 'Полная система трейдинга ETF с пошаговыми инструкциями, практическими примерами и поддержкой в Telegram.',
+    'courses.feature1': 'Структура рынка и тренды',
+    'courses.feature2': 'Точки входа и выхода',
+    'courses.feature3': 'Управление рисками',
+    'courses.feature4': 'Психология трейдера',
+    'courses.pay_crypto': 'Оплатить криптой',
+    'courses.crypto_note': 'USDT (TRC-20) • Мгновенный доступ после оплаты',
+    'courses.secure': 'Безопасно'
 };
