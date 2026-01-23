@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Loader2, ArrowLeft, Lock, Play, Video, CheckCircle, FileText } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import VideoPlayer from '@/components/training/VideoPlayer';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Module {
     id: string;
@@ -35,6 +36,7 @@ interface TrainingVideo {
 }
 
 const CoursePage = () => {
+    const { t } = useLanguage();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -139,8 +141,8 @@ const CoursePage = () => {
     if (!course) {
         return (
             <div className="min-h-screen bg-trading-dark flex flex-col items-center justify-center text-white">
-                <h1 className="text-2xl font-bold mb-4">Курс не найден</h1>
-                <Button onClick={() => navigate('/account')}>Вернуться в кабинет</Button>
+                <h1 className="text-2xl font-bold mb-4">{t('course.not_found')}</h1>
+                <Button onClick={() => navigate('/account')}>{t('course.back_to_account')}</Button>
             </div>
         );
     }
@@ -153,14 +155,14 @@ const CoursePage = () => {
                     <Lock className="h-16 w-16 text-gray-500 mb-6" />
                     <h1 className="text-3xl font-bold text-white mb-4">{course.title}</h1>
                     <p className="text-gray-400 max-w-md mb-8">
-                        К сожалению, у вас нет доступа к этому курсу. Пожалуйста, приобретите курс, чтобы продолжить обучение.
+                        {t('course.no_access')}
                     </p>
                     <div className="flex gap-4">
                         <Button variant="outline" onClick={() => navigate('/account')}>
-                            Мой кабинет
+                            {t('course.my_account')}
                         </Button>
                         <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate('/courses')}>
-                            Каталог курсов
+                            {t('course.catalog')}
                         </Button>
                     </div>
                 </main>
@@ -182,7 +184,7 @@ const CoursePage = () => {
                         onClick={() => navigate('/account')}
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
-                        Назад в кабинет
+                        {t('course.back')}
                     </Button>
 
                     {/* Course Header */}
@@ -190,9 +192,9 @@ const CoursePage = () => {
                         <h1 className="text-3xl md:text-4xl font-bold mb-3">{course.title}</h1>
                         <p className="text-gray-300 text-lg">{course.description}</p>
                         <div className="mt-4 flex items-center gap-2">
-                            <Badge className="bg-green-600 hover:bg-green-700">Активный курс</Badge>
+                            <Badge className="bg-green-600 hover:bg-green-700">{t('course.active')}</Badge>
                             <Badge variant="outline" className="text-blue-400 border-blue-400">
-                                {modules.length} модулей
+                                {modules.length} {t('course.modules')}
                             </Badge>
                         </div>
                     </div>
@@ -201,13 +203,13 @@ const CoursePage = () => {
                     <div className="space-y-6">
                         <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                             <FileText className="h-6 w-6 text-blue-400" />
-                            Программа курса
+                            {t('course.program')}
                         </h2>
 
                         {modules.length === 0 ? (
                             <Card className="bg-trading-card border-gray-800">
                                 <CardContent className="p-8 text-center text-gray-400">
-                                    <p>Материалы курса готовятся к публикации.</p>
+                                    <p>{t('course.preparing')}</p>
                                 </CardContent>
                             </Card>
                         ) : (
@@ -234,11 +236,11 @@ const CoursePage = () => {
 
                                         <AccordionContent className="pt-2 pb-6 border-t border-gray-800/50 mt-2">
                                             <div className="space-y-4">
-                                                {(module.title.toLowerCase().includes('session 1') || module.title.toLowerCase().includes('сессия 1')) ? (
+                                                {(module.title.toLowerCase().includes('session 1') || module.title.toLowerCase().includes('сессія 1') || module.title.toLowerCase().includes('сессия 1')) ? (
                                                     <div className="p-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl border border-blue-500/30">
-                                                        <h4 className="text-xl font-bold text-white mb-3 text-center">Интерактивный модуль: {module.title}</h4>
+                                                        <h4 className="text-xl font-bold text-white mb-3 text-center">{t('course.interactive_module')} {module.title}</h4>
                                                         <p className="text-gray-300 mb-6 text-center">
-                                                            Этот модуль содержит расширенные интерактивные материалы, видео и структуру для глубокого изучения.
+                                                            {t('course.extended_materials')}
                                                         </p>
                                                         <div className="flex flex-col gap-3 max-w-md mx-auto">
                                                             <Button
@@ -246,7 +248,7 @@ const CoursePage = () => {
                                                                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-6 text-base shadow-lg shadow-blue-900/50 transition-all hover:scale-105"
                                                             >
                                                                 <Play className="mr-3 h-5 w-5 fill-current" />
-                                                                Содержание Session 1
+                                                                {t('course.session_content')} 1
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-1-gallery', { state: { fromCourse: id } })}
@@ -254,7 +256,7 @@ const CoursePage = () => {
                                                                 className="w-full border-blue-500/50 text-blue-400 hover:bg-blue-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <FileText className="mr-3 h-5 w-5" />
-                                                                Скриншоты графиков
+                                                                {t('course.screenshots')}
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-1-video', { state: { fromCourse: id } })}
@@ -262,7 +264,7 @@ const CoursePage = () => {
                                                                 className="w-full border-purple-500/50 text-purple-400 hover:bg-purple-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <Video className="mr-3 h-5 w-5" />
-                                                                Видео
+                                                                {t('course.video')}
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-1-templates', { state: { fromCourse: id } })}
@@ -270,7 +272,7 @@ const CoursePage = () => {
                                                                 className="w-full border-green-500/50 text-green-400 hover:bg-green-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <FileText className="mr-3 h-5 w-5" />
-                                                                Индикаторы и шаблоны
+                                                                {t('course.indicators')}
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-1-test', { state: { fromCourse: id } })}
@@ -278,7 +280,7 @@ const CoursePage = () => {
                                                                 className="w-full border-orange-500/50 text-orange-400 hover:bg-orange-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <CheckCircle className="mr-3 h-5 w-5" />
-                                                                Тест
+                                                                {t('course.test')}
                                                             </Button>
                                                         </div>
                                                         <div className="mt-4 text-center">
@@ -288,15 +290,15 @@ const CoursePage = () => {
                                                                 className="text-gray-400 hover:text-white"
                                                             >
                                                                 <ArrowLeft className="mr-2 h-4 w-4" />
-                                                                Назад
+                                                                {t('course.back_short')}
                                                             </Button>
                                                         </div>
                                                     </div>
-                                                ) : (module.title.toLowerCase().includes('session 2') || module.title.toLowerCase().includes('сессия 2')) ? (
+                                                ) : (module.title.toLowerCase().includes('session 2') || module.title.toLowerCase().includes('сессія 2') || module.title.toLowerCase().includes('сессия 2')) ? (
                                                     <div className="p-6 bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-xl border border-purple-500/30">
-                                                        <h4 className="text-xl font-bold text-white mb-3 text-center">Интерактивный модуль: {module.title}</h4>
+                                                        <h4 className="text-xl font-bold text-white mb-3 text-center">{t('course.interactive_module')} {module.title}</h4>
                                                         <p className="text-gray-300 mb-6 text-center">
-                                                            Углубленное изучение анализа тренда, ценовых режимов и техник выхода.
+                                                            {t('course.session2_desc')}
                                                         </p>
                                                         <div className="flex flex-col gap-3 max-w-md mx-auto">
                                                             <Button
@@ -304,7 +306,7 @@ const CoursePage = () => {
                                                                 className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 px-6 text-base shadow-lg shadow-purple-900/50 transition-all hover:scale-105"
                                                             >
                                                                 <Play className="mr-3 h-5 w-5 fill-current" />
-                                                                Содержание Session 2
+                                                                {t('course.session_content')} 2
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-2-gallery', { state: { fromCourse: id } })}
@@ -312,7 +314,7 @@ const CoursePage = () => {
                                                                 className="w-full border-purple-500/50 text-purple-400 hover:bg-purple-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <FileText className="mr-3 h-5 w-5" />
-                                                                Скриншоты графиков
+                                                                {t('course.screenshots')}
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-2-video', { state: { fromCourse: id } })}
@@ -320,7 +322,7 @@ const CoursePage = () => {
                                                                 className="w-full border-pink-500/50 text-pink-400 hover:bg-pink-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <Video className="mr-3 h-5 w-5" />
-                                                                Видео
+                                                                {t('course.video')}
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-2-templates', { state: { fromCourse: id } })}
@@ -328,7 +330,7 @@ const CoursePage = () => {
                                                                 className="w-full border-green-500/50 text-green-400 hover:bg-green-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <FileText className="mr-3 h-5 w-5" />
-                                                                Индикаторы и шаблоны
+                                                                {t('course.indicators')}
                                                             </Button>
                                                             <Button
                                                                 onClick={() => navigate('/session-2-test', { state: { fromCourse: id } })}
@@ -336,7 +338,7 @@ const CoursePage = () => {
                                                                 className="w-full border-orange-500/50 text-orange-400 hover:bg-orange-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
                                                                 <CheckCircle className="mr-3 h-5 w-5" />
-                                                                Тест
+                                                                {t('course.test')}
                                                             </Button>
                                                         </div>
                                                         <div className="mt-4 text-center">
@@ -346,7 +348,7 @@ const CoursePage = () => {
                                                                 className="text-gray-400 hover:text-white"
                                                             >
                                                                 <ArrowLeft className="mr-2 h-4 w-4" />
-                                                                Назад
+                                                                {t('course.back_short')}
                                                             </Button>
                                                         </div>
                                                     </div>
@@ -362,16 +364,16 @@ const CoursePage = () => {
                                                                 <div className="p-2 bg-blue-500/10 rounded-full group-hover:bg-blue-500/20">
                                                                     <Play className="h-4 w-4 text-blue-400 fill-blue-400" />
                                                                 </div>
-                                                                <span className="font-medium">Видео-урок</span>
+                                                                <span className="font-medium">{t('course.video_lesson')}</span>
                                                             </div>
                                                             <Button size="sm" variant="ghost" className="text-blue-400">
-                                                                Смотреть
+                                                                {t('course.watch')}
                                                             </Button>
                                                         </div>
 
                                                         <div className="mt-3 flex items-center gap-2 text-xs text-gray-500">
                                                             <CheckCircle className="h-3 w-3" />
-                                                            <span>Доступно в рамках вашего пакета</span>
+                                                            <span>{t('course.available')}</span>
                                                         </div>
                                                     </div>
                                                 )}

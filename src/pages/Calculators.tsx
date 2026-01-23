@@ -8,8 +8,10 @@ import RiskOfRuinCalculator from '@/components/calculators/RiskOfRuinCalculator'
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Calculator, Wallet, TrendingUp, Moon, ShieldAlert } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Calculators() {
+    const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState('lot');
 
     // URL для Production API (будет заменено на реальный домен после деплоя Workers)
@@ -24,10 +26,10 @@ export default function Calculators() {
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
                         <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                            Инструменты PRO
+                            {t('calc.title')}
                         </h1>
                         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                            Профессиональные калькуляторы для расчёта рисков, маржи и доходности
+                            {t('calc.subtitle')}
                         </p>
                     </div>
 
@@ -38,40 +40,40 @@ export default function Calculators() {
                                 className="data-[state=active]:bg-blue-600 data-[state=active]:text-white py-3 rounded-lg flex items-center gap-2 transition-all"
                             >
                                 <Calculator className="h-4 w-4" />
-                                <span className="hidden md:inline">Лот и Риск</span>
-                                <span className="md:hidden">Лот</span>
+                                <span className="hidden md:inline">{t('calc.lot')}</span>
+                                <span className="md:hidden">{t('calc.lot_short')}</span>
                             </TabsTrigger>
                             <TabsTrigger
                                 value="margin"
                                 className="data-[state=active]:bg-purple-600 data-[state=active]:text-white py-3 rounded-lg flex items-center gap-2 transition-all"
                             >
                                 <Wallet className="h-4 w-4" />
-                                <span className="hidden md:inline">Маржа</span>
-                                <span className="md:hidden">Маржа</span>
+                                <span className="hidden md:inline">{t('calc.margin')}</span>
+                                <span className="md:hidden">{t('calc.margin')}</span>
                             </TabsTrigger>
                             <TabsTrigger
                                 value="swap"
                                 className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white py-3 rounded-lg flex items-center gap-2 transition-all"
                             >
                                 <Moon className="h-4 w-4" />
-                                <span className="hidden md:inline">Свопы</span>
-                                <span className="md:hidden">Свопы</span>
+                                <span className="hidden md:inline">{t('calc.swap')}</span>
+                                <span className="md:hidden">{t('calc.swap')}</span>
                             </TabsTrigger>
                             <TabsTrigger
                                 value="compound"
                                 className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white py-3 rounded-lg flex items-center gap-2 transition-all"
                             >
                                 <TrendingUp className="h-4 w-4" />
-                                <span className="hidden md:inline">Сложный %</span>
-                                <span className="md:hidden">Доход</span>
+                                <span className="hidden md:inline">{t('calc.compound')}</span>
+                                <span className="md:hidden">{t('calc.compound_short')}</span>
                             </TabsTrigger>
                             <TabsTrigger
                                 value="ruin"
                                 className="data-[state=active]:bg-rose-600 data-[state=active]:text-white py-3 rounded-lg flex items-center gap-2 transition-all"
                             >
                                 <ShieldAlert className="h-4 w-4" />
-                                <span className="hidden md:inline">Риск</span>
-                                <span className="md:hidden">Риск</span>
+                                <span className="hidden md:inline">{t('calc.risk')}</span>
+                                <span className="md:hidden">{t('calc.risk')}</span>
                             </TabsTrigger>
                         </TabsList>
 
@@ -100,7 +102,7 @@ export default function Calculators() {
 
                     <div className="mt-12 p-6 bg-gray-900/30 border border-gray-800 rounded-xl text-center">
                         <p className="text-gray-500 text-sm">
-                            * Все расчёты носят ознакомительный характер. Торговля на финансовых рынках сопряжена с высоким уровнем риска.
+                            {t('calc.disclaimer')}
                         </p>
                     </div>
                 </div>

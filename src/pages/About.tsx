@@ -100,20 +100,20 @@ const About = () => {
           <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-2xl p-8 md:p-12 border border-white/5">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-white mb-2">5+</div>
-                <div className="text-sm text-gray-400">Лет опыта</div>
+                <div className="text-4xl font-bold text-white mb-2">50+</div>
+                <div className="text-sm text-gray-400">{t('about.stat.lessons')}</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-white mb-2">1200+</div>
-                <div className="text-sm text-gray-400">Студентов</div>
+                <div className="text-4xl font-bold text-white mb-2">∞</div>
+                <div className="text-sm text-gray-400">{t('about.stat.access')}</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-white mb-2">85%</div>
-                <div className="text-sm text-gray-400">Win Rate</div>
+                <div className="text-4xl font-bold text-white mb-2">1:3</div>
+                <div className="text-sm text-gray-400">{t('about.stat.risk_reward')}</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-white mb-2">24/7</div>
-                <div className="text-sm text-gray-400">Поддержка</div>
+                <div className="text-4xl font-bold text-white mb-2">📱</div>
+                <div className="text-sm text-gray-400">{t('about.stat.telegram')}</div>
               </div>
             </div>
           </div>

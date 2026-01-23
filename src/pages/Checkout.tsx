@@ -45,7 +45,7 @@ const Checkout = () => {
     console.log('=== PAYMENT SUCCESS ===');
     localStorage.removeItem('stripe_client_secret');
     localStorage.removeItem('course_for_purchase');
-    
+
     window.location.href = '/payment-success';
   };
 
@@ -55,8 +55,8 @@ const Checkout = () => {
         <Header />
         <main className="flex-grow container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center">
-            <h1 className="text-3xl font-bold mb-4">Загрузка...</h1>
-            <p className="text-gray-400">Подготавливаем форму оплаты</p>
+            <h1 className="text-3xl font-bold mb-4">{t('checkout.loading')}</h1>
+            <p className="text-gray-400">{t('checkout.preparing')}</p>
           </div>
         </main>
         <Footer />
@@ -80,19 +80,19 @@ const Checkout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-trading-dark text-white">
       <Header />
-      
+
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-4 mb-8">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
               onClick={() => window.history.back()}
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Назад к курсам
+              {t('checkout.back')}
             </Button>
-            <h1 className="text-3xl font-bold">Оформление заказа</h1>
+            <h1 className="text-3xl font-bold">{t('checkout.title')}</h1>
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
@@ -109,7 +109,7 @@ const Checkout = () => {
             <div className="lg:col-span-1">
               <Card className="bg-trading-card border-gray-800 sticky top-4">
                 <CardHeader>
-                  <CardTitle>Ваш заказ</CardTitle>
+                  <CardTitle>{t('checkout.your_order')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-start">
@@ -125,7 +125,7 @@ const Checkout = () => {
 
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span>Подытог:</span>
+                      <span>{t('checkout.subtotal')}</span>
                       <span>${course.price}</span>
                     </div>
                   </div>
@@ -134,16 +134,16 @@ const Checkout = () => {
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-lg font-bold">
-                      <span>Итого:</span>
+                      <span>{t('checkout.total')}</span>
                       <span>${course.price}</span>
                     </div>
                     <div className="space-y-1 text-sm text-gray-400">
                       <div className="flex justify-between">
-                        <span>В рублях:</span>
+                        <span>{t('checkout.in_rubles')}</span>
                         <span>{priceInRub.toLocaleString()} ₽</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>В гривнах:</span>
+                        <span>{t('checkout.in_hryvnias')}</span>
                         <span>{priceInUah.toLocaleString()} ₴</span>
                       </div>
                     </div>
@@ -152,11 +152,11 @@ const Checkout = () => {
                   <div className="space-y-3 pt-4">
                     <div className="flex items-center gap-2 text-sm text-gray-400">
                       <Shield className="h-4 w-4 text-blue-500" />
-                      Пожизненный доступ к курсу
+                      {t('checkout.lifetime_access')}
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-400">
                       <Shield className="h-4 w-4 text-green-500" />
-                      Безопасная оплата через Stripe
+                      {t('checkout.secure_payment')}
                     </div>
                   </div>
                 </CardContent>
@@ -165,7 +165,7 @@ const Checkout = () => {
           </div>
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );

@@ -15,6 +15,7 @@ import { SettingsTab } from '@/components/account/SettingsTab';
 import { ReferralSection } from '@/components/account/ReferralSection';
 import PaymentModal from '@/components/payment/PaymentModal';
 import SupportButton from '@/components/shared/SupportButton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Enrollment {
   id: string;
@@ -34,6 +35,7 @@ interface CourseWithAccess {
 }
 
 const Account = () => {
+  const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<CourseWithAccess[]>([]);
@@ -115,8 +117,8 @@ const Account = () => {
     } catch (error: any) {
       console.error('Error checking account:', error);
       toast({
-        title: "Помилка",
-        description: "Не вдалося завантажити дані профілю",
+        title: t('account.error'),
+        description: t('account.error_load'),
         variant: "destructive"
       });
     } finally {
@@ -126,7 +128,7 @@ const Account = () => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    toast({ title: "Вихід виконано", description: "До побачення!" });
+    toast({ title: t('account.logout_success'), description: t('account.logout_bye') });
     navigate('/');
   };
 
@@ -178,13 +180,13 @@ const Account = () => {
       if (error) throw error;
 
       toast({
-        title: "Профіль оновлено",
-        description: "Ваші дані успішно збережено"
+        title: t('account.profile.updated'),
+        description: t('account.profile.updated_desc')
       });
       setIsEditing(false);
     } catch (error: any) {
       toast({
-        title: "Помилка",
+        title: t('account.error'),
         description: error.message,
         variant: "destructive"
       });
@@ -196,7 +198,7 @@ const Account = () => {
       <div className="min-h-screen bg-trading-dark flex items-center justify-center text-white">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-400">Загрузка профиля...</p>
+          <p className="text-gray-400">{t('account.loading')}</p>
         </div>
       </div>
     );
@@ -221,12 +223,12 @@ const Account = () => {
 
                     {userInfo.firstName || userInfo.lastName
                       ? `${userInfo.firstName} ${userInfo.lastName}`.trim()
-                      : 'Студент курса'}
+                      : t('account.student')}
                   </h1>
                   <p className="text-gray-400 text-sm md:text-base">{user?.email}</p>
                   <div className="flex items-center gap-2 mt-2">
                     <ShieldCheck className="h-4 w-4 text-green-500" />
-                    <span className="text-xs text-green-400">Верифицированный аккаунт</span>
+                    <span className="text-xs text-green-400">{t('account.verified')}</span>
                   </div>
                 </div>
               </div>
@@ -235,7 +237,7 @@ const Account = () => {
                 onClick={handleSignOut}
                 className="border-red-800/50 text-red-400 hover:bg-red-900/20 hover:border-red-700"
               >
-                <LogOut className="mr-2 h-4 w-4" /> Выйти
+                <LogOut className="mr-2 h-4 w-4" /> {t('account.logout')}
               </Button>
             </div>
           </div>
@@ -244,27 +246,27 @@ const Account = () => {
             <TabsList className="flex flex-nowrap overflow-x-auto w-full bg-trading-card border-gray-800 md:grid md:grid-cols-5 scrollbar-hide">
               <TabsTrigger value="courses" className="flex items-center gap-2">
                 <Book className="h-4 w-4" />
-                <span className="hidden sm:inline">Мои курсы</span>
-                <span className="sm:hidden">Курсы</span>
+                <span className="hidden sm:inline">{t('account.tab.courses')}</span>
+                <span className="sm:hidden">{t('account.tab.courses')}</span>
               </TabsTrigger>
               <TabsTrigger value="referral" className="flex items-center gap-2">
                 <Gift className="h-4 w-4" />
-                <span className="hidden sm:inline">Партнёрка</span>
+                <span className="hidden sm:inline">{t('account.tab.referral')}</span>
                 <span className="sm:hidden">💰</span>
               </TabsTrigger>
               <TabsTrigger value="profile" className="flex items-center gap-2">
                 <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Профиль</span>
-                <span className="sm:hidden">Профиль</span>
+                <span className="hidden sm:inline">{t('account.tab.profile')}</span>
+                <span className="sm:hidden">{t('account.tab.profile')}</span>
               </TabsTrigger>
               <TabsTrigger value="orders" className="flex items-center gap-2">
                 <CreditCard className="h-4 w-4" />
-                <span className="hidden sm:inline">Заказы</span>
-                <span className="sm:hidden">Заказы</span>
+                <span className="hidden sm:inline">{t('account.tab.orders')}</span>
+                <span className="sm:hidden">{t('account.tab.orders')}</span>
               </TabsTrigger>
               <TabsTrigger value="settings" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
-                <span className="hidden sm:inline">Настройки</span>
+                <span className="hidden sm:inline">{t('account.tab.settings')}</span>
                 <span className="sm:hidden">⚙️</span>
               </TabsTrigger>
             </TabsList>
@@ -273,9 +275,9 @@ const Account = () => {
             <TabsContent value="courses">
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold">Мои курсы и доступ</h2>
+                  <h2 className="text-2xl font-bold">{t('account.courses.title')}</h2>
                   <Badge variant="outline" className="border-blue-500 text-blue-400">
-                    {courses.filter(c => c.hasAccess).length} активных
+                    {courses.filter(c => c.hasAccess).length} {t('account.courses.active')}
                   </Badge>
                 </div>
 
@@ -283,9 +285,9 @@ const Account = () => {
                   <Card className="bg-trading-card border-gray-800">
                     <CardContent className="p-12 text-center">
                       <BookOpen className="h-16 w-16 text-gray-600 mx-auto mb-4" />
-                      <p className="text-gray-400 mb-4">Курсы не найдены</p>
+                      <p className="text-gray-400 mb-4">{t('account.courses.not_found')}</p>
                       <Button onClick={() => navigate('/courses')}>
-                        Просмотреть каталог
+                        {t('account.courses.view_catalog')}
                       </Button>
                     </CardContent>
                   </Card>
@@ -310,7 +312,7 @@ const Account = () => {
                                   <p className="text-gray-400 text-sm mb-2">{course.description}</p>
                                   {course.hasAccess && course.enrollment && (
                                     <p className="text-xs text-green-400">
-                                      Доступ получен: {new Date(course.enrollment.enrolled_at).toLocaleDateString('ru-RU')}
+                                      {t('account.courses.access_granted')} {new Date(course.enrollment.enrolled_at).toLocaleDateString('ru-RU')}
                                     </p>
                                   )}
                                 </div>
@@ -318,11 +320,11 @@ const Account = () => {
 
                               {course.hasAccess ? (
                                 <Badge className="bg-green-600 hover:bg-green-700 mb-3">
-                                  ✓ Доступ активен
+                                  {t('account.courses.access_active')}
                                 </Badge>
                               ) : (
                                 <Badge variant="outline" className="border-gray-700 text-gray-400 mb-3">
-                                  🔒 Нет доступа
+                                  {t('account.courses.no_access')}
                                 </Badge>
                               )}
 
@@ -330,7 +332,7 @@ const Account = () => {
                               {course.hasAccess && course.enrollment?.progress !== undefined && (
                                 <div className="mt-3">
                                   <div className="flex justify-between text-sm mb-2">
-                                    <span className="text-gray-400">Прогресс</span>
+                                    <span className="text-gray-400">{t('account.courses.progress')}</span>
                                     <span className="text-gray-300">{course.enrollment.progress}%</span>
                                   </div>
                                   <div className="w-full bg-gray-700 rounded-full h-2">
@@ -351,14 +353,14 @@ const Account = () => {
                                     onClick={() => navigate(`/course/${course.id}`)}
                                   >
                                     <BookOpen className="mr-2 h-4 w-4" />
-                                    Продолжить обучение
+                                    {t('account.courses.continue')}
                                   </Button>
                                   <Button
                                     variant="outline"
                                     className="w-full border-gray-700"
                                     onClick={() => navigate(`/course/${course.id}`)}
                                   >
-                                    Материалы курса
+                                    {t('account.courses.materials')}
                                   </Button>
                                 </>
                               ) : (
@@ -374,14 +376,14 @@ const Account = () => {
                                     }}
                                   >
                                     <CreditCard className="mr-2 h-4 w-4" />
-                                    Придбати доступ
+                                    {t('account.courses.buy')}
                                   </Button>
                                   <Button
                                     variant="outline"
                                     className="w-full border-gray-700"
                                     onClick={() => navigate('/courses')}
                                   >
-                                    Детальніше
+                                    {t('account.courses.details')}
                                   </Button>
                                 </>
                               )}
@@ -418,9 +420,9 @@ const Account = () => {
             <TabsContent value="referral">
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold">Партнёрская программа</h2>
+                  <h2 className="text-2xl font-bold">{t('account.referral.title')}</h2>
                   <Badge variant="outline" className="border-green-500 text-green-400">
-                    💰 Зарабатывайте $170 за друга
+                    {t('account.referral.earn')}
                   </Badge>
                 </div>
                 <ReferralSection userId={user?.id || ''} />

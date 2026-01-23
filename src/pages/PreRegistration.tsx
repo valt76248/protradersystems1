@@ -8,12 +8,14 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 import { Send, CheckCircle2, Sparkles, MessageCircle, Phone, User, Mail, DollarSign, Target, Heart } from 'lucide-react';
 
 const PreRegistration = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
+    const { t } = useLanguage();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -34,22 +36,22 @@ const PreRegistration = () => {
     });
 
     const incomeOptions = [
-        'до 500 $',
-        'от 500$ до 1.000$',
-        'от 1.000$ до 2.000$',
-        'более 2.000$'
+        { key: 'prereg.income.option1', value: 'до 500 $' },
+        { key: 'prereg.income.option2', value: 'от 500$ до 1.000$' },
+        { key: 'prereg.income.option3', value: 'от 1.000$ до 2.000$' },
+        { key: 'prereg.income.option4', value: 'более 2.000$' }
     ];
 
     const problemOptions = [
-        'Финансовые трудности',
-        'Проблемы в отношениях',
-        'Прокрастинация',
-        'Депрессия, апатия',
-        'Лень, отсутствие интереса к жизни',
-        'Страхи и тревоги',
-        'Низкая самооценка',
-        'Проблемы со здоровьем',
-        'Другой'
+        { key: 'prereg.problem.financial', value: 'Финансовые трудности' },
+        { key: 'prereg.problem.relationships', value: 'Проблемы в отношениях' },
+        { key: 'prereg.problem.procrastination', value: 'Прокрастинация' },
+        { key: 'prereg.problem.depression', value: 'Депрессия, апатия' },
+        { key: 'prereg.problem.laziness', value: 'Лень, отсутствие интереса к жизни' },
+        { key: 'prereg.problem.fears', value: 'Страхи и тревоги' },
+        { key: 'prereg.problem.self_esteem', value: 'Низкая самооценка' },
+        { key: 'prereg.problem.health', value: 'Проблемы со здоровьем' },
+        { key: 'prereg.problem.other', value: 'Другой' }
     ];
 
     const messengerOptions = ['WhatsApp', 'Telegram', 'Viber'];
@@ -88,14 +90,14 @@ const PreRegistration = () => {
 
             setIsSubmitted(true);
             toast({
-                title: "Заявка отправлена!",
-                description: "Мы свяжемся с вами в ближайшее время.",
+                title: t('prereg.toast.success'),
+                description: t('prereg.toast.success_desc'),
             });
         } catch (error: any) {
             console.error("Submission error:", error);
             toast({
-                title: "Ошибка отправки",
-                description: `Детали: ${error.message}`,
+                title: t('prereg.toast.error'),
+                description: `${error.message}`,
                 variant: "destructive"
             });
         } finally {
@@ -112,15 +114,15 @@ const PreRegistration = () => {
                         <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center animate-pulse">
                             <CheckCircle2 className="w-12 h-12 text-white" />
                         </div>
-                        <h1 className="text-3xl font-bold text-white mb-4">Заявка отправлена!</h1>
+                        <h1 className="text-3xl font-bold text-white mb-4">{t('prereg.success.title')}</h1>
                         <p className="text-gray-400 mb-8">
-                            Спасибо за доверие! Мы свяжемся с вами в ближайшее время для обсуждения деталей.
+                            {t('prereg.success.message')}
                         </p>
                         <Button
                             onClick={() => navigate('/')}
                             className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90"
                         >
-                            Вернуться на главную
+                            {t('prereg.success.back')}
                         </Button>
                     </div>
                 </div>
@@ -149,10 +151,10 @@ const PreRegistration = () => {
                     </div>
 
                     <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-200 to-amber-400">
-                        Путь к трансформации
+                        {t('prereg.title')}
                     </h1>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Заполните анкету ниже, и мы свяжемся с вами для обсуждения вашего пути к исцелению
+                        {t('prereg.subtitle')}
                     </p>
                 </div>
             </div>
@@ -168,25 +170,25 @@ const PreRegistration = () => {
                                 <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center">
                                     <User className="w-5 h-5 text-cyan-400" />
                                 </div>
-                                <h2 className="text-xl font-semibold text-white">Контактная информация</h2>
+                                <h2 className="text-xl font-semibold text-white">{t('prereg.contact_info')}</h2>
                             </div>
 
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <Label className="text-gray-300">Имя *</Label>
+                                    <Label className="text-gray-300">{t('prereg.first_name')}</Label>
                                     <Input
                                         required
-                                        placeholder="Ваше имя"
+                                        placeholder={t('prereg.first_name_placeholder')}
                                         value={formData.firstName}
                                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                                         className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-gray-300">Фамилия *</Label>
+                                    <Label className="text-gray-300">{t('prereg.last_name')}</Label>
                                     <Input
                                         required
-                                        placeholder="Ваша фамилия"
+                                        placeholder={t('prereg.last_name_placeholder')}
                                         value={formData.lastName}
                                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                                         className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500"
@@ -194,7 +196,7 @@ const PreRegistration = () => {
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-gray-300 flex items-center gap-2">
-                                        <Mail className="w-4 h-4" /> Email *
+                                        <Mail className="w-4 h-4" /> {t('prereg.email')}
                                     </Label>
                                     <Input
                                         type="email"
@@ -207,12 +209,12 @@ const PreRegistration = () => {
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-gray-300 flex items-center gap-2">
-                                        <Phone className="w-4 h-4" /> Номер телефона *
+                                        <Phone className="w-4 h-4" /> {t('prereg.phone')}
                                     </Label>
                                     <Input
                                         type="tel"
                                         required
-                                        placeholder="+380 XX XXX XX XX"
+                                        placeholder={t('prereg.phone_placeholder')}
                                         value={formData.phone}
                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                         className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500"
@@ -222,7 +224,7 @@ const PreRegistration = () => {
 
                             <div className="mt-6 space-y-2">
                                 <Label className="text-gray-300 flex items-center gap-2">
-                                    <MessageCircle className="w-4 h-4" /> На какой мессенджер вам позвонить? *
+                                    <MessageCircle className="w-4 h-4" /> {t('prereg.messenger')}
                                 </Label>
                                 <RadioGroup
                                     value={formData.messenger}
@@ -244,7 +246,7 @@ const PreRegistration = () => {
 
                             <div className="grid md:grid-cols-2 gap-6 mt-6">
                                 <div className="space-y-2">
-                                    <Label className="text-gray-300">Ник в Telegram (или ссылка)</Label>
+                                    <Label className="text-gray-300">{t('prereg.telegram_nick')}</Label>
                                     <Input
                                         placeholder="@username"
                                         value={formData.telegramNick}
@@ -253,7 +255,7 @@ const PreRegistration = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-gray-300">Ник в Instagram (или ссылка)</Label>
+                                    <Label className="text-gray-300">{t('prereg.instagram_nick')}</Label>
                                     <Input
                                         placeholder="@username"
                                         value={formData.instagramNick}
@@ -270,7 +272,7 @@ const PreRegistration = () => {
                                 <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
                                     <DollarSign className="w-5 h-5 text-green-400" />
                                 </div>
-                                <h2 className="text-xl font-semibold text-white">Ваш среднемесячный заработок? *</h2>
+                                <h2 className="text-xl font-semibold text-white">{t('prereg.income')}</h2>
                             </div>
 
                             <RadioGroup
@@ -280,18 +282,18 @@ const PreRegistration = () => {
                             >
                                 {incomeOptions.map((option) => (
                                     <div
-                                        key={option}
-                                        className={`flex items-center space-x-3 p-4 rounded-xl border transition-all cursor-pointer ${formData.income === option
+                                        key={option.key}
+                                        className={`flex items-center space-x-3 p-4 rounded-xl border transition-all cursor-pointer ${formData.income === option.value
                                             ? 'border-cyan-500 bg-cyan-500/10'
                                             : 'border-gray-700 bg-gray-800/30 hover:border-gray-600'
                                             }`}
                                     >
                                         <RadioGroupItem
-                                            value={option}
-                                            id={`income-${option}`}
+                                            value={option.value}
+                                            id={`income-${option.key}`}
                                             className="border-gray-500 text-cyan-500"
                                         />
-                                        <Label htmlFor={`income-${option}`} className="text-gray-300 cursor-pointer flex-1">{option}</Label>
+                                        <Label htmlFor={`income-${option.key}`} className="text-gray-300 cursor-pointer flex-1">{t(option.key)}</Label>
                                     </div>
                                 ))}
                             </RadioGroup>
@@ -303,26 +305,26 @@ const PreRegistration = () => {
                                 <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
                                     <Heart className="w-5 h-5 text-purple-400" />
                                 </div>
-                                <h2 className="text-xl font-semibold text-white">Какие основные проблемы вы испытываете в жизни? *</h2>
+                                <h2 className="text-xl font-semibold text-white">{t('prereg.problems')}</h2>
                             </div>
 
                             <div className="grid md:grid-cols-2 gap-3">
                                 {problemOptions.map((problem) => (
                                     <label
-                                        key={problem}
+                                        key={problem.key}
                                         className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-colors
-                                            ${formData.problems.includes(problem)
+                                            ${formData.problems.includes(problem.value)
                                                 ? 'border-purple-500 bg-purple-500/10'
                                                 : 'border-gray-700 bg-gray-800/30 hover:border-gray-600'
                                             }`}
                                     >
                                         <input
                                             type="checkbox"
-                                            checked={formData.problems.includes(problem)}
-                                            onChange={() => handleProblemToggle(problem)}
+                                            checked={formData.problems.includes(problem.value)}
+                                            onChange={() => handleProblemToggle(problem.value)}
                                             className="w-5 h-5 rounded border-gray-500 bg-transparent text-purple-500 focus:ring-purple-500 focus:ring-offset-0"
                                         />
-                                        <span className="text-gray-300">{problem}</span>
+                                        <span className="text-gray-300">{t(problem.key)}</span>
                                     </label>
                                 ))}
                             </div>
@@ -334,15 +336,15 @@ const PreRegistration = () => {
                                 <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
                                     <Target className="w-5 h-5 text-amber-400" />
                                 </div>
-                                <h2 className="text-xl font-semibold text-white">Ваши цели и ожидания</h2>
+                                <h2 className="text-xl font-semibold text-white">{t('prereg.goals')}</h2>
                             </div>
 
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="text-gray-300">Какой у вас главный запрос на исцеление? *</Label>
+                                    <Label className="text-gray-300">{t('prereg.main_request')}</Label>
                                     <Textarea
                                         required
-                                        placeholder="Опишите, чего вы хотите достичь..."
+                                        placeholder={t('prereg.main_request_placeholder')}
                                         value={formData.mainRequest}
                                         onChange={(e) => setFormData({ ...formData, mainRequest: e.target.value })}
                                         className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500 min-h-[100px]"
@@ -350,10 +352,10 @@ const PreRegistration = () => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-gray-300">К какому результату после работы с целителем вы хотите прийти? *</Label>
+                                    <Label className="text-gray-300">{t('prereg.desired_result')}</Label>
                                     <Textarea
                                         required
-                                        placeholder="Опишите ваши цели и ожидания..."
+                                        placeholder={t('prereg.desired_result_placeholder')}
                                         value={formData.desiredResult}
                                         onChange={(e) => setFormData({ ...formData, desiredResult: e.target.value })}
                                         className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500 min-h-[100px]"
@@ -361,10 +363,10 @@ const PreRegistration = () => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-gray-300">Почему мы должны выбрать вас / почему это важно сейчас? *</Label>
+                                    <Label className="text-gray-300">{t('prereg.why_now')}</Label>
                                     <Textarea
                                         required
-                                        placeholder="Укажите, что для вас наиболее важно..."
+                                        placeholder={t('prereg.why_now_placeholder')}
                                         value={formData.whyNow}
                                         onChange={(e) => setFormData({ ...formData, whyNow: e.target.value })}
                                         className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-500 focus:border-cyan-500 min-h-[100px]"
@@ -379,7 +381,7 @@ const PreRegistration = () => {
                                 <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center">
                                     <Sparkles className="w-5 h-5 text-cyan-400" />
                                 </div>
-                                <h2 className="text-xl font-semibold text-white">Готовы ли вы выделить время/средства на результат? *</h2>
+                                <h2 className="text-xl font-semibold text-white">{t('prereg.ready_to_pay')}</h2>
                             </div>
 
                             <RadioGroup
@@ -399,7 +401,7 @@ const PreRegistration = () => {
                                         className="border-gray-500 text-cyan-500"
                                     />
                                     <Label htmlFor="ready" className="text-gray-300 cursor-pointer flex-1">
-                                        Да, я уже прямо сейчас готов(а) платить
+                                        {t('prereg.ready_yes')}
                                     </Label>
                                 </div>
                                 <div
@@ -414,7 +416,7 @@ const PreRegistration = () => {
                                         className="border-gray-500 text-cyan-500"
                                     />
                                     <Label htmlFor="need-consultation" className="text-gray-300 cursor-pointer flex-1">
-                                        Я ещё не принял(а) решение, мне нужна консультация
+                                        {t('prereg.ready_consultation')}
                                     </Label>
                                 </div>
                             </RadioGroup>
@@ -431,12 +433,12 @@ const PreRegistration = () => {
                                 {isSubmitting ? (
                                     <span className="flex items-center gap-2">
                                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Отправка...
+                                        {t('prereg.submitting')}
                                     </span>
                                 ) : (
                                     <span className="flex items-center gap-2">
                                         <Send className="w-5 h-5" />
-                                        Отправить заявку
+                                        {t('prereg.submit')}
                                     </span>
                                 )}
                             </Button>

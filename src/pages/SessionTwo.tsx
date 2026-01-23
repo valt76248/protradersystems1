@@ -9,8 +9,10 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { session2Content } from '@/data/session2';
 import { ChevronRight, ArrowUp, Menu, ArrowLeft } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const SessionTwo = () => {
+    const { t } = useLanguage();
     const [activeSection, setActiveSection] = useState(session2Content[0].id);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const location = useLocation();
@@ -65,7 +67,7 @@ const SessionTwo = () => {
                         onClick={() => navigate(`/course/${fromCourseId}`)}
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
-                        Назад к курсу
+                        {t('session.back_to_course')}
                     </Button>
                 )}
 
@@ -74,7 +76,7 @@ const SessionTwo = () => {
                     <Button variant="outline" onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="w-full justify-between">
                         <span className="flex items-center gap-2">
                             <Menu className="h-4 w-4" />
-                            Навигация по сессии
+                            {t('session.navigation')}
                         </span>
                         <Badge variant="secondary" className="bg-purple-900/50">{activeSection}</Badge>
                     </Button>
@@ -89,7 +91,7 @@ const SessionTwo = () => {
                     `}>
                         <div className="lg:sticky lg:top-24 h-full lg:h-[calc(100vh-8rem)] flex flex-col p-4 lg:p-0">
                             <div className="flex justify-between items-center lg:hidden mb-6">
-                                <h2 className="text-xl font-bold">Содержание</h2>
+                                <h2 className="text-xl font-bold">{t('session.content')}</h2>
                                 <Button variant="ghost" size="sm" onClick={() => setIsSidebarOpen(false)}>✕</Button>
                             </div>
 
@@ -121,12 +123,12 @@ const SessionTwo = () => {
                     {/* Main Content */}
                     <main className="flex-1 min-w-0">
                         <div className="mb-8">
-                            <Badge className="bg-purple-600 mb-2 hover:bg-purple-700">ETF Course</Badge>
+                            <Badge className="bg-purple-600 mb-2 hover:bg-purple-700">{t('session1.badge')}</Badge>
                             <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 mb-4">
-                                Сессия 2: Углубленный ProTrader
+                                {t('session2.title')}
                             </h1>
                             <p className="text-xl text-gray-400">
-                                Идентификация тренда, ценовые режимы и техники выхода. Практическое применение.
+                                {t('session2.subtitle')}
                             </p>
                         </div>
 
@@ -162,11 +164,11 @@ const SessionTwo = () => {
                         {/* Navigation Footer */}
                         <div className="mt-16 flex justify-between items-center pt-8 border-t border-gray-800">
                             <div className="text-gray-400 text-sm">
-                                Просмотрено {session2Content.length} из {session2Content.length} разделов
+                                {t('session.viewed')} {session2Content.length} {t('session.of')} {session2Content.length} {t('session.sections')}
                             </div>
                             <Button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} variant="outline" className="gap-2">
                                 <ArrowUp className="h-4 w-4" />
-                                Наверх
+                                {t('session.up')}
                             </Button>
                         </div>
                     </main>
