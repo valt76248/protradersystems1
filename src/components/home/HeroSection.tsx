@@ -43,9 +43,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-5xl md:text-7xl lg:text-9xl font-heading font-black mb-6 tracking-tight leading-tight drop-shadow-2xl"
+          className="text-5xl md:text-7xl lg:text-9xl mb-6 tracking-tight leading-tight"
         >
-          <span className="bg-clip-text text-transparent bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-cyan-200 to-blue-500">
+          <span className="text-premium-volume">
             {t('hero.title')}
           </span>
         </motion.h1>
