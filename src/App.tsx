@@ -44,6 +44,8 @@ const queryClient = new QueryClient({
   },
 });
 
+import MaintenanceGuard from "./components/shared/MaintenanceGuard";
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -51,39 +53,41 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-            <ScrollToTop />
-            <BackToTopButton />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/beginner-training" element={<BeginnerTraining />} />
+          <MaintenanceGuard>
+            <BrowserRouter>
+              <ScrollToTop />
+              <BackToTopButton />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/beginner-training" element={<BeginnerTraining />} />
 
-              <Route path="/psychology" element={<Psychology />} />
-              <Route path="/risk-management" element={<RiskManagement />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
-              <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
-              <Route path="/courses" element={<Courses />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="/account" element={<Account />} />
-              <Route path="/calculators" element={<Calculators />} />
-              <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-              <Route path="/session-1" element={<SessionOne />} />
-              <Route path="/session-2" element={<SessionTwo />} />
-              <Route path="/session-1-gallery" element={<Session1Gallery />} />
-              <Route path="/session-2-gallery" element={<Session2Gallery />} />
-              <Route path="/pre-registration" element={<PreRegistration />} />
+                <Route path="/psychology" element={<Psychology />} />
+                <Route path="/risk-management" element={<RiskManagement />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
+                <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/calculators" element={<Calculators />} />
+                <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+                <Route path="/session-1" element={<SessionOne />} />
+                <Route path="/session-2" element={<SessionTwo />} />
+                <Route path="/session-1-gallery" element={<Session1Gallery />} />
+                <Route path="/session-2-gallery" element={<Session2Gallery />} />
+                <Route path="/pre-registration" element={<PreRegistration />} />
 
-              {/* Legal Pages */}
-              <Route path="/public-offer" element={<PublicOffer />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/eligible-clients" element={<EligibleClients />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+                {/* Legal Pages */}
+                <Route path="/public-offer" element={<PublicOffer />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/eligible-clients" element={<EligibleClients />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </MaintenanceGuard>
         </TooltipProvider>
       </LanguageProvider>
     </QueryClientProvider>

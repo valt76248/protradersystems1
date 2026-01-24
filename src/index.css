@@ -8,82 +8,45 @@
   :root {
     /* Premium Dark Theme - Richer Blue/Black Base */
     --background: 224 71% 4%;
-    /* ... kept existing content implicitly, replacing top and adding bottom */
+    /* #020617 */
+    --foreground: 210 40% 98%;
 
-    /* ... (skipping to the end for the new class) */
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
 
-    .text-premium-volume {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      background: linear-gradient(180deg, #E0F2FE 0%, #38BDF8 60%, #0284C7 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      filter: drop-shadow(0px 2px 0px rgba(12, 74, 110, 1)) drop-shadow(0px 4px 0px rgba(12, 74, 110, 0.8)) drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.5));
-    }
+    --popover: 224 71% 4%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 262 80% 50%;
+    /* Deep Purple */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 190 90% 50%;
+    /* Cyan Neon */
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 224 76% 48%;
+
+    --radius: 0.75rem;
+
+    /* Glass Effect Variables */
+    --glass-surface: 222 47% 11%;
+    /* Fallback for non-supporting browsers */
+    --glass-border: 217 33% 25%;
+    --glass-surface-video: 0 0% 0%;
   }
 
-  --background: 224 71% 4%;
-  /* #020617 */
-  --foreground: 210 40% 98%;
-
-  --card: 222 47% 11%;
-  --card-foreground: 210 40% 98%;
-
-  --popover: 224 71% 4%;
-  --popover-foreground: 210 40% 98%;
-
-  --primary: 217 91% 60%;
-  --primary-foreground: 210 40% 98%;
-
-  --secondary: 262 80% 50%;
-  /* Deep Purple */
-  --secondary-foreground: 210 40% 98%;
-
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
-
-  --accent: 190 90% 50%;
-  /* Cyan Neon */
-  --accent-foreground: 222 47% 11%;
-
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
-
-  --border: 217 33% 17%;
-  --input: 217 33% 17%;
-  --ring: 224 76% 48%;
-
-  --radius: 0.75rem;
-
-  /* Glass Effect Variables */
-  --glass-surface: 222 47% 11%;
-  /* Fallback for non-supporting browsers */
-  --glass-border: 217 33% 25%;
-  --glass-surface-video: 0 0% 0%;
-}
-
-/* Glass Utils */
-.glass-panel {
-  @apply bg-gray-900/40 backdrop-blur-md border border-white/10 shadow-xl;
-}
-
-.glass-card {
-  @apply bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 hover:bg-slate-800/50 transition-all duration-300;
-}
-
-.text-gradient-gold {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-200 to-yellow-500;
-}
-
-.text-gradient-cyan {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600;
-}
-}
-
-@layer base {
   * {
     @apply border-border;
   }
@@ -109,6 +72,26 @@
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-500;
+  }
+}
+
+@layer utilities {
+
+  /* Glass Utils */
+  .glass-panel {
+    @apply bg-gray-900/40 backdrop-blur-md border border-white/10 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 hover:bg-slate-800/50 transition-all duration-300;
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-200 to-yellow-500;
+  }
+
+  .text-gradient-cyan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600;
   }
 
   /* Hide scrollbar for horizontal scrolling tabs */
@@ -137,7 +120,6 @@
     -khtml-user-drag: none;
     -moz-user-drag: none;
     -o-user-drag: none;
-
   }
 
   .chart-gradient-bg {
@@ -151,6 +133,46 @@
   .glow-text {
     text-shadow: 0 0 10px rgba(79, 70, 229, 0.7);
   }
+
+  /* Hero background with fixed positioning */
+  .hero-bg-fixed {
+    background-image: url('/hero-mansion.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .bg-ledger-desk {
+    background-image: url('/ledgers-desk.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .text-shadow-hero-subtitle {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .progress-bar-fill {
+    transition: width 0.5s ease-out;
+  }
+
+  .text-premium-volume {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: linear-gradient(180deg, #E0F2FE 0%, #38BDF8 60%, #0284C7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0px 2px 0px rgba(12, 74, 110, 1)) drop-shadow(0px 4px 0px rgba(12, 74, 110, 0.8)) drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.5));
+  }
+}
+
+@layer components {
 
   /* 3D Text Animation */
   @keyframes text-3d-float {
@@ -228,38 +250,11 @@
     }
   }
 
-  /* Utility class to be composed with other transforms */
   .animate-float-card {
     animation: float-card 6s ease-in-out infinite;
   }
 
-  /* Hero background with fixed positioning */
-  .hero-bg-fixed {
-    background-image: url('/hero-mansion.jpg');
-    background-size: cover;
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-
-  .bg-ledger-desk {
-    background-image: url('/ledgers-desk.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-
-  .text-shadow-hero-subtitle {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  }
-
-  /* Progress bar width utilities */
-  .progress-bar-fill {
-    transition: width 0.5s ease-out;
-  }
-
-  /* Animation delay utilities for staggered animations */
+  /* Animation delays */
   .animation-delay-0 {
     animation-delay: 0ms;
   }
