@@ -1,38 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
+    /* Premium Dark Theme - Richer Blue/Black Base */
+    --background: 224 71% 4%;
+    /* #020617 */
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 14%;
+    --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 217 91% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 20% 24%;
+    --secondary: 262 80% 50%;
+    /* Deep Purple */
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 20% 24%;
+    --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 262 80% 50%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 190 90% 50%;
+    /* Cyan Neon */
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 20% 24%;
-    --input: 217 20% 24%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 224 76% 48%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Glass Effect Variables */
+    --glass-surface: 222 47% 11%;
+    /* Fallback for non-supporting browsers */
+    --glass-border: 217 33% 25%;
+    --glass-surface-video: 0 0% 0%;
+  }
+
+  /* Glass Utils */
+  .glass-panel {
+    @apply bg-gray-900/40 backdrop-blur-md border border-white/10 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 hover:bg-slate-800/50 transition-all duration-300;
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-200 to-yellow-500;
+  }
+
+  .text-gradient-cyan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600;
   }
 }
 

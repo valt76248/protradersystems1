@@ -21,7 +21,7 @@ const StartTrainingButton = ({ className, size = 'lg', text }: StartTrainingButt
         <Button
             onClick={handleStartLearning}
             size={size}
-            className={`bg-lime-500 hover:bg-lime-400 text-black font-black text-lg border-none px-10 py-6 shadow-[0_0_20px_rgba(132,204,22,0.6)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(132,204,22,0.8)] ${className}`}
+            className={`bg-transparent hover:bg-transparent text-lime-400 font-black text-2xl border-none p-0 h-auto transition-all duration-300 hover:scale-110 hover:text-lime-300 hover:drop-shadow-[0_0_25px_rgba(132,204,22,1)] ${className}`}
         >
             {text || t('hero.start') || "НАЧАТЬ ОБУЧЕНИЕ"}
         </Button>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChartBar, TrendingUp, LineChart } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import StartTrainingButton from '@/components/shared/StartTrainingButton';
 import { useNavigate } from 'react-router-dom';
@@ -9,67 +9,96 @@ const HeroSection = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const handleStartLearning = () => {
-    navigate('/courses');
-  };
-
   return (
-    <div className="relative w-full py-12 px-4 md:py-20 overflow-hidden no-select">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-trading-dark via-trading-dark to-purple-900/20 z-0" />
+    <div className="relative w-full py-20 px-4 md:py-32 overflow-hidden no-select min-h-[90vh] flex items-center justify-center">
+      {/* Background Layers */}
+      <div className="absolute inset-0 bg-background z-0" />
 
-      {/* Hero image */}
-      {/* Hero image */}
-      {/* Hero image with fixed background styling */}
-      <div className="absolute inset-0 w-full h-full z-0 hero-bg-fixed" />
+      {/* Hero Image Background - User's Mansion */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url(/hero-mansion.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      />
 
-      {/* Animated grid lines */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(86,70,252,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(86,70,252,0.05)_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] z-0" />
 
-      <div className="relative max-w-5xl mx-auto text-center z-10">
-        {/* Left Side Mist Effect */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-1/3 h-full pointer-events-none overflow-hidden -z-10 opacity-60">
-          <div className="absolute inset-0 bg-blue-500/10 blur-[80px] animate-fog-flow rounded-full mix-blend-screen" />
-          <div className="absolute top-1/4 left-0 w-full h-1/2 bg-purple-500/10 blur-[60px] animate-fog-flow animation-delay-2000 rounded-full mix-blend-screen" />
-        </div>
+      {/* Content Container */}
+      <div className="relative max-w-6xl mx-auto text-center z-10">
 
-        <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm animate-fade-in shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-          <span className="text-white font-medium text-sm md:text-base drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-            {t('hero.badge')}
+        {/* Floating Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="inline-block mb-8"
+        >
+          <div className="px-6 py-2 rounded-full glass-panel border-cyan-500/30 flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-cyan-100 font-medium text-sm tracking-wide uppercase">
+              {t('hero.badge')}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Main Title */}
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="text-5xl md:text-7xl lg:text-9xl font-heading font-black mb-6 tracking-tight leading-tight drop-shadow-2xl"
+        >
+          <span className="bg-clip-text text-transparent bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-cyan-200 to-blue-500">
+            {t('hero.title')}
           </span>
-        </div>
+        </motion.h1>
 
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-10 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-cyan-400 text-3d-cyan pb-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] filter">
-          {t('hero.title')}
-        </h1>
-
-        <p className="text-xl md:text-2xl mb-8 text-white font-medium max-w-3xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-lg md:text-2xl mb-10 text-white font-medium max-w-3xl mx-auto leading-relaxed"
+          style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}
+        >
           {t('hero.subtitle')}
-        </p>
+        </motion.p>
 
-        <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
-          <StartTrainingButton />
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16 relative z-20"
+        >
+          <div className="transform hover:scale-105 transition-transform duration-300">
+            <StartTrainingButton />
+          </div>
 
           <Button
             onClick={() => navigate('/pre-registration')}
-            variant="outline"
+            variant="ghost"
             size="lg"
-            className="border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 px-8"
+            className="bg-transparent hover:bg-transparent text-cyan-400 font-bold text-2xl border-none p-0 h-auto hover:text-cyan-300 hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(6,182,212,1)] transition-all duration-300 mx-8"
           >
             {t('hero.preRegistration')}
           </Button>
 
           <Button
             onClick={() => navigate('/about')}
-            variant="outline"
+            variant="ghost"
             size="lg"
-            className="border-gray-700 text-gray-300 hover:bg-gray-800 px-8"
+            className="bg-transparent hover:bg-transparent text-white/90 font-bold text-2xl border-none p-0 h-auto hover:text-white hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] transition-all duration-300 mx-8"
           >
             {t('hero.about')}
           </Button>
-        </div>
-
-
+        </motion.div>
       </div>
     </div>
   );
