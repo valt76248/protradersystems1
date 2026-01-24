@@ -219,9 +219,21 @@
   .hero-bg-fixed {
     background-image: url('/hero-mansion.jpg');
     background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .bg-ledger-desk {
+    background-image: url('/ledgers-desk.png');
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+  }
+
+  .text-shadow-hero-subtitle {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   }
 
   /* Progress bar width utilities */

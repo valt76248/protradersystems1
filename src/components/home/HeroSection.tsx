@@ -15,16 +15,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-background z-0" />
 
       {/* Hero Image Background - User's Mansion */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: 'url(/hero-mansion.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center bottom',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed'
-        }}
-      />
+      <div className="absolute inset-0 z-0 hero-bg-fixed" />
 
       {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] z-0" />
@@ -64,8 +55,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-2xl mb-10 text-white font-medium max-w-3xl mx-auto leading-relaxed"
-          style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}
+          className="text-lg md:text-2xl mb-10 text-white font-medium max-w-3xl mx-auto leading-relaxed text-shadow-hero-subtitle"
         >
           {t('hero.subtitle')}
         </motion.p>

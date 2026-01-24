@@ -86,16 +86,8 @@ const ProblemSolutionSection = () => {
         >
             {/* Background Image */}
             {/* Background Image - Vintage Ledger Desk */}
-            <div
-                className="absolute inset-0 z-0 opacity-100"
-                style={{
-                    backgroundImage: 'url(/ledgers-desk.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundAttachment: 'fixed'
-                }}
-            />
+            {/* Background Image - Vintage Ledger Desk */}
+            <div className="absolute inset-0 z-0 opacity-100 bg-ledger-desk" />
             {/* Dark Overlay Removed */}
             <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center relative z-10">
 
