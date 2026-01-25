@@ -45,8 +45,11 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-5xl md:text-7xl lg:text-9xl mb-6 tracking-tight leading-tight"
         >
-          <span className="text-premium-volume">
-            {t('hero.title')}
+          <span className="text-premium-volume block">
+            {t('hero.title_line1')}
+          </span>
+          <span className="text-white block mt-2">
+            {t('hero.title_line2')}
           </span>
         </motion.h1>
 
