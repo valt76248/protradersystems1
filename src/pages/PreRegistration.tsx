@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import AuraButton from '@/components/ui/AuraButton';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -101,12 +101,13 @@ const PreRegistration = () => {
                         <p className="text-gray-400 mb-8">
                             {t('prereg.success.message')}
                         </p>
-                        <Button
+                        <AuraButton
                             onClick={() => navigate('/')}
-                            className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90"
+                            variant="ghost-glow-white"
+                            size="lg"
                         >
                             {t('prereg.success.back')}
-                        </Button>
+                        </AuraButton>
                     </div>
                 </div>
                 <Footer />
@@ -174,11 +175,12 @@ const PreRegistration = () => {
 
                         {/* Submit Button */}
                         <div className="text-center pt-4">
-                            <Button
+                            <AuraButton
                                 type="submit"
                                 disabled={isSubmitting}
+                                variant="ghost-glow-cyan"
                                 size="lg"
-                                className="bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-500 hover:opacity-90 text-white font-semibold px-12 py-6 text-lg rounded-xl shadow-lg shadow-purple-500/25 transition-all hover:shadow-purple-500/40"
+                                className="px-12"
                             >
                                 {isSubmitting ? (
                                     <span className="flex items-center gap-2">
@@ -191,7 +193,7 @@ const PreRegistration = () => {
                                         {t('prereg.submit')}
                                     </span>
                                 )}
-                            </Button>
+                            </AuraButton>
                         </div>
 
                     </form>

@@ -32,7 +32,7 @@ const Footer = () => {
 
         {/* Top Row: Contacts */}
         <div className="flex justify-end">
-          <a href="#" className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors bg-zinc-900/50 px-4 py-2 rounded-lg">
+          <a href="#" className="flex items-center gap-2 btn-glow-base glow-white glow-sm font-bold bg-transparent px-4 py-2 hover:bg-transparent">
             <span>{t('footer.contacts')}</span>
             <Phone size={18} className="fill-white" />
           </a>

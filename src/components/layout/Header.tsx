@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, Lock, LogIn, LogOut, User, Menu, X } from 'lucide-react';
+import { Lock, LogIn, LogOut, User, Menu, X } from 'lucide-react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import ChartLine from '@/components/icons/ChartLine';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
@@ -9,6 +9,8 @@ import StartTrainingButton from '@/components/shared/StartTrainingButton';
 import PreRegistrationModal from './PreRegistrationModal';
 import { supabase } from '@/lib/supabaseClient';
 import { useToast } from '@/components/ui/use-toast';
+import AuraButton from '@/components/ui/AuraButton';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
   const location = useLocation();
@@ -23,7 +25,7 @@ const Header = () => {
   const fetchUserProfile = async (userId: string) => {
     console.log('Fetching profile for:', userId);
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .select('first_name')
       .eq('id', userId)
       .single();
@@ -94,14 +96,14 @@ const Header = () => {
 
   return (
     <>
-      <header className="w-full bg-trading-card py-4 px-4 border-b border-gray-800 no-select sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
+      <header className="w-full bg-trading-card/80 py-4 px-4 no-select sticky top-0 z-50 backdrop-blur-md premium-border-gradient">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <ChartLine className="h-7 w-7 text-primary" />
+          <Link to="/" className="flex items-center space-x-3 group">
+            <ChartLine className="h-7 w-7 text-primary transition-transform group-hover:scale-110 group-hover:rotate-3" />
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-500 bg-clip-text text-transparent">
               ProTrader Systems
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
@@ -109,12 +111,16 @@ const Header = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`text-base font-semibold tracking-wide hover:text-primary transition-all duration-200 ${isActive(item.path)
-                  ? 'text-primary border-b-2 border-primary pb-1'
-                  : 'text-gray-300 hover:text-white'
-                  }`}
+                className={cn(
+                  "relative text-base font-bold tracking-wide transition-all duration-300 py-1 group ghost-glow-white hover:scale-110",
+                  isActive(item.path) ? "text-white scale-105" : "text-white opacity-80"
+                )}
               >
                 {t(item.labelKey)}
+                <span className={cn(
+                  "absolute -bottom-1 left-0 h-[2.5px] bg-white shadow-[0_0_12px_rgba(255,255,255,0.9)] transition-all duration-300",
+                  isActive(item.path) ? "w-full" : "w-0 group-hover:w-full"
+                )} />
               </Link>
             ))}
           </nav>
@@ -124,48 +130,48 @@ const Header = () => {
             {user ? (
               <>
                 <Link to="/account">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="hidden lg:flex bg-gray-800 border-gray-700 hover:bg-gray-700 text-sm font-medium"
+                  <AuraButton
+                    variant="ghost-glow-white"
+                    size="default"
+                    className="hidden lg:flex"
                   >
                     <User className="mr-2 h-4 w-4" />
                     {firstName ? `Здравствуйте, ${firstName}` : t('nav.account')}
-                  </Button>
+                  </AuraButton>
                 </Link>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="hidden lg:flex bg-red-900/20 text-red-400 border-red-800 hover:bg-red-900/30"
+                <AuraButton
                   onClick={handleLogout}
+                  variant="outline"
+                  className="hidden lg:flex px-4 py-2 text-xs border-red-500/20 text-red-400 hover:border-red-500/40"
                 >
-                  <LogOut className="mr-2 h-4 w-4" />
+                  <LogOut className="mr-2 h-3 w-3" />
                   {t('nav.logout')}
-                </Button>
+                </AuraButton>
               </>
             ) : (
               <>
-                <StartTrainingButton size="sm" className="hidden lg:flex px-6 py-2 text-sm font-semibold" />
+                <StartTrainingButton size="sm" className="hidden lg:flex" />
 
                 <Link to="/login">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="hidden lg:flex bg-blue-900/20 text-blue-400 border-blue-800 hover:bg-blue-900/30 font-medium"
+                  <AuraButton
+                    variant="ghost-glow-blue"
+                    className="hidden lg:flex"
                   >
-                    <LogIn className="mr-2 h-4 w-4" />
+                    <LogIn className="mr-2 h-3 w-3" />
                     {t('nav.login')}
-                  </Button>
+                  </AuraButton>
                 </Link>
               </>
             )}
 
             <LanguageSwitcher />
 
-            <div className="hidden lg:flex items-center space-x-1">
-              <Eye size={18} className="text-gray-400" />
-              <span className="text-xs text-gray-400">{t('nav.protected-view')}</span>
-              <Lock size={16} className="text-gray-400 ml-1" />
+            <div className="hidden lg:flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+              <div className="relative">
+                <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse-glow text-cyan-400" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{t('nav.protected-view')}</span>
+              <Lock size={12} className="text-gray-500" />
             </div>
 
             {/* Mobile Menu Button */}
@@ -191,10 +197,12 @@ const Header = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-4 py-4 rounded-lg text-base font-semibold transition-colors ${isActive(item.path)
-                  ? 'bg-blue-600/20 text-blue-400 border-l-4 border-blue-500'
-                  : 'text-gray-200 hover:bg-gray-800 hover:text-white'
-                  }`}
+                className={cn(
+                  "px-4 py-4 rounded-lg text-base font-bold transition-all duration-300 flex items-center ghost-glow-white",
+                  isActive(item.path)
+                    ? "text-white border-l-4 border-white bg-white/5"
+                    : "text-white opacity-70"
+                )}
               >
                 {t(item.labelKey)}
               </Link>

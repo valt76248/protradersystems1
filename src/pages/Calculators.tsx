@@ -9,6 +9,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Calculator, Wallet, TrendingUp, Moon, ShieldAlert } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import SEO from '@/components/utils/SEO';
 
 export default function Calculators() {
     const { t } = useLanguage();
@@ -19,7 +20,8 @@ export default function Calculators() {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787';
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-blue-500/30">
+        <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+            <SEO title="Calculators" description="Professional trading calculators for Risk, Lot size, Margin, and Compound interest." />
             <Header />
 
             <main className="container mx-auto px-4 py-24 md:py-32">
@@ -28,13 +30,13 @@ export default function Calculators() {
                         <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
                             {t('calc.title')}
                         </h1>
-                        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                             {t('calc.subtitle')}
                         </p>
                     </div>
 
                     <Tabs defaultValue="lot" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-gray-900/50 p-1 border border-gray-800 mb-8 rounded-xl h-auto">
+                        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-muted/50 p-1 border border-border mb-8 rounded-xl h-auto">
                             <TabsTrigger
                                 value="lot"
                                 className="data-[state=active]:bg-blue-600 data-[state=active]:text-white py-3 rounded-lg flex items-center gap-2 transition-all"
@@ -100,8 +102,8 @@ export default function Calculators() {
                         </div>
                     </Tabs>
 
-                    <div className="mt-12 p-6 bg-gray-900/30 border border-gray-800 rounded-xl text-center">
-                        <p className="text-gray-500 text-sm">
+                    <div className="mt-12 p-6 bg-card/30 border border-border rounded-xl text-center">
+                        <p className="text-muted-foreground text-sm">
                             {t('calc.disclaimer')}
                         </p>
                     </div>

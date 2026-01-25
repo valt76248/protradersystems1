@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import AuraButton from '@/components/ui/AuraButton';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -186,13 +187,19 @@ export default function MarginCalculator({ apiUrl = '' }: MarginCalculatorProps)
                     </div>
                 </div>
 
-                <Button
+                import AuraButton from '@/components/ui/AuraButton';
+
+                // ... (inside the component)
+
+                <AuraButton
                     onClick={handleCalculate}
                     disabled={loading}
-                    className="w-full bg-purple-600 hover:bg-purple-700 h-12 text-lg"
+                    variant="ghost-glow-blue"
+                    size="lg"
+                    className="w-full text-lg"
                 >
                     {loading ? 'Расчёт...' : 'Рассчитать'}
-                </Button>
+                </AuraButton>
 
                 {error && (
                     <Alert className="bg-red-900/30 border-red-700">

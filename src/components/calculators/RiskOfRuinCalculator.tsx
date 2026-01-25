@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import AuraButton from '@/components/ui/AuraButton';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -70,25 +71,12 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
                 return;
             }
 
-            // Risk of Ruin formula (simplified Kelly-based approximation)
-            // RoR = ((1 - edge) / (1 + edge))^units
-            // where edge = (wr * rr) - (1 - wr)
-            // units = 1 / risk (number of "units" in account)
-
             const edge = (wr * rr) - (1 - wr);
             let riskOfRuin = 0;
 
             if (edge <= 0) {
-                // Negative or zero edge means eventual ruin is certain
                 riskOfRuin = 100;
             } else {
-                const winAmount = rr;
-                const lossAmount = 1;
-                const p = wr;
-                const q = 1 - wr;
-
-                // Using the formula: RoR = (q/p)^n where n = units at risk
-                // Simplified: RoR = ((1 - edge) / (1 + edge))^(1/risk)
                 const units = 1 / risk;
                 const ratio = (1 - edge) / (1 + edge);
 
@@ -97,8 +85,6 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
                 } else {
                     riskOfRuin = Math.pow(ratio, units) * 100;
                 }
-
-                // Clamp to 0-100%
                 riskOfRuin = Math.max(0, Math.min(100, riskOfRuin));
             }
 
@@ -161,7 +147,6 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
 
             <CardContent className="pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Reward/Risk Ratio */}
                     <div className="space-y-3">
                         <Label htmlFor="rewardRiskRatio" className="text-gray-300 flex items-center gap-2">
                             <Target className="h-4 w-4 text-rose-400" />
@@ -192,7 +177,6 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
                         </div>
                     </div>
 
-                    {/* Win Rate */}
                     <div className="space-y-3">
                         <Label htmlFor="winRate" className="text-gray-300 flex items-center gap-2">
                             <Percent className="h-4 w-4 text-rose-400" />
@@ -224,7 +208,6 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
                         </div>
                     </div>
 
-                    {/* Risk Per Trade */}
                     <div className="space-y-3">
                         <Label htmlFor="riskPerTrade" className="text-gray-300 flex items-center gap-2">
                             <TrendingDown className="h-4 w-4 text-rose-400" />
@@ -257,18 +240,18 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
                     </div>
                 </div>
 
-                {/* Calculate Button */}
                 <div className="mt-8">
-                    <Button
+                    <AuraButton
                         onClick={handleCalculate}
                         disabled={isCalculating}
-                        className="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-bold py-6 text-lg shadow-lg shadow-rose-900/30"
+                        variant="ghost-glow-blue"
+                        size="lg"
+                        className="w-full font-bold"
                     >
                         {isCalculating ? 'Расчёт...' : 'Рассчитать риск разорения'}
-                    </Button>
+                    </AuraButton>
                 </div>
 
-                {/* Error */}
                 {error && (
                     <Alert className="mt-6 bg-red-500/10 border-red-500/30">
                         <AlertCircle className="h-4 w-4 text-red-400" />
@@ -276,7 +259,6 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
                     </Alert>
                 )}
 
-                {/* Result */}
                 {result && (
                     <div className={`mt-8 p-6 rounded-xl border ${getRiskLevelColor(result.riskLevel)}`}>
                         <div className="text-center mb-4">
@@ -302,7 +284,6 @@ export default function RiskOfRuinCalculator({ apiUrl = '' }: RiskOfRuinCalculat
                     </div>
                 )}
 
-                {/* Info Box */}
                 <div className="mt-8 p-4 bg-gray-800/50 rounded-lg border border-gray-700 text-sm text-gray-400">
                     <p className="font-semibold text-gray-300 mb-2">💡 Что такое Risk of Ruin?</p>
                     <p>

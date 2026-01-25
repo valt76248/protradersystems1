@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import StartTrainingButton from '@/components/shared/StartTrainingButton';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import AuraButton from '../ui/AuraButton';
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -73,23 +74,23 @@ const HeroSection = () => {
             <StartTrainingButton />
           </div>
 
-          <Button
+          <AuraButton
             onClick={() => navigate('/pre-registration')}
-            variant="ghost"
+            variant="ghost-glow-cyan"
             size="lg"
-            className="bg-transparent hover:bg-transparent text-cyan-400 font-bold text-2xl border-none p-0 h-auto hover:text-cyan-300 hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(6,182,212,1)] transition-all duration-300 mx-8"
+            className="px-6"
           >
             {t('hero.preRegistration')}
-          </Button>
+          </AuraButton>
 
-          <Button
+          <AuraButton
             onClick={() => navigate('/about')}
-            variant="ghost"
+            variant="ghost-glow-white"
             size="lg"
-            className="bg-transparent hover:bg-transparent text-white/90 font-bold text-2xl border-none p-0 h-auto hover:text-white hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] transition-all duration-300 mx-8"
+            className="px-6"
           >
             {t('hero.about')}
-          </Button>
+          </AuraButton>
         </motion.div>
       </div>
     </div>

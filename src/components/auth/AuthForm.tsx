@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { Button } from '@/components/ui/button';
+import AuraButton from '@/components/ui/AuraButton';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
@@ -23,7 +23,6 @@ export default function AuthForm() {
 
         try {
             if (resetMode) {
-                // --- PASSWORD RESET ---
                 const { error } = await supabase.auth.resetPasswordForEmail(email, {
                     redirectTo: `${window.location.origin}/reset-password`,
                 });
@@ -35,7 +34,6 @@ export default function AuthForm() {
                 });
                 setResetMode(false);
             } else if (isLogin) {
-                // --- LOGIN ---
                 const { error } = await supabase.auth.signInWithPassword({
                     email,
                     password,
@@ -44,9 +42,8 @@ export default function AuthForm() {
 
                 toast({ title: "Успішний вхід!", description: "Раді вас бачити." });
                 navigate('/');
-                window.location.reload(); // Refresh to update auth state
+                window.location.reload();
             } else {
-                // --- REGISTRATION ---
                 const { error } = await supabase.auth.signUp({
                     email,
                     password,
@@ -108,13 +105,15 @@ export default function AuthForm() {
                         </div>
                     </div>
 
-                    <Button
+                    <AuraButton
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg font-medium"
+                        variant="ghost-glow-blue"
+                        size="lg"
+                        className="w-full text-lg font-medium"
                         disabled={loading}
                     >
                         {loading ? 'Надсилання...' : 'Надіслати посилання'}
-                    </Button>
+                    </AuraButton>
                 </form>
             </div>
         );
@@ -185,13 +184,15 @@ export default function AuthForm() {
                     </div>
                 )}
 
-                <Button
+                <AuraButton
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg font-medium"
+                    variant="ghost-glow-blue"
+                    size="lg"
+                    className="w-full text-lg font-medium"
                     disabled={loading}
                 >
                     {loading ? 'Обробка...' : (isLogin ? 'Увійти' : 'Зареєструватися')}
-                </Button>
+                </AuraButton>
             </form>
 
             <div className="mt-6 text-center">

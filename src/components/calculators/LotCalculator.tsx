@@ -1,169 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Calculator, AlertCircle, TrendingUp } from 'lucide-react';
+import { AlertCircle, Calculator, TrendingUp, DollarSign, Info } from 'lucide-react';
+import AuraButton from '@/components/ui/AuraButton';
+import { cn } from '@/lib/utils';
 
+// Constants
+const CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'CHF', 'AUD', 'CAD'];
 const SYMBOLS = [
-    // Forex Majors
     { value: 'EURUSD', label: 'EUR/USD', type: 'forex' },
     { value: 'GBPUSD', label: 'GBP/USD', type: 'forex' },
     { value: 'USDJPY', label: 'USD/JPY', type: 'forex' },
-    { value: 'USDCHF', label: 'USD/CHF', type: 'forex' },
-    { value: 'AUDUSD', label: 'AUD/USD', type: 'forex' },
-    { value: 'USDCAD', label: 'USD/CAD', type: 'forex' },
-    { value: 'NZDUSD', label: 'NZD/USD', type: 'forex' },
-    // Crosses
-    { value: 'EURGBP', label: 'EUR/GBP', type: 'forex' },
-    { value: 'EURJPY', label: 'EUR/JPY', type: 'forex' },
-    { value: 'GBPJPY', label: 'GBP/JPY', type: 'forex' },
-    // Crypto
+    { value: 'GOLD', label: 'XAU/USD (Gold)', type: 'metal' },
     { value: 'BTCUSD', label: 'BTC/USD', type: 'crypto' },
-    { value: 'ETHUSD', label: 'ETH/USD', type: 'crypto' },
-    // Metals
-    { value: 'XAUUSD', label: 'XAU/USD (Gold)', type: 'cfd' },
-    { value: 'XAGUSD', label: 'XAG/USD (Silver)', type: 'cfd' },
+    { value: 'US30', label: 'US30 (Dow Jones)', type: 'index' },
+    { value: 'GER40', label: 'GER40 (DAX)', type: 'index' },
 ];
 
-const CURRENCIES = ['USD', 'EUR', 'GBP', 'UAH'];
+interface CalculatorFormData {
+    accountCurrency: string;
+    balance: string;
+    riskPercent: string;
+    stopLossPips: string;
+    symbol: string;
+    includeSpread: boolean;
+    spreadPips: string;
+}
 
-interface CalculatorResult {
+interface CalculationResult {
     lotSize: number;
     riskAmount: number;
-    stopLossValue: number;
     pipValue: number;
-    pipValueAccountCurrency: number;
-    instrument: {
-        symbol: string;
-        type: string;
-        contractSize: number;
-        pipSize: number;
-    };
-    warnings: string[];
 }
 
-interface LotCalculatorProps {
-    apiUrl?: string;
-}
-
-export default function LotCalculator({ apiUrl = '' }: LotCalculatorProps) {
-    const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState<CalculatorResult | null>(null);
-    const [error, setError] = useState<string | null>(null);
-
-    const [formData, setFormData] = useState({
+export default function LotCalculator() {
+    const [formData, setFormData] = useState<CalculatorFormData>({
         accountCurrency: 'USD',
-        accountBalance: '',
-        riskPercent: '2',
-        riskAmount: '',
-        stopLossPips: '',
+        balance: '1000',
+        riskPercent: '1',
+        stopLossPips: '20',
         symbol: 'EURUSD',
         includeSpread: false,
-        spreadPips: '',
+        spreadPips: '1',
     });
 
-    const [useRiskAmount, setUseRiskAmount] = useState(false);
+    const [result, setResult] = useState<CalculationResult | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleInputChange = (field: string, value: string | boolean) => {
+    const handleInputChange = (field: keyof CalculatorFormData, value: string | boolean) => {
         setFormData(prev => ({ ...prev, [field]: value }));
+        setResult(null);
         setError(null);
     };
 
-    const handleCalculate = async () => {
+    const handleCalculate = () => {
         setLoading(true);
         setError(null);
-        setResult(null);
 
-        try {
-            const payload = {
-                accountCurrency: formData.accountCurrency,
-                accountBalance: parseFloat(formData.accountBalance),
-                riskPercent: useRiskAmount ? undefined : parseFloat(formData.riskPercent),
-                riskAmount: useRiskAmount ? parseFloat(formData.riskAmount) : undefined,
-                stopLossPips: parseFloat(formData.stopLossPips),
-                symbol: formData.symbol,
-                includeSpread: formData.includeSpread,
-                spreadPips: formData.includeSpread ? parseFloat(formData.spreadPips) || 0 : undefined,
-            };
+        // Simulation de calcul
+        setTimeout(() => {
+            try {
+                const balance = parseFloat(formData.balance);
+                const risk = parseFloat(formData.riskPercent);
+                const sl = parseFloat(formData.stopLossPips) + (formData.includeSpread ? parseFloat(formData.spreadPips) : 0);
 
-            // Валидация
-            if (!payload.accountBalance || isNaN(payload.accountBalance)) {
-                throw new Error('Введите размер счёта');
-            }
-            if (!payload.stopLossPips || isNaN(payload.stopLossPips)) {
-                throw new Error('Введите размер стоп-лосса в пипсах');
-            }
-            if (useRiskAmount) {
-                if (!payload.riskAmount || isNaN(payload.riskAmount)) {
-                    throw new Error('Введите сумму риска');
-                }
-            } else {
-                if (!payload.riskPercent || isNaN(payload.riskPercent)) {
-                    throw new Error('Введите процент риска');
-                }
-            }
-
-            // Если API URL не указан, делаем локальный расчёт
-            if (!apiUrl) {
-                // Локальный расчёт для демо
-                const riskAmt = useRiskAmount
-                    ? payload.riskAmount!
-                    : payload.accountBalance * (payload.riskPercent! / 100);
-
-                const pipValue = 10; // упрощённо для USD pairs
-                let effectiveSL = payload.stopLossPips;
-                if (payload.includeSpread && payload.spreadPips) {
-                    effectiveSL += payload.spreadPips;
+                if (isNaN(balance) || isNaN(risk) || isNaN(sl) || sl <= 0) {
+                    throw new Error('Пожалуйста, введите корректные данные');
                 }
 
-                const lotSize = riskAmt / (effectiveSL * pipValue);
-                const roundedLot = Math.floor(lotSize * 100) / 100;
+                const riskAmount = (balance * risk) / 100;
+
+                // Simplified pip value calculation for demonstration
+                // In a real app, this would use live rates or a more complex formula
+                let pipValuePerLot = 10; // Standard for many pairs at 1.0 lot
+                if (formData.symbol === 'USDJPY') pipValuePerLot = 9.25;
+                if (formData.symbol === 'GOLD') pipValuePerLot = 1;
+                if (formData.symbol === 'BTCUSD') pipValuePerLot = 0.01;
+                if (formData.symbol === 'US30') pipValuePerLot = 1;
+
+                const lotSize = riskAmount / (sl * pipValuePerLot);
 
                 setResult({
-                    lotSize: roundedLot,
-                    riskAmount: riskAmt,
-                    stopLossValue: roundedLot * effectiveSL * pipValue,
-                    pipValue: pipValue,
-                    pipValueAccountCurrency: pipValue,
-                    instrument: {
-                        symbol: payload.symbol,
-                        type: 'forex',
-                        contractSize: 100000,
-                        pipSize: 0.0001
-                    },
-                    warnings: payload.includeSpread ? [`Спред ${payload.spreadPips} pips добавлен`] : []
+                    lotSize: Math.round(lotSize * 100) / 100,
+                    riskAmount: Math.round(riskAmount * 100) / 100,
+                    pipValue: Math.round((riskAmount / sl) * 100) / 100
                 });
-            } else {
-                // API запрос
-                const response = await fetch(`${apiUrl}/api/calculate/lot`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                });
-
-                const data = await response.json();
-                if (!response.ok || data.error) {
-                    throw new Error(data.error || 'Ошибка расчёта');
-                }
-
-                setResult(data);
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
             }
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Произошла ошибка');
-        } finally {
-            setLoading(false);
-        }
+        }, 600);
     };
 
     return (
-        <Card className="w-full bg-gray-900/50 border-gray-700">
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-white">
-                    <Calculator className="h-5 w-5 text-blue-400" />
+        <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm overflow-hidden">
+            <CardHeader className="border-b border-gray-800 bg-gray-900/30">
+                <CardTitle className="flex items-center gap-3 text-2xl text-white">
+                    <div className="p-2 bg-blue-500/20 rounded-lg">
+                        <Calculator className="h-6 w-6 text-blue-400" />
+                    </div>
                     Калькулятор лота
                 </CardTitle>
                 <CardDescription className="text-gray-400">
@@ -188,50 +129,34 @@ export default function LotCalculator({ apiUrl = '' }: LotCalculatorProps) {
                         </Select>
                     </div>
 
-                    {/* Размер счёта */}
+                    {/* Баланс */}
                     <div className="space-y-2">
-                        <Label className="text-gray-300">Размер счёта</Label>
-                        <Input
-                            type="number"
-                            placeholder="10000"
-                            value={formData.accountBalance}
-                            onChange={e => handleInputChange('accountBalance', e.target.value)}
-                            className="bg-gray-800 border-gray-600 text-white"
-                        />
+                        <Label className="text-gray-300">Баланс счёта</Label>
+                        <div className="relative">
+                            <DollarSign className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                            <Input
+                                type="number"
+                                placeholder="1000"
+                                value={formData.balance}
+                                onChange={e => handleInputChange('balance', e.target.value)}
+                                className="pl-9 bg-gray-800 border-gray-600 text-white"
+                            />
+                        </div>
                     </div>
 
-                    {/* Риск */}
-                    <div className="space-y-2 md:col-span-2">
-                        <div className="flex items-center justify-between">
-                            <Label className="text-gray-300">
-                                {useRiskAmount ? 'Риск в деньгах' : 'Риск в %'}
-                            </Label>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs text-gray-400">%</span>
-                                <Switch
-                                    checked={useRiskAmount}
-                                    onCheckedChange={setUseRiskAmount}
-                                />
-                                <span className="text-xs text-gray-400">$</span>
-                            </div>
-                        </div>
-                        {useRiskAmount ? (
+                    {/* Риск % */}
+                    <div className="space-y-2">
+                        <Label className="text-gray-300">Риск на сделку (%)</Label>
+                        <div className="relative">
+                            <TrendingUp className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                             <Input
                                 type="number"
-                                placeholder="200"
-                                value={formData.riskAmount}
-                                onChange={e => handleInputChange('riskAmount', e.target.value)}
-                                className="bg-gray-800 border-gray-600 text-white"
-                            />
-                        ) : (
-                            <Input
-                                type="number"
-                                placeholder="2"
+                                placeholder="1"
                                 value={formData.riskPercent}
                                 onChange={e => handleInputChange('riskPercent', e.target.value)}
-                                className="bg-gray-800 border-gray-600 text-white"
+                                className="pl-9 bg-gray-800 border-gray-600 text-white"
                             />
-                        )}
+                        </div>
                     </div>
 
                     {/* Стоп-лосс */}
@@ -285,63 +210,38 @@ export default function LotCalculator({ apiUrl = '' }: LotCalculatorProps) {
                 </div>
 
                 {/* Кнопка расчёта */}
-                <Button
+                <AuraButton
                     onClick={handleCalculate}
                     disabled={loading}
-                    className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-lg"
+                    variant="ghost-glow-blue"
+                    size="lg"
+                    className="w-full text-lg"
                 >
                     {loading ? 'Расчёт...' : 'Рассчитать'}
-                </Button>
+                </AuraButton>
 
-                {/* Ошибка */}
                 {error && (
-                    <Alert className="bg-red-900/30 border-red-700">
-                        <AlertCircle className="h-4 w-4 text-red-400" />
-                        <AlertDescription className="text-red-300">{error}</AlertDescription>
+                    <Alert variant="destructive" className="bg-red-500/10 border-red-500/50 text-red-400">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertDescription>{error}</AlertDescription>
                     </Alert>
                 )}
 
-                {/* Результат */}
+                {/* Результаты */}
                 {result && (
-                    <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700 space-y-4">
-                        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                            <TrendingUp className="h-5 w-5 text-green-400" />
-                            Результат
-                        </h3>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-green-900/30 p-4 rounded-lg border border-green-700">
-                                <p className="text-sm text-green-300">Размер лота</p>
-                                <p className="text-3xl font-bold text-green-400">{result.lotSize}</p>
-                            </div>
-                            <div className="bg-blue-900/30 p-4 rounded-lg border border-blue-700">
-                                <p className="text-sm text-blue-300">Сумма риска</p>
-                                <p className="text-2xl font-bold text-blue-400">
-                                    {result.riskAmount.toFixed(2)} {formData.accountCurrency}
-                                </p>
-                            </div>
-                            <div className="bg-gray-800 p-4 rounded-lg">
-                                <p className="text-sm text-gray-400">Pip Value</p>
-                                <p className="text-lg font-semibold text-white">
-                                    {result.pipValueAccountCurrency.toFixed(2)} {formData.accountCurrency}
-                                </p>
-                            </div>
-                            <div className="bg-gray-800 p-4 rounded-lg">
-                                <p className="text-sm text-gray-400">Стоп-лосс</p>
-                                <p className="text-lg font-semibold text-white">
-                                    {result.stopLossValue.toFixed(2)} {formData.accountCurrency}
-                                </p>
-                            </div>
+                    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div className="bg-blue-600/10 border border-blue-500/30 p-4 rounded-xl text-center">
+                            <p className="text-sm text-gray-400 mb-1">Рекомендуемый лот</p>
+                            <p className="text-3xl font-bold text-blue-400">{result.lotSize}</p>
                         </div>
-
-                        {result.warnings && result.warnings.length > 0 && (
-                            <Alert className="bg-yellow-900/30 border-yellow-700">
-                                <AlertCircle className="h-4 w-4 text-yellow-400" />
-                                <AlertDescription className="text-yellow-300">
-                                    {result.warnings.join('. ')}
-                                </AlertDescription>
-                            </Alert>
-                        )}
+                        <div className="bg-gray-800 border border-gray-700 p-4 rounded-xl text-center">
+                            <p className="text-sm text-gray-400 mb-1">Сумма риска ({formData.riskPercent}%)</p>
+                            <p className="text-3xl font-bold text-white">${result.riskAmount}</p>
+                        </div>
+                        <div className="bg-gray-800 border border-gray-700 p-4 rounded-xl text-center">
+                            <p className="text-sm text-gray-400 mb-1">Стоимость пункта</p>
+                            <p className="text-3xl font-bold text-white">${result.pipValue}</p>
+                        </div>
                     </div>
                 )}
 

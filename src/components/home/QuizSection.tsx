@@ -326,8 +326,8 @@ const QuizSection = () => {
 
                         <Button
                             onClick={restartQuiz}
-                            variant="outline"
-                            className="border-gray-700 text-gray-400 hover:bg-gray-800"
+                            variant="ghost"
+                            className="btn-glow-base glow-white hover:bg-transparent mt-4"
                         >
                             {t('quiz.button.restart')}
                         </Button>
