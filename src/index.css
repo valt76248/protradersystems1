@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -160,15 +160,17 @@
   }
 
   .text-premium-volume {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+    /* text-transform: uppercase; Removed to match the elegant style */
+    letter-spacing: 0.02em;
     background: linear-gradient(180deg, #E0F2FE 0%, #38BDF8 60%, #0284C7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     filter: drop-shadow(0px 2px 0px rgba(12, 74, 110, 1)) drop-shadow(0px 4px 0px rgba(12, 74, 110, 0.8)) drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.5));
+    line-height: 1.1;
   }
 }
 
