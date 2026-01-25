@@ -159,18 +159,21 @@
     transition: width 0.5s ease-out;
   }
 
-  .text-premium-volume {
+  .hero-text-style {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     font-style: italic;
-    /* text-transform: uppercase; Removed to match the elegant style */
     letter-spacing: 0.02em;
+    line-height: 1.1;
+    filter: drop-shadow(0px 2px 0px rgba(12, 74, 110, 1)) drop-shadow(0px 4px 0px rgba(12, 74, 110, 0.8)) drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.5));
+  }
+
+  .text-premium-volume {
+    @apply hero-text-style;
     background: linear-gradient(180deg, #E0F2FE 0%, #38BDF8 60%, #0284C7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0px 2px 0px rgba(12, 74, 110, 1)) drop-shadow(0px 4px 0px rgba(12, 74, 110, 0.8)) drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.5));
-    line-height: 1.1;
   }
 }
 

@@ -48,7 +48,7 @@ const HeroSection = () => {
           <span className="text-premium-volume block">
             {t('hero.title_line1')}
           </span>
-          <span className="text-white block mt-2">
+          <span className="text-white hero-text-style block mt-2">
             {t('hero.title_line2')}
           </span>
         </motion.h1>
