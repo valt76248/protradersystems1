@@ -170,7 +170,7 @@
 
   .text-premium-volume {
     @apply hero-text-style;
-    background: linear-gradient(180deg, #E0F2FE 0%, #38BDF8 60%, #0284C7 100%);
+    background: linear-gradient(180deg, #38BDF8 0%, #0284C7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
