@@ -74,13 +74,9 @@
     @apply bg-gray-500;
   }
 
-  /* Global Heading Styles */
+  /* Global Heading Styles - Only H1 and H2 */
   h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h2 {
     font-family: 'Playfair Display', serif;
     font-style: italic;
   }
