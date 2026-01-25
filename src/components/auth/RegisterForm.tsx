@@ -95,7 +95,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
       if (referralCode && authData.user) {
         try {
           // Call n8n webhook to process referral
-          await fetch('https://your-n8n-url.com/webhook/new-referral-signup', {
+          await fetch('https://n8n.protradersystems.com/webhook/new-referral-signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
