@@ -76,7 +76,7 @@ const PremiumCard = ({ children, className, glowColor = "rgba(56, 189, 248, 0.15
                 }}
             />
 
-            <div className="relative z-10" style={{ transform: "translateZ(30px)" }}>
+            <div className="relative z-10 [transform:translateZ(30px)]">
                 {children}
             </div>
         </motion.div>

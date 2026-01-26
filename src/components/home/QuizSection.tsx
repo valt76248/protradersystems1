@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
@@ -356,9 +357,11 @@ const QuizSection = () => {
                 <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/10 shadow-xl relative min-h-[400px]">
                     {/* Progress Bar */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-white/5 rounded-t-2xl overflow-hidden">
-                        <div
-                            className="h-full bg-trading-accent transition-all duration-500 ease-out progress-bar-fill"
-                            style={{ width: `${((currentQuestion + 1) / totalQuestions) * 100}%` }}
+                        <motion.div
+                            className="h-full bg-trading-accent progress-bar-fill"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${((currentQuestion + 1) / totalQuestions) * 100}%` }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
                         />
                     </div>
 

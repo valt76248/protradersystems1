@@ -22,7 +22,7 @@ export interface CourseModule {
   id: string;
   title: string;
   description?: string;
-  topics: string[]; // This might need to be optional if not in DB, or handled
+  topics?: string[]; // This might need to be optional if not in DB, or handled
   history?: ModuleChange[];
   is_published?: boolean;
   created_at?: string;

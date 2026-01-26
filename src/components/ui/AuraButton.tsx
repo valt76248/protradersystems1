@@ -4,7 +4,7 @@ import { HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface AuraButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
-    variant?: 'primary' | 'secondary' | 'outline' | 'ghost-glow-green' | 'ghost-glow-blue' | 'ghost-glow-cyan' | 'ghost-glow-white';
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost-glow-green' | 'ghost-glow-blue' | 'ghost-glow-cyan' | 'ghost-glow-white' | 'ghost-glow-emerald' | 'ghost-glow-silver' | 'ghost-glow-gold';
     size?: 'default' | 'lg' | 'xl';
     className?: string;
     children: React.ReactNode;
@@ -28,6 +28,9 @@ const AuraButton = ({ variant = 'primary', size = 'default', className, children
                 variant === 'ghost-glow-blue' && "ghost-glow-blue bg-transparent border-none",
                 variant === 'ghost-glow-cyan' && "ghost-glow-cyan bg-transparent border-none",
                 variant === 'ghost-glow-white' && "ghost-glow-white bg-transparent border-none",
+                variant === 'ghost-glow-emerald' && "ghost-glow-emerald bg-transparent border-none",
+                variant === 'ghost-glow-silver' && "ghost-glow-silver bg-transparent border-none",
+                variant === 'ghost-glow-gold' && "ghost-glow-gold bg-transparent border-none",
                 size === 'lg' && "text-xl py-4",
                 size === 'xl' && "text-3xl py-6 font-black uppercase tracking-tighter",
                 className

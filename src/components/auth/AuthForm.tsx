@@ -121,6 +121,16 @@ export default function AuthForm() {
 
     return (
         <div className="w-full max-w-md mx-auto p-8 bg-gray-900 border border-gray-800 rounded-xl shadow-2xl">
+            <div className="flex justify-center mb-6">
+                <div className="relative">
+                    <div className="absolute inset-0 bg-trading-accent/20 blur-2xl rounded-full" />
+                    <img
+                        src="/protrader_emblem.png"
+                        alt="ProTrader Systems Emblem"
+                        className="w-24 h-24 relative z-10 animate-pulse-subtle"
+                    />
+                </div>
+            </div>
             <h2 className="text-3xl font-bold text-white mb-2 text-center">
                 {isLogin ? 'Вхід у систему' : 'Новий акаунт'}
             </h2>

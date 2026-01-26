@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Bitcoin, CheckCircle, Infinity, BookOpen, Shield, Users } from 'lucide-react';
-import { FeaturesSection } from '@/components/courses/FeaturesSection';
+import { FeaturesSection } from '@/components/course-ui/FeaturesSection';
 
 const Courses = () => {
   const { t } = useLanguage();
@@ -41,9 +41,9 @@ const Courses = () => {
             <Card className="bg-trading-card border-gray-800 overflow-hidden group hover:border-blue-500 transition-colors">
               <div className="relative">
                 <img
-                  src="/lovable-uploads/a7a07a1f-0f0d-453b-8d07-32767312672d.png"
-                  alt="ProTrader Systems"
-                  className="w-full h-48 object-cover"
+                  src="/images/elite_mentorship.png"
+                  alt="ProTrader Systems: Elite Mentorship"
+                  className="w-full h-56 object-cover"
                 />
                 <Badge className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
                   {t('courses.badge_pro')}

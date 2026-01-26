@@ -1,8 +1,0 @@
-{
-    "name": "Happy User",
-    "email": "happy.user@example.com",
-    "testimonial": "This system completely changed my trading workflow. Highly recommended!",
-    "rating": 5,
-    "permission_to_share": true,
-    "photo_url": "https://example.com/photo.jpg"
-}

@@ -1,11 +1,15 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import { supabase } from '@/lib/supabaseClient';
+import { useLanguage } from '@/contexts/LanguageContext';
+import AuraButton from '@/components/ui/AuraButton';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormProps {
   onToggleMode: () => void;
@@ -13,12 +17,17 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onToggleMode, onClose }) => {
+  const { t } = useLanguage();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -27,95 +36,185 @@ const LoginForm: React.FC<LoginFormProps> = ({ onToggleMode, onClose }) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Имитация API запроса
-    setTimeout(() => {
-      console.log('Login attempt:', formData);
+
+    try {
+      if (resetMode) {
+        const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+
+        toast({
+          title: t('auth.reset.title'),
+          description: t('auth.reset.subtitle')
+        });
+        setResetMode(false);
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+        if (error) throw error;
+
+        toast({
+          title: t('auth.success.login'),
+          description: t('nav.goodbye').includes('!') ? t('nav.goodbye') : 'Welcome back!'
+        });
+
+        onClose();
+        navigate('/');
+        window.location.reload();
+      }
+    } catch (error: any) {
+      toast({
+        title: t('auth.error'),
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
-      onClose();
-    }, 1000);
+    }
   };
 
+  if (resetMode) {
+    return (
+      <Card className="bg-trading-card border-gray-800 w-full max-w-md shadow-2xl overflow-hidden">
+        <CardHeader className="text-center relative">
+          <button
+            onClick={() => setResetMode(false)}
+            className="absolute left-4 top-6 text-gray-400 hover:text-white transition-colors"
+            aria-label={t('auth.reset.back')}
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <CardTitle className="text-2xl mt-4">{t('auth.reset.title')}</CardTitle>
+          <p className="text-gray-400">{t('auth.reset.subtitle')}</p>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleAuth} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="reset-email" className="text-gray-300">{t('auth.email')}</Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
+                <Input
+                  id="reset-email"
+                  type="email"
+                  placeholder="name@example.com"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  required
+                  className="pl-10 bg-gray-800 border-gray-700 text-white h-12"
+                />
+              </div>
+            </div>
+
+            <AuraButton
+              type="submit"
+              variant="ghost-glow-blue"
+              size="lg"
+              className="w-full text-lg font-medium"
+              disabled={isLoading}
+            >
+              {isLoading ? '...' : t('auth.reset.send')}
+            </AuraButton>
+          </form>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="bg-trading-card border-gray-800 w-full max-w-md">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Вход в аккаунт</CardTitle>
-        <p className="text-gray-400">Войдите, чтобы получить доступ к своим курсам</p>
+    <Card className="bg-trading-card border-gray-800 w-full max-w-md shadow-2xl overflow-hidden">
+      <CardHeader className="text-center pb-2">
+        <div className="flex justify-center mb-4">
+          <div className="relative">
+            <div className="absolute inset-0 bg-trading-accent/20 blur-2xl rounded-full" />
+            <img
+              src="/protrader_emblem.png"
+              alt="ProTrader Systems Emblem"
+              className="w-24 h-24 relative z-10 animate-pulse-subtle"
+            />
+          </div>
+        </div>
+        <CardTitle className="text-2xl">{t('auth.login.title')}</CardTitle>
+        <p className="text-gray-400">{t('auth.login.subtitle')}</p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="email">Email</Label>
+        <form onSubmit={handleAuth} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-gray-300">{t('auth.email')}</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
               <Input
                 id="email"
                 type="email"
                 placeholder="your@email.com"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="pl-10 bg-gray-800 border-gray-700"
+                className="pl-10 bg-gray-800 border-gray-700 text-white h-12"
                 required
               />
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="password">Пароль</Label>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">{t('auth.password')}</Label>
+              <button
+                type="button"
+                onClick={() => setResetMode(true)}
+                className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                {t('auth.forgotPassword')}
+              </button>
+            </div>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Введите пароль"
+                placeholder={t('auth.password.placeholder')}
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className="pl-10 pr-10 bg-gray-800 border-gray-700"
+                className="pl-10 pr-10 bg-gray-800 border-gray-700 text-white h-12"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-300"
+                className="absolute right-3 top-3.5 text-gray-400 hover:text-white"
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" className="rounded" />
-              <span className="text-gray-400">Запомнить меня</span>
-            </label>
-            <button type="button" className="text-blue-400 hover:text-blue-300">
-              Забыли пароль?
-            </button>
-          </div>
-
-          <Button 
-            type="submit" 
-            className="w-full bg-blue-600 hover:bg-blue-700"
+          <AuraButton
+            type="submit"
+            variant="ghost-glow-blue"
+            size="lg"
+            className="w-full text-lg font-medium mt-2"
             disabled={isLoading}
           >
-            {isLoading ? 'Вход...' : 'Войти'}
-          </Button>
+            {isLoading ? '...' : t('auth.submit.login')}
+          </AuraButton>
         </form>
 
-        <Separator className="my-6 bg-gray-700" />
+        <Separator className="my-6 bg-gray-800" />
 
         <div className="text-center">
-          <p className="text-gray-400 mb-4">Нет аккаунта?</p>
-          <Button 
-            variant="outline" 
+          <p className="text-gray-400 mb-4 text-sm">{t('auth.noAccount')}</p>
+          <AuraButton
+            variant="ghost-glow-silver"
             onClick={onToggleMode}
-            className="w-full border-gray-700"
+            className="w-full"
           >
-            Создать аккаунт
-          </Button>
+            {t('auth.register.title')}
+          </AuraButton>
         </div>
       </CardContent>
     </Card>

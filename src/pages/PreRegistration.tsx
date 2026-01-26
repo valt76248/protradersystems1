@@ -126,11 +126,12 @@ const PreRegistration = () => {
 
                 <div className="relative max-w-4xl mx-auto px-4 text-center">
                     {/* Mystical Eye Image */}
-                    <div className="w-28 h-28 mx-auto mb-6">
+                    <div className="w-32 h-32 mx-auto mb-6 relative group">
+                        <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-2xl group-hover:bg-cyan-500/30 transition-colors animate-pulse-subtle" />
                         <img
-                            src="/mystic-eye.png"
-                            alt="Мистический символ"
-                            className="w-full h-full object-contain"
+                            src="/images/protrader_logo_main.jpg"
+                            alt="ProTrader Systems Logo"
+                            className="relative w-full h-full object-contain rounded-full border border-white/10 shadow-2xl shadow-cyan-500/20"
                         />
                     </div>
 

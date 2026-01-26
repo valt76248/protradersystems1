@@ -1,0 +1,6 @@
+https: //n8n.protradersystems.com/webhook-test/submit-testimonial{
+"email": "patrick@stripe.com",
+"quiz_score": 8,
+"segment": "intermediate",
+"is_finished": true
+}

@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { Suspense, lazy } from 'react';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { HelmetProvider } from 'react-helmet-async';
@@ -13,7 +13,7 @@ import MaintenanceGuard from "./components/shared/MaintenanceGuard";
 import { Loader } from "./components/ui/loader";
 
 // Lazy-loaded components
-const Index = lazy(() => import("./pages/Index"));
+const Home = lazy(() => import("./pages/Home"));
 const BeginnerTraining = lazy(() => import("./pages/BeginnerTraining"));
 const Psychology = lazy(() => import("./pages/Psychology"));
 const RiskManagement = lazy(() => import("./pages/RiskManagement"));
@@ -32,8 +32,8 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const EligibleClients = lazy(() => import("./pages/EligibleClients"));
 const Login = lazy(() => import("./pages/Login"));
 const Admin = lazy(() => import("./pages/Admin"));
-const SessionOne = lazy(() => import("./pages/SessionOne"));
-const SessionTwo = lazy(() => import("./pages/SessionTwo"));
+const SessionETF = lazy(() => import("./pages/SessionETF"));
+const SessionAdvanced = lazy(() => import("./pages/SessionAdvanced"));
 const Session1Gallery = lazy(() => import("./pages/Session1Gallery"));
 const Session2Gallery = lazy(() => import("./pages/Session2Gallery"));
 const PreRegistration = lazy(() => import("./pages/PreRegistration"));
@@ -64,7 +64,7 @@ const App = () => {
                 <BackToTopButton />
                 <Suspense fallback={<Loader />}>
                   <Routes>
-                    <Route path="/" element={<Index />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/beginner-training" element={<BeginnerTraining />} />
 
                     <Route path="/psychology" element={<Psychology />} />
@@ -80,8 +80,8 @@ const App = () => {
                     <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-                    <Route path="/session-1" element={<SessionOne />} />
-                    <Route path="/session-2" element={<SessionTwo />} />
+                    <Route path="/session-1" element={<SessionETF />} />
+                    <Route path="/session-2" element={<SessionAdvanced />} />
                     <Route path="/session-1-gallery" element={<Session1Gallery />} />
                     <Route path="/session-2-gallery" element={<Session2Gallery />} />
                     <Route path="/pre-registration" element={<PreRegistration />} />

@@ -1,13 +1,14 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
 import { Eye, EyeOff, Mail, Lock, User, Phone, Gift, CheckCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/lib/supabaseClient';
+import { useLanguage } from '@/contexts/LanguageContext';
+import AuraButton from '@/components/ui/AuraButton';
 
 interface RegisterFormProps {
   onToggleMode: () => void;
@@ -15,7 +16,9 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) => {
+  const { t } = useLanguage();
   const { toast } = useToast();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,21 +27,26 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
     password: '',
     confirmPassword: ''
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [referralCode, setReferralCode] = useState<string | null>(null);
   const [referralDiscount, setReferralDiscount] = useState(false);
 
-  // Check for referral code in URL on mount
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const refCode = urlParams.get('ref');
     if (refCode) {
       setReferralCode(refCode.toUpperCase());
       setReferralDiscount(true);
-      // Store in localStorage for checkout
       localStorage.setItem('referral_code', refCode.toUpperCase());
+    } else {
+      const storedRef = localStorage.getItem('referral_code');
+      if (storedRef) {
+        setReferralCode(storedRef);
+        setReferralDiscount(true);
+      }
     }
   }, []);
 
@@ -55,18 +63,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
 
     if (formData.password !== formData.confirmPassword) {
       toast({
-        title: "Ошибка",
-        description: "Пароли не совпадают",
-        variant: "destructive"
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      toast({
-        title: "Ошибка",
-        description: "Пароль должен содержать минимум 6 символов",
+        title: t('auth.error'),
+        description: t('settings.passwords_not_match'),
         variant: "destructive"
       });
       setIsLoading(false);
@@ -74,7 +72,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
     }
 
     try {
-      // Register with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -87,14 +84,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
         }
       });
 
-      if (authError) {
-        throw authError;
-      }
+      if (authError) throw authError;
 
-      // If referral code exists, create referral record
       if (referralCode && authData.user) {
         try {
-          // Call n8n webhook to process referral
           await fetch('https://n8n.protradersystems.com/webhook/new-referral-signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -110,44 +103,25 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
           console.log('Referral webhook skipped');
         }
 
-        // Also try to insert directly into Supabase
-        const { error: referralError } = await supabase
-          .from('referrals')
-          .insert({
-            referral_code: referralCode,
-            referred_email: formData.email,
-            referred_user_id: authData.user.id,
-            status: 'registered'
-          });
-
-        if (referralError) {
-          console.error('Referral insert error:', referralError);
-        }
+        await supabase.from('referrals').insert({
+          referral_code: referralCode,
+          referred_email: formData.email,
+          referred_user_id: authData.user.id,
+          status: 'registered'
+        });
       }
 
       toast({
-        title: "Аккаунт создан! 🎉",
-        description: referralCode
-          ? "Проверьте email для подтверждения. Скидка 10% будет применена при покупке!"
-          : "Проверьте вашу почту для подтверждения аккаунта"
+        title: t('auth.success.register'),
+        description: t('auth.register.subtitle')
       });
 
       onClose();
 
     } catch (error: any) {
-      console.error('Registration error:', error);
-
-      let errorMessage = "Не удалось создать аккаунт";
-
-      if (error.message.includes('already registered')) {
-        errorMessage = "Этот email уже зарегистрирован";
-      } else if (error.message.includes('invalid')) {
-        errorMessage = "Неверный формат email";
-      }
-
       toast({
-        title: "Ошибка регистрации",
-        description: errorMessage,
+        title: t('auth.error'),
+        description: error.message,
         variant: "destructive"
       });
     } finally {
@@ -156,177 +130,187 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
   };
 
   return (
-    <Card className="bg-trading-card border-gray-800 w-full max-w-md">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Создать аккаунт</CardTitle>
-        <p className="text-gray-400">Зарегистрируйтесь для доступа к курсам</p>
+    <Card className="bg-trading-card border-gray-800 w-full max-w-md shadow-2xl overflow-hidden">
+      <CardHeader className="text-center p-6 pb-2">
+        <div className="flex justify-center mb-4">
+          <div className="relative">
+            <div className="absolute inset-0 bg-trading-accent/20 blur-2xl rounded-full" />
+            <img
+              src="/protrader_emblem.png"
+              alt="ProTrader Systems Emblem"
+              className="w-24 h-24 relative z-10 animate-pulse-subtle"
+            />
+          </div>
+        </div>
+        <CardTitle className="text-2xl">{t('auth.register.title')}</CardTitle>
+        <p className="text-gray-400 text-sm">{t('auth.register.subtitle')}</p>
 
-        {/* Referral Discount Banner */}
         {referralDiscount && (
-          <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50">
+          <div className="mt-4 p-3 rounded-lg bg-emerald-900/20 border border-emerald-500/30">
             <div className="flex items-center justify-center gap-2">
-              <Gift className="h-5 w-5 text-green-400" />
-              <span className="text-green-400 font-semibold">Скидка 10% активирована!</span>
+              <Gift className="h-4 w-4 text-emerald-400" />
+              <span className="text-emerald-400 font-semibold text-sm">Скидка 10% активирована!</span>
             </div>
-            <p className="text-sm text-gray-400 mt-1">
-              Реферальный код: <code className="text-green-300">{referralCode}</code>
+            <p className="text-xs text-emerald-400/70 mt-1">
+              Ref code: <code className="bg-emerald-500/20 px-1 rounded">{referralCode}</code>
             </p>
           </div>
         )}
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4 p-6 pt-0">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div>
-              <Label htmlFor="firstName">Имя</Label>
+          <div className="grid gap-4 grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="firstName">{t('auth.firstName')}</Label>
               <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <User className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
                 <Input
                   id="firstName"
-                  placeholder="Иван"
+                  placeholder="Ivan"
                   value={formData.firstName}
                   onChange={(e) => handleInputChange('firstName', e.target.value)}
-                  className="pl-10 bg-gray-800 border-gray-700"
+                  className="pl-10 bg-gray-800 border-gray-700 h-11"
                   required
                 />
               </div>
             </div>
-            <div>
-              <Label htmlFor="lastName">Фамилия</Label>
+            <div className="space-y-2">
+              <Label htmlFor="lastName">{t('auth.lastName')}</Label>
               <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <User className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
                 <Input
                   id="lastName"
-                  placeholder="Иванов"
+                  placeholder="Ivanov"
                   value={formData.lastName}
                   onChange={(e) => handleInputChange('lastName', e.target.value)}
-                  className="pl-10 bg-gray-800 border-gray-700"
+                  className="pl-10 bg-gray-800 border-gray-700 h-11"
                   required
                 />
               </div>
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="email">Email</Label>
+          <div className="space-y-2">
+            <Label htmlFor="email">{t('auth.email')}</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Mail className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
               <Input
                 id="email"
                 type="email"
                 placeholder="your@email.com"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="pl-10 bg-gray-800 border-gray-700"
+                className="pl-10 bg-gray-800 border-gray-700 h-11"
                 required
               />
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="phone">Телефон (необязательно)</Label>
+          <div className="space-y-2">
+            <Label htmlFor="phone">{t('auth.phone')}</Label>
             <div className="relative">
-              <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Phone className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
               <Input
                 id="phone"
                 type="tel"
-                placeholder="+380 (99) 123-45-67"
+                placeholder="+380..."
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="pl-10 bg-gray-800 border-gray-700"
+                className="pl-10 bg-gray-800 border-gray-700 h-11"
               />
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="password">Пароль</Label>
+          <div className="space-y-2">
+            <Label htmlFor="password">{t('auth.password')}</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Минимум 6 символов"
+                placeholder={t('auth.password.minLength')}
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className="pl-10 pr-10 bg-gray-800 border-gray-700"
+                className="pl-10 pr-10 bg-gray-800 border-gray-700 h-11"
                 required
                 minLength={6}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-300"
+                className="absolute right-3 top-3.5 text-gray-400 hover:text-white"
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="confirmPassword">Подтвердите пароль</Label>
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">{t('auth.password.confirm')}</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Lock className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
               <Input
                 id="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
-                placeholder="Повторите пароль"
+                placeholder="..."
                 value={formData.confirmPassword}
                 onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                className="pl-10 pr-10 bg-gray-800 border-gray-700"
+                className="pl-10 pr-10 bg-gray-800 border-gray-700 h-11"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-300"
+                className="absolute right-3 top-3.5 text-gray-400 hover:text-white"
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
               >
                 {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
           </div>
 
-          <div className="text-sm">
-            <label className="flex items-start gap-2">
-              <input type="checkbox" className="rounded mt-0.5" required />
-              <span className="text-gray-400">
-                Я соглашаюсь с{' '}
-                <a href="/public-offer" className="text-blue-400 hover:text-blue-300">публичной офертой</a>
-                {' '}и{' '}
-                <a href="/privacy-policy" className="text-blue-400 hover:text-blue-300">политикой конфиденциальности</a>
-              </span>
+          <div className="text-[10px] text-gray-500 flex items-start gap-2 pt-2">
+            <input
+              type="checkbox"
+              id="terms-checkbox"
+              className="mt-0.5 rounded border-gray-700 bg-gray-800"
+              required
+            />
+            <label htmlFor="terms-checkbox">
+              Я погоджуюся з <a href="/offer" className="text-blue-400 underline">{t('footer.offer')}</a> та <a href="/privacy" className="text-blue-400 underline">{t('footer.privacy')}</a>
             </label>
           </div>
 
-          <Button
+          <AuraButton
             type="submit"
-            className={`w-full ${referralDiscount
-              ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700'
-              : 'bg-blue-600 hover:bg-blue-700'
-              }`}
+            variant={referralDiscount ? "ghost-glow-emerald" : "ghost-glow-blue"}
+            size="lg"
+            className="w-full text-lg mt-4"
             disabled={isLoading}
           >
-            {isLoading ? 'Создание аккаунта...' : (
+            {isLoading ? '...' : (
               referralDiscount ? (
-                <>
-                  <CheckCircle className="mr-2 h-4 w-4" />
-                  Создать аккаунт со скидкой 10%
-                </>
-              ) : 'Создать аккаунт'
+                <span className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5" />
+                  -10% Discount Registration
+                </span>
+              ) : t('auth.submit.register')
             )}
-          </Button>
+          </AuraButton>
         </form>
 
-        <Separator className="my-6 bg-gray-700" />
+        <Separator className="my-6 bg-gray-800" />
 
         <div className="text-center">
-          <p className="text-gray-400 mb-4">Уже есть аккаунт?</p>
-          <Button
-            variant="outline"
+          <p className="text-gray-400 mb-4 text-sm">{t('auth.hasAccount')}</p>
+          <AuraButton
+            variant="ghost-glow-silver"
             onClick={onToggleMode}
-            className="w-full border-gray-700"
+            className="w-full"
           >
-            Войти
-          </Button>
+            {t('auth.submit.login')}
+          </AuraButton>
         </div>
       </CardContent>
     </Card>

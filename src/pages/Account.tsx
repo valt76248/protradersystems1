@@ -16,6 +16,7 @@ import { ReferralSection } from '@/components/account/ReferralSection';
 import PaymentModal from '@/components/payment/PaymentModal';
 import SupportButton from '@/components/shared/SupportButton';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
 
 interface Enrollment {
   id: string;
@@ -335,11 +336,13 @@ const Account = () => {
                                     <span className="text-gray-400">{t('account.courses.progress')}</span>
                                     <span className="text-gray-300">{course.enrollment.progress}%</span>
                                   </div>
-                                  <div className="w-full bg-gray-700 rounded-full h-2">
-                                    <div
-                                      className="bg-green-500 h-2 rounded-full transition-all progress-bar-fill"
-                                      style={{ width: `${course.enrollment.progress}%` }}
-                                    ></div>
+                                  <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                                    <motion.div
+                                      className="bg-green-500 h-2 rounded-full"
+                                      initial={{ width: 0 }}
+                                      animate={{ width: `${course.enrollment.progress}%` }}
+                                      transition={{ duration: 0.8, ease: "easeOut" }}
+                                    ></motion.div>
                                   </div>
                                 </div>
                               )}

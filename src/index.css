@@ -104,7 +104,9 @@
   /* Hide scrollbar for horizontal scrolling tabs */
   .scrollbar-hide {
     -ms-overflow-style: none;
+    /* IE and Edge */
     scrollbar-width: none;
+    /* Firefox */
   }
 
   .scrollbar-hide::-webkit-scrollbar {
@@ -227,6 +229,24 @@
     @apply ghost-glow-base text-white/90 hover:text-white;
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  }
+
+  .ghost-glow-emerald {
+    @apply ghost-glow-base text-emerald-400 hover:text-emerald-300;
+    filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
+    text-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+  }
+
+  .ghost-glow-silver {
+    @apply ghost-glow-base text-slate-300 hover:text-white;
+    filter: drop-shadow(0 0 10px rgba(203, 213, 225, 0.5));
+    text-shadow: 0 0 15px rgba(203, 213, 225, 0.3);
+  }
+
+  .ghost-glow-gold {
+    @apply ghost-glow-base text-amber-400 hover:text-amber-300;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.8));
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
   }
 
   .glow-lime {
@@ -365,6 +385,24 @@
 
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-subtle {
+
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 3s ease-in-out infinite;
   }
 
   @keyframes border-gradient {

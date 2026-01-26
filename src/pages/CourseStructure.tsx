@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { CourseModule } from '@/types/material';
-import ModuleCard from '@/components/course/ModuleCard';
-import ModuleForm from '@/components/course/ModuleForm';
-import ModuleHistoryDialog from '@/components/course/ModuleHistoryDialog';
+import ModuleCard from '@/components/course-admin/ModuleCard';
+import ModuleForm from '@/components/course-admin/ModuleForm';
+import ModuleHistoryDialog from '@/components/course-admin/ModuleHistoryDialog';
 import { useLanguage } from '@/contexts/LanguageContext';
 // Імпортуємо наш клієнт Supabase
 import { supabase } from '@/lib/supabaseClient';
@@ -37,7 +37,7 @@ const CourseStructure = () => {
       if (error) throw error;
 
       // Мапимо дані з БД у формат твого інтерфейсу
-      setModules(data as CourseModule[]);
+      setModules(data as unknown as CourseModule[]);
     } catch (error: any) {
       console.error('Error fetching modules:', error);
       toast({
@@ -71,7 +71,7 @@ const CourseStructure = () => {
       if (error) throw error;
 
       if (data) {
-        setModules([...modules, data[0] as CourseModule]);
+        setModules([...modules, data[0] as unknown as CourseModule]);
         toast({
           title: t('course-structure.module-added'),
           description: `"${data[0].title}" ${t('course-structure.module-added-desc')}`,
@@ -100,7 +100,7 @@ const CourseStructure = () => {
 
       if (data) {
         // Оновлюємо список локально
-        setModules(modules.map(m => m.id === editingModule.id ? (data[0] as CourseModule) : m));
+        setModules(modules.map(m => m.id === editingModule.id ? (data[0] as unknown as CourseModule) : m));
 
         toast({
           title: t('course-structure.module-updated'),
