@@ -478,9 +478,9 @@
 
   .text-3d-static-subtle {
     display: inline-block;
-    transform: perspective(1000px) rotateX(4deg);
-    text-shadow: 0 2px 0 #3b0764,
-      0 5px 10px rgba(0, 0, 0, 0.5);
+    transform: perspective(1000px) rotateX(2deg);
+    text-shadow: 0 1.5px 0 #3b0764,
+      0 4px 6px rgba(0, 0, 0, 0.5);
     transform-style: preserve-3d;
   }
 

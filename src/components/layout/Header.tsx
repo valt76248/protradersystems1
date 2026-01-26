@@ -112,7 +112,7 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "relative text-base font-bold tracking-wide transition-all duration-300 py-1 group ghost-glow-white hover:scale-110",
+                  "relative text-base font-bold tracking-wide transition-all duration-300 py-1 group ghost-glow-white hover:scale-110 text-3d-static-subtle",
                   isActive(item.path) ? "text-white scale-105" : "text-white opacity-80"
                 )}
               >
@@ -133,7 +133,7 @@ const Header = () => {
                   <AuraButton
                     variant="ghost-glow-white"
                     size="default"
-                    className="hidden lg:flex"
+                    className="hidden lg:flex text-3d-static-subtle"
                   >
                     <User className="mr-2 h-4 w-4" />
                     {firstName ? `Здравствуйте, ${firstName}` : t('nav.account')}
@@ -155,7 +155,7 @@ const Header = () => {
                 <Link to="/login">
                   <AuraButton
                     variant="ghost-glow-blue"
-                    className="hidden lg:flex"
+                    className="hidden lg:flex text-3d-static-subtle"
                   >
                     <LogIn className="mr-2 h-3 w-3" />
                     {t('nav.login')}
@@ -198,7 +198,7 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "px-4 py-4 rounded-lg text-base font-bold transition-all duration-300 flex items-center ghost-glow-white",
+                  "px-4 py-4 rounded-lg text-base font-bold transition-all duration-300 flex items-center ghost-glow-white text-3d-static-subtle",
                   isActive(item.path)
                     ? "text-white border-l-4 border-white bg-white/5"
                     : "text-white opacity-70"

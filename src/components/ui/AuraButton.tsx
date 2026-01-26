@@ -54,7 +54,7 @@ const AuraButton = ({ variant = 'primary', size = 'default', className, children
             </div>
 
             {/* Button Content */}
-            <span className="relative z-10">
+            <span className="relative z-10 text-3d-static-subtle">
                 {children}
             </span>
 
