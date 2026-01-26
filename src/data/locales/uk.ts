@@ -900,9 +900,9 @@ export const uk = {
     'calc.ruin.description': 'Оцініть ймовірність втрати депозиту при вашій стратегії',
 
     // About Stats
-    'about.stat.lessons': 'Відеоуроків',
+    'about.stat.lessons': 'Тижні навчання',
     'about.stat.access': 'Безстроковий доступ',
-    'about.stat.risk_reward': 'Ризик/Прибуток',
+    'about.stat.risk_reward': 'Алгоритм системи',
     'about.stat.telegram': 'Підтримка в Telegram',
 
     // Courses page - updated

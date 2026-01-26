@@ -903,9 +903,9 @@ export const ru = {
     'calc.ruin.description': 'Оцените вероятность потери депозита при вашей стратегии',
 
     // About Stats
-    'about.stat.lessons': 'Видеоуроков',
+    'about.stat.lessons': 'Недели обучения',
     'about.stat.access': 'Бессрочный доступ',
-    'about.stat.risk_reward': 'Риск/Прибыль',
+    'about.stat.risk_reward': 'Алгоритм системы',
     'about.stat.telegram': 'Поддержка в Telegram',
 
     // Courses page - updated
