@@ -2,10 +2,16 @@
 import React from 'react';
 import Maintenance from '@/pages/Maintenance';
 
+// Maintenance Mode Toggle
+const IS_MAINTENANCE_LOGIC_ENABLED = false;
+
 const MaintenanceGuard = ({ children }: { children: React.ReactNode }) => {
-    // Security: Maintenance Mode
-    // If we are NOT on localhost (or 127.0.0.1), show the maintenance page.
-    // This effectively blocks public access on the deployed domain.
+    // If maintenance logic is disabled, show the app directly
+    if (!IS_MAINTENANCE_LOGIC_ENABLED) {
+        return <>{children}</>;
+    }
+
+    // Security: Maintenance Mode (only allow local access)
     const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
     if (!isLocal) {
