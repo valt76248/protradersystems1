@@ -451,14 +451,14 @@
     0%,
     100% {
       transform: perspective(1000px) rotateX(4deg) translateY(0);
-      text-shadow: 0 4px 0 #3b0764,
-        0 10px 10px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 3px 0 #3b0764,
+        0 8px 8px rgba(0, 0, 0, 0.5);
     }
 
     50% {
       transform: perspective(1000px) rotateX(0deg) translateY(-8px);
-      text-shadow: 0 2px 0 #3b0764,
-        0 5px 10px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 1.5px 0 #3b0764,
+        0 4px 8px rgba(0, 0, 0, 0.5);
     }
   }
 
