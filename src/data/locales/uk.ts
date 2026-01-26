@@ -918,6 +918,16 @@ export const uk = {
     'courses.pay_crypto': 'Оплатити криптою',
     'courses.crypto_note': 'USDT (TRC-20) • Миттєвий доступ після оплати',
     'courses.secure': 'Безпечно',
+    'courses.pro.price': '499',
+    'courses.psychology.title': 'Психологія Переможця',
+    'courses.psychology.subtitle': 'Гіпно-сесії та медитації',
+    'courses.psychology.badge': 'Master Mindset',
+    'courses.psychology.description': 'Ексклюзивна програма опрацювання підсвідомих бар\'єрів, страхів та емоційних пасток. Налаштуйте свій розум на професійну торгівлю.',
+    'courses.psychology.feature1': 'Усунення емоційних гойдалок',
+    'courses.psychology.feature2': 'Медитації на концентрацію',
+    'courses.psychology.feature3': 'Гіпно-сесії на впевненість',
+    'courses.psychology.feature4': 'Психологічний аудит угод',
+    'courses.psychology.price': '1000',
 
     // Detailed Course Structure (Home Page)
     'home.course.module1.title': 'Етап 1: Філософія та етика торгової системи',
