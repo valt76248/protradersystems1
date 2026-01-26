@@ -58,7 +58,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-2xl mb-10 text-white font-medium max-w-3xl mx-auto leading-relaxed animate-3d-float"
+          className="text-lg md:text-2xl mb-10 text-white font-medium max-w-3xl mx-auto leading-relaxed text-3d-static-subtle"
         >
           {t('hero.subtitle')}
         </motion.p>

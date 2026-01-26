@@ -450,7 +450,7 @@
 
     0%,
     100% {
-      transform: perspective(1000px) rotateX(0deg) translateY(0);
+      transform: perspective(1000px) rotateX(4deg) translateY(0);
       text-shadow: 0 3px 0 #3b0764,
         0 8px 8px rgba(0, 0, 0, 0.5);
     }
@@ -470,10 +470,17 @@
 
   .text-3d-static {
     display: inline-block;
-    transform: perspective(1000px) rotateX(10deg) translateY(0);
-    text-shadow: 0 10px 0 #3b0764,
-      0 20px 10px rgba(0, 0, 0, 0.5),
-      0 20px 20px rgba(0, 0, 0, 0.3);
+    transform: perspective(1000px) rotateX(4deg) translateY(0);
+    text-shadow: 0 3px 0 #3b0764,
+      0 8px 8px rgba(0, 0, 0, 0.5);
+    transform-style: preserve-3d;
+  }
+
+  .text-3d-static-subtle {
+    display: inline-block;
+    transform: perspective(1000px) rotateX(4deg);
+    text-shadow: 0 2px 0 #3b0764,
+      0 5px 10px rgba(0, 0, 0, 0.5);
     transform-style: preserve-3d;
   }
 
