@@ -101,6 +101,14 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600;
   }
 
+  .premium-glass {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-[0_8px_32px_0_rgba(0, 0, 0, 0.37)];
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-[0_0_20px_rgba(56, 189, 248, 0.4)] hover:border-sky-500/50;
+  }
+
   /* Hide scrollbar for horizontal scrolling tabs */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -143,6 +151,10 @@
     text-shadow: 0 0 10px rgba(79, 70, 229, 0.7);
   }
 
+  .glow-text-sky {
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+  }
+
   /* Hero background with fixed positioning */
   .hero-bg-fixed {
     background-image: url('/hero-mansion.jpg');
@@ -179,15 +191,12 @@
 
   .text-premium-volume {
     @apply hero-text-style;
-    background: linear-gradient(180deg, #38BDF8 0%, #0284C7 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #22D3EE;
   }
 
   .text-premium-gradient {
     filter: drop-shadow(0px 2px 0px rgba(12, 74, 110, 1)) drop-shadow(0px 4px 0px rgba(12, 74, 110, 0.8)) drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.5));
-    background: linear-gradient(180deg, #38BDF8 0%, #0284C7 100%);
+    background: linear-gradient(180deg, #BAE6FD 0%, #0EA5E9 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -441,23 +450,21 @@
 
     0%,
     100% {
-      transform: perspective(1000px) rotateX(10deg) translateY(0);
-      text-shadow: 0 10px 0 #3b0764,
-        0 20px 10px rgba(0, 0, 0, 0.5),
-        0 20px 20px rgba(0, 0, 0, 0.3);
+      transform: perspective(1000px) rotateX(4deg) translateY(0);
+      text-shadow: 0 4px 0 #3b0764,
+        0 10px 10px rgba(0, 0, 0, 0.5);
     }
 
     50% {
-      transform: perspective(1000px) rotateX(0deg) translateY(-10px);
-      text-shadow: 0 5px 0 #3b0764,
-        0 10px 10px rgba(0, 0, 0, 0.5),
-        0 10px 20px rgba(0, 0, 0, 0.3);
+      transform: perspective(1000px) rotateX(0deg) translateY(-8px);
+      text-shadow: 0 2px 0 #3b0764,
+        0 5px 10px rgba(0, 0, 0, 0.5);
     }
   }
 
   .animate-3d-float {
     display: inline-block;
-    animation: text-3d-float 4s ease-in-out infinite;
+    animation: text-3d-float 6s ease-in-out infinite;
     transform-style: preserve-3d;
   }
 

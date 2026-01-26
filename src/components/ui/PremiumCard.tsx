@@ -55,8 +55,8 @@ const PremiumCard = ({ children, className, glowColor = "rgba(56, 189, 248, 0.15
                 transformStyle: "preserve-3d",
             }}
             className={cn(
-                "relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md transition-shadow duration-500",
-                isHovered ? "shadow-2xl shadow-blue-500/10 border-white/20" : "shadow-xl border-white/5",
+                "relative rounded-2xl border border-white/10 bg-slate-950/40 backdrop-blur-xl transition-all duration-700 overflow-hidden",
+                isHovered ? "shadow-[0_20px_50px_rgba(56,189,248,0.2)] border-sky-500/30 scale-[1.02]" : "shadow-xl border-white/10",
                 className
             )}
         >
@@ -76,8 +76,17 @@ const PremiumCard = ({ children, className, glowColor = "rgba(56, 189, 248, 0.15
                 }}
             />
 
-            <div className="relative z-10 [transform:translateZ(30px)]">
+            <div className="relative z-10 [transform:translateZ(50px)]">
                 {children}
+            </div>
+
+            {/* Shimmering Border Effect */}
+            <div className={cn(
+                "absolute inset-0 opacity-0 transition-opacity duration-700 pointer-events-none rounded-2xl",
+                isHovered && "opacity-100"
+            )}>
+                <div className="absolute inset-[1px] rounded-2xl bg-slate-950/40 z-[-1]" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-sky-500/20 to-transparent animate-shimmer z-[-2]" />
             </div>
         </motion.div>
     );

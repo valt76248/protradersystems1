@@ -31,8 +31,8 @@ const HeroSection = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="inline-block mb-8"
         >
-          <div className="inline-block">
-            <span className="text-cyan-300 font-semibold text-base tracking-wide uppercase drop-shadow-md">
+          <div className="inline-block px-4 py-1">
+            <span className="text-cyan-200 font-bold text-sm md:text-base tracking-[0.2em] uppercase glow-text-sky whitespace-pre-line leading-relaxed">
               {t('hero.badge')}
             </span>
           </div>
@@ -45,10 +45,10 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-5xl md:text-7xl lg:text-9xl mb-6 tracking-tight leading-tight"
         >
-          <span className="text-premium-volume block">
+          <span className="text-premium-volume block animate-3d-float">
             {t('hero.title_line1')}
           </span>
-          <span className="text-white hero-text-style block mt-2">
+          <span className="text-white hero-text-style block mt-2 animate-3d-float">
             {t('hero.title_line2')}
           </span>
         </motion.h1>
