@@ -187,10 +187,6 @@ export default function MarginCalculator({ apiUrl = '' }: MarginCalculatorProps)
                     </div>
                 </div>
 
-                import AuraButton from '@/components/ui/AuraButton';
-
-                // ... (inside the component)
-
                 <AuraButton
                     onClick={handleCalculate}
                     disabled={loading}

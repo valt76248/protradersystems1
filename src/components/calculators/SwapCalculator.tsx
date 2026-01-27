@@ -166,10 +166,6 @@ export default function SwapCalculator({ apiUrl = '' }: SwapCalculatorProps) {
                     </div>
                 </div>
 
-                import AuraButton from '@/components/ui/AuraButton';
-
-                // ... (inside the component)
-
                 <AuraButton
                     onClick={handleCalculate}
                     disabled={loading}

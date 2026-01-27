@@ -272,10 +272,6 @@ export default function CompoundCalculator({ apiUrl = '' }: CompoundCalculatorPr
                     </div>
                 </div>
 
-                import AuraButton from '@/components/ui/AuraButton';
-
-                // ... (inside the component)
-
                 <AuraButton
                     onClick={handleCalculate}
                     disabled={loading}
