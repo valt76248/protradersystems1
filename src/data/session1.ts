@@ -285,8 +285,8 @@ export const session1Content = [
     icon: Brain,
     content: `
       <p class="mb-4">ETF — это цепочка из трех вложенных друг в друга EMA, где каждая последующая сглаживает предыдущую. Это фильтрует рыночный шум и обеспечивает более надежное подтверждение тренда.</p>
-      <div class="bg-gray-900 p-4 rounded text-center font-mono text-sm text-blue-300 border border-gray-700">
-        Цена ≈ k₀EMA + k₁EMA(EMA) + k₂EMA(EMA(EMA))
+      <div class="bg-gray-900 p-4 rounded text-center font-mono text-sm text-blue-300 border border-gray-700 uppercase tracking-wider">
+        ETF Logic: Система адаптивного сглаживания 3-го уровня
       </div>
     `
   },

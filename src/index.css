@@ -114,7 +114,7 @@
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
+    /* Firefox and modern Chrome (121+) */
   }
 
   .scrollbar-hide::-webkit-scrollbar {
