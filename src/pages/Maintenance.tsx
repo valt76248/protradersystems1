@@ -1,8 +1,11 @@
 
 import React from 'react';
 import { Construction } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Maintenance = () => {
+    const { t } = useLanguage();
+
     return (
         <div className="min-h-screen w-full bg-[#020617] flex items-center justify-center p-4">
             {/* Background gradients */}
@@ -19,17 +22,19 @@ const Maintenance = () => {
                 </div>
 
                 <h1 className="text-3xl font-bold text-white mb-2 font-heading tracking-tight">
-                    System Maintenance
+                    {t('maintenance.title')}
                 </h1>
 
+                <p className="text-slate-200 mb-4 font-semibold">
+                    {t('maintenance.subtitle')}
+                </p>
+
                 <p className="text-slate-400 mb-8 leading-relaxed">
-                    We are currently performing critical security updates and improvements.
-                    <br className="hidden sm:block" />
-                    Access is temporarily restricted to local development environments.
+                    {t('maintenance.description')}
                 </p>
 
                 <div className="p-4 bg-slate-800/50 rounded-lg border border-white/5 text-sm text-slate-500">
-                    <p>Please check back later.</p>
+                    <p>{t('maintenance.check_back')}</p>
                 </div>
             </div>
         </div>
