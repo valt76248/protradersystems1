@@ -83,9 +83,13 @@ const PreRegistration = () => {
                 <CryptoPaymentModal
                     isOpen={isPaymentModalOpen}
                     onClose={() => setIsPaymentModalOpen(false)}
-                    onConfirm={() => {
+                    onConfirm={(hash) => {
                         setIsPaymentModalOpen(false);
-                        toast({ title: t('prereg.payment_confirmed') });
+                        console.log("Payment confirmed with hash:", hash);
+                        toast({
+                            title: t('prereg.payment_confirmed'),
+                            description: hash ? `TxID: ${hash.substring(0, 10)}...` : undefined
+                        });
                         navigate('/');
                     }}
                 />
