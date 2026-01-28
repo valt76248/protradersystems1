@@ -11,6 +11,7 @@ import ScrollToTop from "./components/utils/ScrollToTop";
 import BackToTopButton from "./components/layout/BackToTopButton";
 import MaintenanceGuard from "./components/shared/MaintenanceGuard";
 import { Loader } from "./components/ui/loader";
+import ReferralTracker from "./components/utils/ReferralTracker";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./pages/Home"));
@@ -60,6 +61,7 @@ const App = () => {
             <Sonner />
             <MaintenanceGuard>
               <BrowserRouter>
+                <ReferralTracker />
                 <ScrollToTop />
                 <BackToTopButton />
                 <Suspense fallback={<Loader />}>

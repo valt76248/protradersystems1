@@ -19,6 +19,7 @@ import SEO from '../components/utils/SEO';
 import AuraBackground from '../components/ui/AuraBackground';
 
 const Home = () => {
+  const { t } = useLanguage();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -42,7 +43,7 @@ const Home = () => {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-transparent text-white no-select no-drag">
-      <SEO title="Home" description="Advanced trading education and tools for professional traders." />
+      <SEO title={t('seo.home.title')} description={t('seo.home.description')} />
       <ProtectionOverlay />
       <AuraBackground />
       <Header />

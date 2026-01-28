@@ -10,6 +10,7 @@ import { Bitcoin, CheckCircle, Infinity, BookOpen, Shield, Users } from 'lucide-
 import { FeaturesSection } from '@/components/course-ui/FeaturesSection';
 
 import { useNavigate } from 'react-router-dom';
+import SEO from '@/components/utils/SEO';
 
 const Courses = () => {
   const { t } = useLanguage();
@@ -74,6 +75,10 @@ const Courses = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-trading-dark text-white">
+      <SEO
+        title={t('seo.courses.title')}
+        description={t('seo.courses.description')}
+      />
 
       <Header />
 
