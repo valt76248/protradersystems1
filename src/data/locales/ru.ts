@@ -786,7 +786,7 @@ export const ru = {
   'account.logout_success': 'Выход выполнен',
   'account.logout_bye': 'До свидания!',
   'account.tab.courses': 'Мои курсы',
-  'account.tab.referral': 'Партнёрка',
+  'account.tab.referral': 'Партнерская программа',
   'account.tab.profile': 'Профиль',
   'account.tab.orders': 'Заказы',
   'account.tab.settings': 'Настройки',

@@ -250,7 +250,7 @@ const Account = () => {
                 <span className="hidden sm:inline">{t('account.tab.courses')}</span>
                 <span className="sm:hidden">{t('account.tab.courses')}</span>
               </TabsTrigger>
-              <TabsTrigger value="referral" className="flex items-center gap-2">
+              <TabsTrigger value="referral" className="flex items-center gap-2" data-testid="referral-tab">
                 <Gift className="h-4 w-4" />
                 <span className="hidden sm:inline">{t('account.tab.referral')}</span>
                 <span className="sm:hidden">💰</span>

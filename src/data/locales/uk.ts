@@ -783,7 +783,7 @@ export const uk = {
   'account.logout_success': 'Вихід виконано',
   'account.logout_bye': 'До побачення!',
   'account.tab.courses': 'Мої курси',
-  'account.tab.referral': 'Партнерка',
+  'account.tab.referral': 'Партнерська програма',
   'account.tab.profile': 'Профіль',
   'account.tab.orders': 'Замовлення',
   'account.tab.settings': 'Налаштування',
