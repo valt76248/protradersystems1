@@ -13,6 +13,7 @@ import MaintenanceGuard from "./components/shared/MaintenanceGuard";
 import { Loader } from "./components/ui/loader";
 import ReferralTracker from "./components/utils/ReferralTracker";
 import ErrorBoundary from "./components/shared/ErrorBoundary";
+import { LazyMotion, domMax } from "framer-motion";
 import ScrollProgressBar from "./components/ui/ScrollProgressBar";
 
 // Lazy-loaded components
@@ -58,47 +59,49 @@ const App = () => {
         <HelmetProvider>
           <LanguageProvider>
             <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <MaintenanceGuard>
-                <BrowserRouter>
-                  <ScrollToTop />
-                  <Suspense fallback={<Loader />}>
-                    <ScrollProgressBar />
-                    <ReferralTracker />
-                    <BackToTopButton />
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/beginner-training" element={<BeginnerTraining />} />
+              <LazyMotion features={domMax}>
+                <Toaster />
+                <Sonner />
+                <MaintenanceGuard>
+                  <BrowserRouter>
+                    <ScrollToTop />
+                    <Suspense fallback={<Loader />}>
+                      <ScrollProgressBar />
+                      <ReferralTracker />
+                      <BackToTopButton />
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/beginner-training" element={<BeginnerTraining />} />
 
-                      <Route path="/psychology" element={<Psychology />} />
-                      <Route path="/risk-management" element={<RiskManagement />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
-                      <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
-                      <Route path="/courses" element={<Courses />} />
+                        <Route path="/psychology" element={<Psychology />} />
+                        <Route path="/risk-management" element={<RiskManagement />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
+                        <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
+                        <Route path="/courses" element={<Courses />} />
 
-                      <Route path="/payment-success" element={<PaymentSuccess />} />
-                      <Route path="/account" element={<Account />} />
-                      <Route path="/calculators" element={<Calculators />} />
-                      <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-                      <Route path="/session-1" element={<SessionOne />} />
-                      <Route path="/session-2" element={<SessionTwo />} />
-                      <Route path="/session-1-gallery" element={<Session1Gallery />} />
-                      <Route path="/session-2-gallery" element={<Session2Gallery />} />
-                      <Route path="/pre-registration" element={<PreRegistration />} />
+                        <Route path="/payment-success" element={<PaymentSuccess />} />
+                        <Route path="/account" element={<Account />} />
+                        <Route path="/calculators" element={<Calculators />} />
+                        <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+                        <Route path="/session-1" element={<SessionOne />} />
+                        <Route path="/session-2" element={<SessionTwo />} />
+                        <Route path="/session-1-gallery" element={<Session1Gallery />} />
+                        <Route path="/session-2-gallery" element={<Session2Gallery />} />
+                        <Route path="/pre-registration" element={<PreRegistration />} />
 
-                      {/* Legal Pages */}
-                      <Route path="/public-offer" element={<PublicOffer />} />
-                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                      <Route path="/eligible-clients" element={<EligibleClients />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Suspense>
-                </BrowserRouter>
-              </MaintenanceGuard>
+                        {/* Legal Pages */}
+                        <Route path="/public-offer" element={<PublicOffer />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="/eligible-clients" element={<EligibleClients />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </Suspense>
+                  </BrowserRouter>
+                </MaintenanceGuard>
+              </LazyMotion>
             </TooltipProvider>
           </LanguageProvider>
         </HelmetProvider>

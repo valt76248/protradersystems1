@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import HeroSection from '../components/home/HeroSection';
@@ -21,6 +21,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Home = () => {
   const { t } = useLanguage();
+  const shouldReduceMotion = useReducedMotion();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -49,24 +50,24 @@ const Home = () => {
       <Header />
 
       <main className="flex-grow">
-        <motion.div
+        <m.div
           variants={containerVariants}
-          initial="hidden"
+          initial={shouldReduceMotion ? "visible" : "hidden"}
           animate="visible"
         >
-          <motion.section variants={itemVariants}><HeroSection /></motion.section>
-          <motion.section variants={itemVariants}><QuizSection /></motion.section>
-          <motion.section variants={itemVariants}><TradingSection /></motion.section>
-          <motion.section variants={itemVariants}><PhilosophySection /></motion.section>
-          <motion.section variants={itemVariants}><CourseOverview /></motion.section>
-          <motion.section variants={itemVariants}><AnalyticsSection /></motion.section>
-          <motion.section variants={itemVariants}><ProblemSolutionSection /></motion.section>
-          <motion.section variants={itemVariants}><TradingResultsSection /></motion.section>
-          <motion.section variants={itemVariants}><ChartPreview /></motion.section>
-          <motion.section variants={itemVariants}><TestimonialsSection /></motion.section>
-          <motion.section variants={itemVariants}><FAQSection /></motion.section>
-          <motion.section variants={itemVariants}><InfoSection /></motion.section>
-        </motion.div>
+          <m.section variants={itemVariants}><HeroSection /></m.section>
+          <m.section variants={itemVariants}><QuizSection /></m.section>
+          <m.section variants={itemVariants}><TradingSection /></m.section>
+          <m.section variants={itemVariants}><PhilosophySection /></m.section>
+          <m.section variants={itemVariants}><CourseOverview /></m.section>
+          <m.section variants={itemVariants}><AnalyticsSection /></m.section>
+          <m.section variants={itemVariants}><ProblemSolutionSection /></m.section>
+          <m.section variants={itemVariants}><TradingResultsSection /></m.section>
+          <m.section variants={itemVariants}><ChartPreview /></m.section>
+          <m.section variants={itemVariants}><TestimonialsSection /></m.section>
+          <m.section variants={itemVariants}><FAQSection /></m.section>
+          <m.section variants={itemVariants}><InfoSection /></m.section>
+        </m.div>
       </main>
 
       <Footer />
