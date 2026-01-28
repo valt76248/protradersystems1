@@ -9,8 +9,11 @@ import { Badge } from '@/components/ui/badge';
 import { Bitcoin, CheckCircle, Infinity, BookOpen, Shield, Users } from 'lucide-react';
 import { FeaturesSection } from '@/components/course-ui/FeaturesSection';
 
+import { useNavigate } from 'react-router-dom';
+
 const Courses = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   const courses = [
     {
@@ -26,6 +29,7 @@ const Courses = () => {
         t('courses.feature2'),
         t('courses.feature3'),
         t('courses.feature4'),
+        t('courses.community'),
       ]
     },
     {
@@ -42,17 +46,35 @@ const Courses = () => {
         t('courses.psychology.feature2'),
         t('courses.psychology.feature3'),
         t('courses.psychology.feature4'),
+        t('courses.psychology.feature5'),
+      ]
+    },
+    {
+      id: 'vip-mentorship',
+      title: t('courses.vip.title'),
+      subtitle: t('courses.vip.subtitle'),
+      badge: t('courses.vip.badge'),
+      image: '/images/vip_support_v2.png',
+      sessions: t('courses.lifetime'),
+      description: t('courses.vip.description'),
+      price: t('courses.vip.price'),
+      features: [
+        t('courses.vip.feature1'),
+        t('courses.vip.feature2'),
+        t('courses.vip.feature3'),
+        t('courses.vip.feature4'),
+        t('courses.vip.feature5'),
       ]
     }
   ];
 
   const handleCryptoPayment = () => {
-    // Redirect to crypto payment page
-    window.location.href = '/pre-registration';
+    navigate('/pre-registration');
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-trading-dark text-white">
+
       <Header />
 
       <main className="flex-grow container mx-auto px-4 py-12">
@@ -63,11 +85,11 @@ const Courses = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto px-4">
           {courses.map((course) => (
             <div key={course.id} className="flex flex-col h-full">
               <Card className="bg-trading-card/50 backdrop-blur-xl border-white/10 overflow-hidden group hover:border-blue-500/50 transition-all duration-500 flex flex-col h-full shadow-2xl hover:shadow-blue-500/10">
-                <div className="relative aspect-video overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden">
                   <img
                     src={course.image}
                     alt={course.title}
@@ -131,13 +153,23 @@ const Courses = () => {
                       </div>
                     </div>
 
-                    <Button
-                      className="w-full h-14 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-bold text-lg rounded-2xl shadow-xl shadow-orange-500/20 transform active:scale-[0.98] transition-all"
-                      onClick={handleCryptoPayment}
-                    >
-                      <Bitcoin className="mr-2 h-6 w-6" />
-                      {t('courses.pay_crypto')}
-                    </Button>
+                    <div className="flex flex-col gap-3">
+                      <Button
+                        className="w-full h-12 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-bold text-base rounded-2xl shadow-xl shadow-orange-500/20 transform active:scale-[0.98] transition-all"
+                        onClick={() => navigate('/pre-registration?intent=payment')}
+                      >
+                        <Bitcoin className="mr-2 h-5 w-5" />
+                        {t('courses.pay_crypto')}
+                      </Button>
+
+                      <Button
+                        variant="ghost"
+                        className="w-full h-12 border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 font-bold text-base rounded-2xl transition-all"
+                        onClick={() => navigate('/pre-registration?intent=consultation')}
+                      >
+                        {t('courses.consultation')}
+                      </Button>
+                    </div>
 
                     <p className="text-[10px] text-center text-gray-600 mt-4 uppercase tracking-widest font-bold">
                       {t('courses.crypto_note')}

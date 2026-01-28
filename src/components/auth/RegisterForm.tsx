@@ -7,15 +7,19 @@ import { Separator } from '@/components/ui/separator';
 import { Eye, EyeOff, Mail, Lock, User, Phone, Gift, CheckCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/lib/supabaseClient';
+import { authService } from '@/services/authService';
 import { useLanguage } from '@/contexts/LanguageContext';
 import AuraButton from '@/components/ui/AuraButton';
+
+export type RegisterVariant = 'default' | 'buyer' | 'consultation';
 
 interface RegisterFormProps {
   onToggleMode: () => void;
   onClose: () => void;
+  variant?: RegisterVariant;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose, variant = 'default' }) => {
   const { t } = useLanguage();
   const { toast } = useToast();
 
@@ -72,44 +76,18 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
     }
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
+      await authService.register({
         email: formData.email,
         password: formData.password,
-        options: {
-          data: {
-            full_name: `${formData.firstName} ${formData.lastName}`.trim(),
-            phone: formData.phone,
-            referral_code: referralCode
-          }
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        referralCode: referralCode,
+        metadata: {
+          user_type: variant,
+          role: variant === 'buyer' ? 'student' : variant === 'consultation' ? 'lead' : 'user'
         }
       });
-
-      if (authError) throw authError;
-
-      if (referralCode && authData.user) {
-        try {
-          await fetch('https://n8n.protradersystems.com/webhook/new-referral-signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              referral_code: referralCode,
-              referred_email: formData.email,
-              referred_user_id: authData.user.id,
-              referred_name: `${formData.firstName} ${formData.lastName}`.trim(),
-              timestamp: new Date().toISOString()
-            })
-          });
-        } catch (webhookError) {
-          console.log('Referral webhook skipped');
-        }
-
-        await supabase.from('referrals').insert({
-          referral_code: referralCode,
-          referred_email: formData.email,
-          referred_user_id: authData.user.id,
-          status: 'registered'
-        });
-      }
 
       toast({
         title: t('auth.success.register'),
@@ -142,8 +120,18 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode, onClose }) =>
             />
           </div>
         </div>
-        <CardTitle className="text-2xl">{t('auth.register.title')}</CardTitle>
-        <p className="text-gray-400 text-sm">{t('auth.register.subtitle')}</p>
+        <CardTitle className="text-2xl">
+          {variant === 'consultation'
+            ? 'Запись на консультацию'
+            : variant === 'buyer'
+              ? t('auth.register.title') // Or tailored "Purchase Registration"
+              : t('auth.register.title')}
+        </CardTitle>
+        <p className="text-gray-400 text-sm">
+          {variant === 'consultation'
+            ? 'Заполните форму, и мы свяжемся с вами.'
+            : t('auth.register.subtitle')}
+        </p>
 
         {referralDiscount && (
           <div className="mt-4 p-3 rounded-lg bg-emerald-900/20 border border-emerald-500/30">

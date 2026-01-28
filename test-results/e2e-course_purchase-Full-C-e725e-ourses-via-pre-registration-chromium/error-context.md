@@ -1,0 +1,216 @@
+# Page snapshot
+
+```yaml
+- generic:
+  - generic:
+    - list
+    - generic:
+      - button:
+        - img
+    - generic:
+      - banner:
+        - generic:
+          - link:
+            - /url: /
+            - img
+            - generic: ProTrader Systems
+          - navigation:
+            - link:
+              - /url: /
+              - text: Обзор
+            - link:
+              - /url: /courses
+              - text: Каталог курсов
+            - link:
+              - /url: /beginner-training
+              - text: Обучение для начинающих
+            - link:
+              - /url: /calculators
+              - text: Инструменты PRO
+            - link:
+              - /url: /psychology
+              - text: Психология
+          - generic:
+            - link:
+              - /url: /account
+              - button:
+                - generic:
+                  - img
+                  - text: Аккаунт
+            - button:
+              - generic:
+                - img
+                - text: Выход
+            - button: УКР
+            - generic:
+              - generic: Protected View
+              - img
+      - main:
+        - generic:
+          - heading [level=1]: Каталог курсов трейдинга
+          - paragraph: Выберите курс, который поможет вам стать успешным трейдером. Все курсы включают практические задания и пожизненный доступ к материалам.
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: PRO Система
+              - generic:
+                - generic:
+                  - heading [level=3]: ProTrader Systems
+                - generic:
+                  - generic:
+                    - img
+                    - generic: 2 сессии
+                  - generic:
+                    - img
+                    - generic: Навсегда
+              - generic:
+                - paragraph: Полная система трейдинга ETF с пошаговыми инструкциями, практическими примерами и поддержкой в Telegram.
+                - generic:
+                  - heading [level=4]: "Что вы изучите:"
+                  - list:
+                    - listitem:
+                      - img
+                      - generic: Структура рынка и тренды
+                    - listitem:
+                      - img
+                      - generic: Точки входа и выхода
+                    - listitem:
+                      - img
+                      - generic: Управление рисками
+                    - listitem:
+                      - img
+                      - generic: Психология трейдера
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic: $499
+                      - generic: USDT
+                    - generic:
+                      - img
+                      - generic: Безопасно
+                  - button:
+                    - img
+                    - text: Оплатить криптой
+                  - paragraph: USDT (TRC-20) • Мгновенный доступ после оплаты
+          - generic:
+            - generic:
+              - generic:
+                - img
+                - generic: Master Mindset
+              - generic:
+                - generic:
+                  - heading [level=3]: Психология Победителя
+                - paragraph: Гипно-сессии и медитации
+                - generic:
+                  - generic:
+                    - img
+                    - generic: 12 уроков
+                  - generic:
+                    - img
+                    - generic: Навсегда
+              - generic:
+                - paragraph: Эксклюзивная программа проработки подсознательных барьеров, страхов и эмоциональных ловушек. Настройте свой разум на профессиональную торговлю.
+                - generic:
+                  - heading [level=4]: "Что вы изучите:"
+                  - list:
+                    - listitem:
+                      - img
+                      - generic: Устранение эмоциональных качелей
+                    - listitem:
+                      - img
+                      - generic: Медитации на концентрацию
+                    - listitem:
+                      - img
+                      - generic: Гипно-сессии на уверенность
+                    - listitem:
+                      - img
+                      - generic: Психологический аудит сделок
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic: $1000
+                      - generic: USDT
+                    - generic:
+                      - img
+                      - generic: Безопасно
+                  - button:
+                    - img
+                    - text: Оплатить криптой
+                  - paragraph: USDT (TRC-20) • Мгновенный доступ после оплаты
+        - generic:
+          - generic:
+            - heading [level=2]: Почему выбирают наши курсы?
+            - generic:
+              - generic:
+                - generic: 🎯
+                - heading [level=3]: Практический подход
+                - paragraph: Все знания подкреплены реальными примерами и практическими заданиями
+              - generic:
+                - generic: 🏆
+                - heading [level=3]: Проверенные стратегии
+                - paragraph: Методы, которые действительно работают на реальных рынках
+              - generic:
+                - generic: 💬
+                - heading [level=3]: Поддержка сообщества
+                - paragraph: Доступ к закрытому сообществу трейдеров и экспертов
+      - contentinfo:
+        - generic:
+          - generic:
+            - link:
+              - /url: "#"
+              - generic: Контакты
+              - img
+          - generic:
+            - generic:
+              - link:
+                - /url: "#"
+                - img
+              - link:
+                - /url: "#"
+                - img
+              - link:
+                - /url: "#"
+                - img
+              - link:
+                - /url: "#"
+                - img
+              - link:
+                - /url: https://t.me/forexgbpgpy
+                - img
+          - generic:
+            - link:
+              - /url: /about
+              - text: О системе
+            - generic: •
+            - link:
+              - /url: /public-offer
+              - text: Публичная оферта
+            - generic: •
+            - link:
+              - /url: /privacy-policy
+              - text: Политика конфиденциальности
+            - generic: •
+            - link:
+              - /url: /eligible-clients
+              - text: Допустимые клиенты
+  - dialog "Оплата криптовалютой" [ref=e2]:
+    - generic [ref=e3]:
+      - heading "Оплата криптовалютой" [level=2] [ref=e4]:
+        - img [ref=e5]
+        - text: Оплата криптовалютой
+      - paragraph [ref=e7]: Сканируйте QR-код для быстрой оплаты через Telegram Wallet или перейдите к оформлению заявки.
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - img "Telegram Wallet QR" [ref=e12]
+        - paragraph [ref=e13]: "@WALLET"
+      - generic [ref=e15]:
+        - paragraph [ref=e16]: 1. Отсканируйте код приложением камеры или Telegram
+        - paragraph [ref=e17]: 2. Оплатите выбранный курс
+        - paragraph [ref=e18]: 3. Нажмите кнопку ниже для заполнения анкеты
+      - button "Я оплатил, перейти к анкете" [active] [ref=e19] [cursor=pointer]
+    - button "Close" [ref=e20] [cursor=pointer]:
+      - img [ref=e21]
+      - generic [ref=e24]: Close
+```

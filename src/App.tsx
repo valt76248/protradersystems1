@@ -22,7 +22,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const MaterialsManager = lazy(() => import("./pages/MaterialsManager"));
 const CourseStructure = lazy(() => import("./pages/CourseStructure"));
 const Courses = lazy(() => import("./pages/Courses"));
-const Checkout = lazy(() => import("./pages/Checkout"));
+
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const Account = lazy(() => import("./pages/Account"));
 const Calculators = lazy(() => import("./pages/Calculators"));
@@ -73,7 +73,7 @@ const App = () => {
                     <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
                     <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
                     <Route path="/courses" element={<Courses />} />
-                    <Route path="/checkout" element={<Checkout />} />
+
                     <Route path="/payment-success" element={<PaymentSuccess />} />
                     <Route path="/account" element={<Account />} />
                     <Route path="/calculators" element={<Calculators />} />

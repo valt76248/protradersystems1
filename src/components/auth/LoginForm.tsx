@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/lib/supabaseClient';
+import { authService } from '@/services/authService';
 import { useLanguage } from '@/contexts/LanguageContext';
 import AuraButton from '@/components/ui/AuraButton';
 import { useNavigate } from 'react-router-dom';
@@ -41,11 +42,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onToggleMode, onClose }) => {
     setIsLoading(true);
 
     try {
+
       if (resetMode) {
-        const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
-          redirectTo: `${window.location.origin}/reset-password`,
-        });
-        if (error) throw error;
+        await authService.resetPassword({ email: formData.email });
 
         toast({
           title: t('auth.reset.title'),
@@ -53,11 +52,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onToggleMode, onClose }) => {
         });
         setResetMode(false);
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        await authService.login({
           email: formData.email,
           password: formData.password,
         });
-        if (error) throw error;
 
         toast({
           title: t('auth.success.login'),

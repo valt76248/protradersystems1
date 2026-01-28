@@ -4,67 +4,67 @@ This document provides a comprehensive analysis of the ProTrader Systems codebas
 
 ## 📊 Summary of Current State
 
-The project is a modern React application using Vite, TypeScript, Tailwind CSS, and Supabase. The structure is generally well-organized, but there is some "technical debt" and clutter that can be optimized.
+The project is a modern React application using Vite, TypeScript, Tailwind CSS, and Supabase. The structure is generally well-organized, but there is "technical debt" in the form of disconnected flows (Purchase/Checkout) and duplicated logic in Auth components. E2E testing has been introduced to verify critical paths.
 
 ---
 
 ## 🔴 High Priority (Immediate Action Recommended)
 
-### 1. Consolidate Authentication Components
-
-* **Issues**:
-  * `src/components/auth/AuthForm.tsx` (Handles simple Login/Register).
-  * `src/components/auth/RegisterForm.tsx` (Advanced registration with referrals/phone).
-* **Problem**: Having two separate components for registration creates logic duplication and confusion.
-* **Recommendation**: Merge them into a single `AuthFlow` component or a set of modular sub-components (e.g., `LoginForm`, `RegistrationForm`, `PasswordResetForm`) that share a consistent styling and referral logic.
-
-### 2. Organize Test Data & Artifacts (✅ DONE)
+### 1. Unified Purchase Flow (✅ DONE)
 
 * **Status**: Completed.
-* **Action**: All `*_test.json` files and `temp_data.json` moved to `src/tests/fixtures/`.
+* **Action**:
+  * Removed unused `src/pages/Checkout.tsx` and related Stripe components (`src/components/stripe/`).
+  * Removed unused route `/checkout` from `App.tsx`.
+  * Updated `Courses.tsx` to strictly use the "Crypto" flow (`/pre-registration`), reinforcing the user intent.
+  * *Context*: User confirmed "Crypto Only" for now. Use `window.history` or `navigate` was cleaned up in `Courses.tsx`.
+
+### 2. Consolidate Authentication Components (✅ DONE)
+
+* **Status**: Completed.
+* **Action**:
+  * Deleted redundant `AuthForm.tsx`.
+  * Refactored `RegisterForm.tsx` to support variants: `'default' | 'buyer' | 'consultation'`.
+  * `AuthDialog` now accepts a `variant` prop to render the appropriate form type.
+  * Consistently uses `authService` for all operations.
 
 ### 3. Localization Consistency
 
-* **Issues**: Standard mix of languages and translation methods.
-* **Problem**: Some components have hardcoded Russian strings, others use `LanguageContext`.
-* **Recommendation**: Perform a full audit of `src/pages` and `src/components/home` to ensure all UI text are using keys from `ru.ts` and `uk.ts`.
+* **Issues**: Mix of hardcoded strings and `LanguageContext`.
+* **Problem**: Hard to test and maintain multi-language support. `tests/e2e/course_purchase.spec.ts` relies on Russian locators because default language is 'ru'.
+* **Recommendation**: Audit `src/pages` (especially `Courses.tsx`) to ensure all user-visible text uses `t(...)`.
 
 ---
 
 ## 🟡 Medium Priority (Stabilization & Cleanup)
 
-### 1. Structure Reorganization
+### 1. Service Layer Isolation (✅ DONE)
 
-* **Rename `src/components/course` and `src/components/courses`**:
-  * These names are too similar.
-  * **Recommendation**: Rename `course` to `course-admin` (since it contains forms) and `courses` to `course-ui` or `course-cards`.
-* **Rename `Index.tsx` to `Home.tsx`**:
-  * **Recommendation**: While `Index.tsx` works, `Home.tsx` is more descriptive for the main landing page.
+* **Status**: Completed.
+* **Action**: Extracted logic to `src/services/api.ts` (API calls), `src/services/authService.ts` (Auth), and `src/services/courseService.ts` (Data).
+  * `registrationService.submitPreRegistration(data)`
+  * `courseService.getCourseModules(id)`
+  * `authService.register(data)`
 
 ### 2. Remove "Zombie" Code & Files
 
-* **Empty Pages**: `Indicators.tsx`, `Strategies.tsx`, `Psychology.tsx` (if they are only placeholders).
-* **Root Sub-Project**: `speak-trade-lectures/` appears to be a separate project inside this repository.
-  * **Recommendation**: Move it out of the repository or into a `legacy/` or `subprojects/` folder if it's not part of the main build.
-
-### 3. UI Component Audit
-
-* **src/components/ui**: 55 files.
-* **Recommendation**: Group them if needed (e.g., `ui/forms`, `ui/feedback`, `ui/display`) though standard Shadcn structure is acceptable as long as it's not modified heavily.
+* **Empty/Unused**: `Indicators.tsx`, `Strategies.tsx`.
+* **Sub-projects**: `speak-trade-lectures/` (if independent).
+* **Recommendation**: clean up `src/pages` to reflect the actual sitemap.
 
 ---
 
 ## 🟢 Low Priority (Long-term Health)
 
-### 1. Service Layer Isolation
+### 1. Testing Infrastructure
 
-* **Problem**: many components (like `RegisterForm.tsx`) call `supabase` and `fetch` directly.
-* **Recommendation**: Move all API calls and Supabase queries to `src/services/` (e.g., `services/authService.ts`, `services/referralService.ts`). This makes the UI components cleaner and easier to test.
+* **Status**: E2E tests added in `tests/e2e`.
+* **Recommendation**: Establish a CI/CD pipeline that runs these tests. ensure `playwright` is properly cached.
 
 ### 2. Asset Management
 
-* **Problem**: Unoptimized images in `public/`.
-* **Recommendation**: Use a script to compress images or move them to a hosted CDN if the bundle size becomes an issue.
+* **Problem**: Static assets in `public/` could be optimized.
+* **Recommendation**: Image optimization pipeline.
 
 ---
 
@@ -72,14 +72,16 @@ The project is a modern React application using Vite, TypeScript, Tailwind CSS, 
 
 | Target | Action | Reason |
 | :--- | :--- | :--- |
-| `*.json` (root) | **Done** | Moved to `/src/tests/fixtures/` |
-| `speak-trade-lectures/` | **Relocate** | Potential "project-in-project" confusion |
+| `src/pages/Checkout.tsx` | **Review** | Unused if flow redirects to PreReq |
 | `src/components/course` | **Rename** | Ambiguity with `src/components/courses` |
-| `Indicators.tsx` | **Delete** | If no content is planned soon |
-| `Strategies.tsx` | **Delete** | If no content is planned soon |
-
----
+| `src/pages/Indicators.tsx` | **Delete** | Placeholder |
+| `tests/auth/register.spec.ts` | **Archive** | Superseded by `tests/e2e/course_purchase.spec.ts` |
 
 ## ✅ Verdict
 
-The codebase is **Healthy** but **Crowded**. Implementing the High Priority items will significantly improve the experience for both human developers and AI assistants.
+The codebase is now **Robust** and **Unified**.
+
+* **Auth**: Consolidated and service-based.
+* **Purchase**: Streamlined to Crypto-only flow with proper user guidance (Modal).
+* **Testing**: Critical paths (Registration -> Purchase -> Pre-reg) are covered by passing E2E tests.
+* **Next**: Focus on Localization and content polish.

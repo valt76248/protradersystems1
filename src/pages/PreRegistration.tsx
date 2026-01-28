@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import AuraButton from '@/components/ui/AuraButton';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/layout/Header';
@@ -12,13 +12,19 @@ import IncomeSelection from '@/components/forms/pre-registration/IncomeSelection
 import ProblemSelection from '@/components/forms/pre-registration/ProblemSelection';
 import GoalsSelection from '@/components/forms/pre-registration/GoalsSelection';
 import PaymentReadiness from '@/components/forms/pre-registration/PaymentReadiness';
+import { registrationService } from '@/services/registrationService';
+import CryptoPaymentModal from '@/components/payment/CryptoPaymentModal';
 
 const PreRegistration = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const intent = searchParams.get('intent');
+
     const { toast } = useToast();
     const { t } = useLanguage();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -33,7 +39,7 @@ const PreRegistration = () => {
         mainRequest: '',
         desiredResult: '',
         whyNow: '',
-        readyToPay: ''
+        readyToPay: intent === 'payment' ? 'ready' : (intent === 'consultation' ? 'need-consultation' : '')
     });
 
     const handleProblemToggle = (problem: string) => {
@@ -51,25 +57,8 @@ const PreRegistration = () => {
 
         try {
             // Version 2: Send to n8n Webhook
-            const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL;
-            if (!webhookUrl) throw new Error("Missing VITE_N8N_WEBHOOK_URL");
-
-            const response = await fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-
-            const text = await response.text();
-            console.log("Raw response:", text);
-
-            if (!text) {
-                throw new Error("Server returned empty response. Check n8n Executions log.");
-            }
-
-            const result = JSON.parse(text);
+            const result = await registrationService.submitPreRegistration(formData);
+            console.log("Response:", result);
 
             setIsSubmitted(true);
             toast({
@@ -91,6 +80,15 @@ const PreRegistration = () => {
     if (isSubmitted) {
         return (
             <div className="min-h-screen bg-trading-dark">
+                <CryptoPaymentModal
+                    isOpen={isPaymentModalOpen}
+                    onClose={() => setIsPaymentModalOpen(false)}
+                    onConfirm={() => {
+                        setIsPaymentModalOpen(false);
+                        toast({ title: t('prereg.payment_confirmed') });
+                        navigate('/');
+                    }}
+                />
                 <Header />
                 <div className="flex items-center justify-center min-h-[80vh] px-4">
                     <div className="text-center max-w-md">
@@ -101,13 +99,29 @@ const PreRegistration = () => {
                         <p className="text-gray-400 mb-8">
                             {t('prereg.success.message')}
                         </p>
-                        <AuraButton
-                            onClick={() => navigate('/')}
-                            variant="ghost-glow-white"
-                            size="lg"
-                        >
-                            {t('prereg.success.back')}
-                        </AuraButton>
+
+                        <div className="flex flex-col gap-4 justify-center items-center">
+                            {/* Option to Pay if they are ready */}
+                            {formData.readyToPay === 'ready' && (
+                                <AuraButton
+                                    onClick={() => setIsPaymentModalOpen(true)}
+                                    variant="primary"
+                                    size="lg"
+                                    className="w-full"
+                                >
+                                    {t('course.checkout')} (Crypto)
+                                </AuraButton>
+                            )}
+
+                            <AuraButton
+                                onClick={() => navigate('/')}
+                                variant="ghost-glow-white"
+                                size="lg"
+                                className="w-full"
+                            >
+                                {formData.readyToPay === 'ready' ? t('prereg.success.back') : t('prereg.success.complete')}
+                            </AuraButton>
+                        </div>
                     </div>
                 </div>
                 <Footer />

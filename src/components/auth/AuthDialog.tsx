@@ -4,16 +4,20 @@ import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
+import { RegisterVariant } from './RegisterForm';
+
 interface AuthDialogProps {
   isOpen: boolean;
   onClose: () => void;
   initialMode?: 'login' | 'register';
+  variant?: RegisterVariant;
 }
 
-const AuthDialog: React.FC<AuthDialogProps> = ({ 
-  isOpen, 
-  onClose, 
-  initialMode = 'login' 
+const AuthDialog: React.FC<AuthDialogProps> = ({
+  isOpen,
+  onClose,
+  initialMode = 'login',
+  variant = 'default'
 }) => {
   const [mode, setMode] = useState<'login' | 'register'>(initialMode);
 
@@ -28,7 +32,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({
         {mode === 'login' ? (
           <LoginForm onToggleMode={toggleMode} onClose={onClose} />
         ) : (
-          <RegisterForm onToggleMode={toggleMode} onClose={onClose} />
+          <RegisterForm onToggleMode={toggleMode} onClose={onClose} variant={variant} />
         )}
       </DialogContent>
     </Dialog>

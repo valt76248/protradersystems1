@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabaseClient';
+import { authService } from '@/services/authService';
+import { courseService } from '@/services/courseService';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -57,7 +58,7 @@ const CoursePage = () => {
     const fetchCourseData = async () => {
         try {
             setLoading(true);
-            const { data: { user } } = await supabase.auth.getUser();
+            const user = await authService.getCurrentUser();
 
             if (!user) {
                 navigate('/login');
@@ -65,26 +66,13 @@ const CoursePage = () => {
             }
 
             // 1. Get course details
-            const { data: courseData, error: courseError } = await supabase
-                .from('courses')
-                .select('id, title, description')
-                .eq('id', id)
-                .single();
-
-            if (courseError) throw courseError;
+            const courseData = await courseService.getCourseById(id);
             setCourse(courseData);
 
             // 2. Check enrollment
-            const { data: enrollment, error: enrollmentError } = await supabase
-                .from('enrollments')
-                .select('id')
-                .eq('user_id', user.id)
-                .eq('course_id', id)
-                .maybeSingle();
+            const isEnrolled = await courseService.checkEnrollment(user.id, id);
 
-            if (enrollmentError) throw enrollmentError;
-
-            if (!enrollment) {
+            if (!isEnrolled) {
                 setHasAccess(false);
                 setLoading(false);
                 return;
@@ -93,18 +81,8 @@ const CoursePage = () => {
             setHasAccess(true);
 
             // 3. Fetch modules if access granted
-            const { data: modulesData, error: modulesError } = await supabase
-                .from('modules')
-                .select('*')
-                .eq('course_id', id)
-                .eq('is_published', true)
-                .order('position', { ascending: true });
-
-            if (modulesError) throw modulesError;
-            setModules(modulesData?.filter(m =>
-                !m.title.toLowerCase().includes('templates') &&
-                !m.title.toLowerCase().includes('session 2 - materials')
-            ) || []);
+            const modulesData = await courseService.getCourseModules(id);
+            setModules(modulesData);
 
         } catch (error) {
             console.error('Error fetching course data:', error);
