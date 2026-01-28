@@ -32,12 +32,11 @@ const Home = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.5,
       },
     },
   };
@@ -53,8 +52,7 @@ const Home = () => {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          animate="visible"
         >
           <motion.section variants={itemVariants}><HeroSection /></motion.section>
           <motion.section variants={itemVariants}><QuizSection /></motion.section>

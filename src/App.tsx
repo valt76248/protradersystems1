@@ -62,11 +62,11 @@ const App = () => {
               <Sonner />
               <MaintenanceGuard>
                 <BrowserRouter>
-                  <ScrollProgressBar />
-                  <ReferralTracker />
                   <ScrollToTop />
-                  <BackToTopButton />
                   <Suspense fallback={<Loader />}>
+                    <ScrollProgressBar />
+                    <ReferralTracker />
+                    <BackToTopButton />
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/beginner-training" element={<BeginnerTraining />} />
