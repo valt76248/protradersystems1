@@ -79,9 +79,9 @@ const TradingReport = () => {
               width: 100%;
               height: auto;
               display: block;
-              /* ФИЛЬТР: Инвертирует цвета (белый фон -> черный, синяя линия -> золотая) */
-              filter: invert(1) hue-rotate(180deg) contrast(1.2); 
-              mix-blend-mode: screen; /* Убирает остаточный фон */
+              /* Balanced filter - lighter for desktop GPU */
+              filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.1); 
+              will-change: filter;
           }
 
           /* --- ТАБЛИЦА (SCROLLABLE) --- */

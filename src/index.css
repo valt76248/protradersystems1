@@ -56,9 +56,31 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Global Smooth Scrolling */
+  section {
+    /* Removed content-visibility: auto; - can cause freezing on desktop during fast scroll */
+    contain: paint;
+  }
+
+  .glass-panel,
+  .premium-glass {
+    @apply bg-gray-900/80;
+
+    /* Disable expensive blur on desktop viewports where area is huge */
+    @media (min-width: 1024px) {
+      backdrop-filter: none !important;
+    }
+
+    @media (max-width: 1023px) {
+      backdrop-filter: blur(4px);
+    }
+  }
+
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+    overflow-x: hidden;
   }
 
   /* Custom Premium Scrollbar */
@@ -110,10 +132,10 @@
 
   /* Aura Background Blobs - Performance Optimized */
   .aura-blob {
-    @apply absolute rounded-full blur-[80px] opacity-40 mix-blend-screen pointer-events-none transition-transform duration-1000 ease-linear;
+    @apply absolute rounded-full blur-[40px] opacity-20 pointer-events-none;
     will-change: transform;
-    transform: translateZ(0);
-    /* Force GPU acceleration */
+    transform: translate3d(0, 0, 0);
+    /* Ultra-stable GPU acceleration */
   }
 
   .aura-blob-blue {
@@ -186,13 +208,13 @@
     text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
   }
 
-  /* Hero background with fixed positioning */
+  /* Hero background - Performance Optimized */
   .hero-bg-fixed {
     background-image: url('/hero-mansion.jpg');
     background-size: cover;
     background-position: center bottom;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    /* Removed background-attachment: fixed as it is a major scroll lag source */
   }
 
   .bg-ledger-desk {
@@ -200,7 +222,6 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
   }
 
   .text-shadow-hero-subtitle {
@@ -217,7 +238,8 @@
     font-style: italic;
     letter-spacing: 0.02em;
     line-height: 1.1;
-    filter: drop-shadow(0px 2px 0px rgba(12, 74, 110, 1)) drop-shadow(0px 4px 0px rgba(12, 74, 110, 0.8)) drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.5));
+    /* Simplified shadow for performance */
+    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   }
 
   .text-premium-volume {
@@ -243,70 +265,33 @@
   /* Ghost Glow Styles - No Background, Pure Letters + Glow */
   .ghost-glow-base {
     @apply bg-transparent border-none p-0 h-auto transition-all duration-300 hover:bg-transparent;
-    text-shadow: 0 0 10px currentColor;
-    filter: drop-shadow(0 0 5px currentColor);
+    text-shadow: 0 0 8px currentColor;
   }
 
   .ghost-glow-green {
     @apply ghost-glow-base text-emerald-400 hover:text-emerald-300;
-    filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
-    text-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+    text-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
   }
 
   .ghost-glow-blue {
     @apply ghost-glow-base text-blue-400 hover:text-blue-300;
-    filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.8));
-    text-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+    text-shadow: 0 0 12px rgba(96, 165, 250, 0.5);
   }
 
   .ghost-glow-cyan {
     @apply ghost-glow-base text-cyan-400 hover:text-cyan-300;
-    filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.8));
-    text-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
+    text-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
   }
 
   .ghost-glow-white {
     @apply ghost-glow-base text-white/90 hover:text-white;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
   }
 
-  .ghost-glow-emerald {
-    @apply ghost-glow-base text-emerald-400 hover:text-emerald-300;
-    filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
-    text-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
-  }
-
-  .ghost-glow-silver {
-    @apply ghost-glow-base text-slate-300 hover:text-white;
-    filter: drop-shadow(0 0 10px rgba(203, 213, 225, 0.5));
-    text-shadow: 0 0 15px rgba(203, 213, 225, 0.3);
-  }
-
-  .ghost-glow-gold {
-    @apply ghost-glow-base text-amber-400 hover:text-amber-300;
-    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.8));
-    text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
-  }
-
+  /* Consolidated Aura Styles */
   .glow-lime {
-    @apply text-lime-400 hover:text-lime-400;
-  }
-
-  .glow-lime:hover {
-    filter: drop-shadow(0 0 15px rgba(132, 204, 22, 0.9));
-    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-  }
-
-  /* Aura Background Blobs */
-  .aura-blob {
-    @apply absolute rounded-full mix-blend-screen pointer-events-none opacity-40;
-    filter: blur(80px);
-    will-change: transform;
-  }
-
-  .aura-blob-blue {
-    @apply bg-blue-500/30;
+    @apply text-lime-400 hover:text-lime-500;
+    text-shadow: 0 0 10px rgba(132, 204, 22, 0.4);
   }
 
   .glow-cyan {
@@ -473,7 +458,11 @@
     height: 1px;
     background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, #38bdf8, transparent);
     background-size: 200% auto;
-    animation: border-gradient 4s linear infinite;
+
+    /* Disable infinite animation on sticky elements for desktop performance */
+    @media (max-width: 1024px) {
+      animation: border-gradient 4s linear infinite;
+    }
   }
 
   /* 3D Text Animation */

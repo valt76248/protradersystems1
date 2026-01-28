@@ -21,27 +21,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Home = () => {
   const { t } = useLanguage();
-  const shouldReduceMotion = useReducedMotion();
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
   return (
     <div className="relative min-h-screen flex flex-col bg-transparent text-white no-select no-drag">
       <SEO title={t('seo.home.title')} description={t('seo.home.description')} />
@@ -51,22 +30,21 @@ const Home = () => {
 
       <main className="flex-grow">
         <m.div
-          variants={containerVariants}
-          initial={shouldReduceMotion ? "visible" : "hidden"}
-          animate="visible"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
         >
-          <m.section variants={itemVariants}><HeroSection /></m.section>
-          <m.section variants={itemVariants}><QuizSection /></m.section>
-          <m.section variants={itemVariants}><TradingSection /></m.section>
-          <m.section variants={itemVariants}><PhilosophySection /></m.section>
-          <m.section variants={itemVariants}><CourseOverview /></m.section>
-          <m.section variants={itemVariants}><AnalyticsSection /></m.section>
-          <m.section variants={itemVariants}><ProblemSolutionSection /></m.section>
-          <m.section variants={itemVariants}><TradingResultsSection /></m.section>
-          <m.section variants={itemVariants}><ChartPreview /></m.section>
-          <m.section variants={itemVariants}><TestimonialsSection /></m.section>
-          <m.section variants={itemVariants}><FAQSection /></m.section>
-          <m.section variants={itemVariants}><InfoSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><HeroSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><QuizSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><TradingSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><PhilosophySection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><CourseOverview /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><AnalyticsSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><ProblemSolutionSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><TradingResultsSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><ChartPreview /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><TestimonialsSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><FAQSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}><InfoSection /></m.section>
         </m.div>
       </main>
 

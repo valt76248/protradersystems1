@@ -26,7 +26,7 @@ const ProblemSolutionCard: React.FC<ProblemSolutionCardProps> = ({ item, index, 
             style={style}
         >
             <div
-                className="w-auto max-w-5xl px-6 py-10 md:px-12 md:py-14 rounded-[3rem] bg-[#1A1A1A] border border-gray-800 flex flex-col items-center relative group shadow-2xl animate-float-card mx-4"
+                className="w-auto max-w-5xl px-6 py-10 md:px-12 md:py-14 rounded-[3rem] bg-[#1A1A1A] border border-gray-800 flex flex-col items-center relative group shadow-2xl transition-transform duration-300 hover:scale-[1.01] mx-4"
             >
                 {/* Problem Section */}
                 <div className="flex flex-col items-center w-full">

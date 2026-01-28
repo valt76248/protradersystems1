@@ -1,11 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { m, useScroll, useTransform } from 'framer-motion';
 import ProblemSolutionCard, { ProblemSolutionItem } from './ProblemSolutionCard';
 
 const ProblemSolutionSection = () => {
     const { t } = useLanguage();
     const containerRef = useRef<HTMLDivElement>(null);
-    const [progress, setProgress] = useState(0);
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
 
     const problemsSolutions: ProblemSolutionItem[] = [
         {
@@ -58,25 +63,7 @@ const ProblemSolutionSection = () => {
         },
     ];
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!containerRef.current) return;
-            const { top, height } = containerRef.current.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-
-            const scrolled = -top;
-            const totalScrollable = height - windowHeight;
-
-            if (totalScrollable <= 0) return;
-
-            const rawProgress = Math.max(0, Math.min(1, scrolled / totalScrollable));
-            setProgress(rawProgress);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    const titleOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
     return (
         <section
@@ -88,8 +75,10 @@ const ProblemSolutionSection = () => {
             <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center relative z-10">
 
                 {/* Header - Stays at top */}
-                <div className="absolute top-8 left-0 right-0 z-30 transition-opacity duration-300"
-                    style={{ opacity: Math.max(0, 1 - progress * 4) }}>
+                <m.div
+                    style={{ opacity: titleOpacity }}
+                    className="absolute top-8 left-0 right-0 z-30 pointer-events-none"
+                >
                     <div className="container mx-auto px-4">
                         <h2 className="text-3xl md:text-5xl font-bold text-center mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 pb-2">
                             {t('problems.title')}
@@ -98,52 +87,52 @@ const ProblemSolutionSection = () => {
                             {t('problems.subtitle')}
                         </h3>
                     </div>
-                </div>
+                </m.div>
 
                 {/* Cards Container */}
-                <div className="w-full h-full flex items-center justify-center relative perspective-1000">
+                <div className="w-full h-full flex items-center justify-center relative">
                     {problemsSolutions.map((item, index) => {
-                        const globalPos = progress * (problemsSolutions.length);
-                        const offset = globalPos - index;
+                        const step = 1 / problemsSolutions.length;
+                        const start = index * step;
+                        const end = (index + 1) * step;
 
-                        let style: React.CSSProperties = {
-                            position: 'absolute',
-                            zIndex: problemsSolutions.length - index,
-                            transition: 'transform 0.1s linear, opacity 0.1s linear, filter 0.2s',
-                            willChange: 'transform, opacity',
-                        };
+                        // Calculate transform values based on progress
+                        const opacity = useTransform(scrollYProgress,
+                            [start - step * 0.5, start, end, end + step * 0.5],
+                            [0, 1, 1, 0]
+                        );
 
-                        if (offset < 0) {
-                            // Upcoming
-                            const dist = -offset;
-                            if (dist > 2) {
-                                style.opacity = 0;
-                                style.transform = `scale(0.8) translateY(100px)`;
-                                style.pointerEvents = 'none';
-                            } else {
-                                style.opacity = Math.max(0, 1 - dist * 0.5);
-                                style.transform = `scale(${0.9 + (1 - dist) * 0.1}) translateY(${dist * 20}px)`;
-                            }
-                        } else if (offset >= 0) {
-                            // Active or Past
-                            const moveUp = offset * 120;
-                            style.transform = `translateY(-${moveUp}%) scale(${1 - offset * 0.1})`;
-                            style.opacity = 1 - (offset * 0.5);
+                        const y = useTransform(scrollYProgress,
+                            [start, end],
+                            ["0%", "-100%"]
+                        );
 
-                            if (offset > 1.5) {
-                                style.opacity = 0;
-                                style.pointerEvents = 'none';
-                            }
-                        }
+                        const scale = useTransform(scrollYProgress,
+                            [start, end],
+                            [1, 0.8]
+                        );
 
                         return (
-                            <ProblemSolutionCard
+                            <m.div
                                 key={index}
-                                item={item}
-                                index={index}
-                                total={problemsSolutions.length}
-                                style={style}
-                            />
+                                style={{
+                                    position: 'absolute',
+                                    zIndex: problemsSolutions.length - index,
+                                    opacity,
+                                    y,
+                                    scale,
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    willChange: 'transform, opacity'
+                                }}
+                            >
+                                <ProblemSolutionCard
+                                    item={item}
+                                    index={index}
+                                    total={problemsSolutions.length}
+                                />
+                            </m.div>
                         );
                     })}
                 </div>
