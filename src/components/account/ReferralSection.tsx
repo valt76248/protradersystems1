@@ -33,7 +33,8 @@ export const ReferralSection: React.FC<ReferralSectionProps> = ({ userId }) => {
 
     // Generate referral link
     const referralCode = userId.slice(0, 8).toUpperCase();
-    const referralLink = `${window.location.origin}/?ref=${referralCode}`;
+    const productionDomain = 'https://protradersystems.com';
+    const referralLink = `${productionDomain}/?ref=${referralCode}`;
 
     // Recalculated Commission: 5% of Main Course (699) = ~35.
     // VIP Commission: 10% of Main Course = ~70.
