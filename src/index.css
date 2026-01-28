@@ -56,10 +56,15 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Custom scrollbar */
+  /* Global Smooth Scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom Premium Scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -67,11 +72,13 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-600 rounded-full;
+    background: linear-gradient(180deg, #3b82f6 0%, #06b6d4 100%);
+    border-radius: 9999px;
+    border: 2px solid var(--background);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-500;
+    background: linear-gradient(180deg, #2563eb 0%, #0891b2 100%);
   }
 
   /* Global Heading Styles - Only H1 and H2 */
