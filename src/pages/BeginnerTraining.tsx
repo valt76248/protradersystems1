@@ -76,7 +76,7 @@ const BeginnerTraining = () => {
             </div>
 
             <div className="bg-trading-card p-6 rounded-lg border border-gray-800">
-              <h2 className="text-2xl font-bold mb-2">{currentVideo.title}</h2>
+              <h2 className="text-2xl font-bold mb-2">{t(currentVideo.title)}</h2>
               <div className="flex items-center gap-4 text-sm text-gray-400">
                 <span className="flex items-center gap-1">
                   <ListVideo size={16} />

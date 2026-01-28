@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { Loader2, CheckCircle, Send, Sparkles, Check } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -211,7 +211,7 @@ const PreRegistrationForm: React.FC<PreRegistrationFormProps> = ({ onSuccess }) 
                     </div>
                 </div>
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
-                    Анкета записи к целителю
+                    Анкета записи в ProTrader Systems
                 </h2>
             </div>
 

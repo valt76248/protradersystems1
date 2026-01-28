@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Download, X, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -31,137 +32,136 @@ const cleanTitle = (filename: string): string => {
         .replace(/\s*-\s*$/, '');
 };
 
-// Determine category from filename
-const getCategory = (filename: string): string => {
-    const lower = filename.toLowerCase();
-    if (lower.includes('s&p moe') || lower.includes('s&p moe')) return 'S&P MOE';
-    if (lower.includes('remoe')) return 'REMOE';
-    if (lower.includes('trend mode') && !lower.includes('counter')) return 'Ценовые режимы';
-    if (lower.includes('counter-trend')) return 'Ценовые режимы';
-    if (lower.includes('consolidation')) return 'Ценовые режимы';
-    if (lower.includes('choppy')) return 'Ценовые режимы';
-    if (lower.includes('spaghetti')) return 'Ценовые режимы';
-    if (lower.includes('primer')) return 'Ценовые режимы';
-    if (lower.includes('movements')) return 'Ценовые режимы';
-    if (lower.includes('poor price')) return 'Ценовые режимы';
-    if (lower.includes('missed')) return 'Ценовые режимы';
-    if (lower.includes('trend vs')) return 'Ценовые режимы';
-    return 'Ценовые режимы';
-};
-
-// All images data
-const generateGalleryImages = (): GalleryImage[] => {
-    const basePath = '/images/course/ProTrader_Systems  - Session 1 - Other Screenshots/';
-    const flashCardsBaseSP = '/images/course/ProTrader_Systems  - Session 1 - Templates, indicators, pdf, screenshots/ETF S&P MOE Flash Cards/';
-    const flashCardsBaseREMOE = '/images/course/ProTrader_Systems  - Session 1 - Templates, indicators, pdf, screenshots/ETF REMOE Flash Cards/';
-
-    const otherScreenshots = [
-        '1 - max etf-primer components and shifts - 20200615 (convert.io).png',
-        '2 - trend mode - 20200615 - example 1 (convert.io).png',
-        '3 - trend mode - 20200615 - example 2 (convert.io).png',
-        '4 - counter-trend mode - 20200615 - example 1 (convert.io).png',
-        '5 - counter-trend mode - 20200615 - example 2 (convert.io).png',
-        '6 - consolidation zome mode - 20200615 - example 1 (convert.io).png',
-        '7 - consolidation zome mode - 20200615 - example 2 (convert.io).png',
-        '8 - choppy mode - 20200615 - example 1 (convert.io).png',
-        '9 - choppy mode - 20200615 - example 2 (convert.io).png',
-        '10 - choppy mode - 20200615 - example 3 (convert.io).png',
-        '11 - spaghetti zone - 20200615 - example 1 (convert.io).png',
-        '12 - spaghetti zone - 20200615 - example 2 (convert.io).png',
-        '13 - spaghetti zone - 20200615 - example 3 (convert.io).png',
-        '14 - spaghetti zone - 20200615 - example 4 (convert.io).png',
-        '15 - the movements the classic max primer looks for - 20200615 - example 1 (convert.io).png',
-        '16 - the movements the classic max primer looks for - 20200615 - example 2 (convert.io).png',
-        '17 - poor price action - 20200615 - example 1 (convert.io).png',
-        '18 - missed ample move - 20200615 - example 1 (convert.io).png',
-        '19 - trend vs counter-trend - 20200615 - example 1 (convert.io).png',
-        '20 - trend vs counter-trend - 20200615 - example 2 (convert.io).png',
-        '21 - trend vs counter-trend - 20200615 - example 3 (convert.io).png',
-        '22 - the movements the max etf-primer looks for - 20200615 - example 1 (convert.io) (1).png',
-        '23 - the movements the max etf-primer looks for - 20200615 - example 2 (convert.io).png',
-        '24 - etf s&p moe - 20200615 - example 1 (convert.io).png',
-        '25 - etf s&p moe - 20200615 - example 2 (convert.io).png',
-        '26 - etf s&p moe - 20200615 - example 3 (convert.io).png',
-        '27 - etf s&p moe - 20200615 - example 4 (convert.io).png',
-        '28 - etf remoe moe - 201200615 - example 1 (convert.io).png',
-        '29 - etf remoe moe - 201200615 - example 2 (convert.io).png',
-        '30 - etf remoe moe - 201200615 - example 3 (convert.io).png',
-        '31 - etf remoe moe - 201200615 - example 4 (convert.io).png',
-        '32 - etf remoe moe - 201200615 - example 5 (convert.io).png',
-    ];
-
-    const spMoeFlashCards = [
-        '1 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
-        '1 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
-        '1 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
-        '2 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
-        '2 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
-        '2 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
-        '3 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
-        '3 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
-        '3 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
-        '4 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
-        '4 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
-        '4 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
-    ];
-
-    const remoeFlashCards = [
-        '1 - remoe - flash card - part 1 - entry setup bar.png',
-        '1 - remoe - flash card - part 2 - entry trigger bar.png',
-        '1 - remoe - flash card - part 3 - movement.png',
-        '2 - remoe - flash card - part 1 - entry setup bar.png',
-        '2 - remoe - flash card - part 2 - entry trigger bar.png',
-        '2 - remoe - flash card - part 3 - movement.png',
-        '3 - remoe - flash card - part 1 - entry setup bar.png',
-        '3 - remoe - flash card - part 2 - entry trigger bar.png',
-        '3 - remoe - flash card - part 3 - movement.png',
-        '4 - remoe - flash card - part 1 - entry setup bar.png',
-        '4 - remoe - flash card - part 2 - entry trigger bar.png',
-        '4 - remoe - flash card - part 3 - movement.png',
-        '5 - remoe - flash card - part 1 - entry setup bar.png',
-        '5 - remoe - flash card - part 2 - entry trigger bar.png',
-        '5 - remoe - flash card - part 3 - movement.png',
-    ];
-
-    let id = 1;
-    const images: GalleryImage[] = [];
-
-    otherScreenshots.forEach(filename => {
-        images.push({
-            id: id++,
-            filename,
-            title: cleanTitle(filename),
-            category: getCategory(filename),
-            path: basePath + filename
-        });
-    });
-
-    spMoeFlashCards.forEach(filename => {
-        images.push({
-            id: id++,
-            filename,
-            title: cleanTitle(filename),
-            category: 'S&P MOE',
-            path: flashCardsBaseSP + filename
-        });
-    });
-
-    remoeFlashCards.forEach(filename => {
-        images.push({
-            id: id++,
-            filename,
-            title: cleanTitle(filename),
-            category: 'REMOE',
-            path: flashCardsBaseREMOE + filename
-        });
-    });
-
-    return images;
-};
-
-const allImages = generateGalleryImages();
-
 const Session1Gallery = () => {
+    const { t } = useLanguage();
+
+    // Determine category from filename
+    const getCategory = (filename: string): string => {
+        const lower = filename.toLowerCase();
+        if (lower.includes('s&p moe') || lower.includes('s&p moe')) return 'S&P MOE';
+        if (lower.includes('remoe')) return 'REMOE';
+        if (lower.includes('trend mode') && !lower.includes('counter')) return t('gallery.category.price_modes');
+        if (lower.includes('counter-trend')) return t('gallery.category.price_modes');
+        if (lower.includes('consolidation')) return t('gallery.category.price_modes');
+        if (lower.includes('choppy')) return t('gallery.category.price_modes');
+        if (lower.includes('spaghetti')) return t('gallery.category.price_modes');
+        if (lower.includes('primer')) return t('gallery.category.price_modes');
+        if (lower.includes('movements')) return t('gallery.category.price_modes');
+        if (lower.includes('poor price')) return t('gallery.category.price_modes');
+        if (lower.includes('missed')) return t('gallery.category.price_modes');
+        if (lower.includes('trend vs')) return t('gallery.category.price_modes');
+        return t('gallery.category.price_modes');
+    };
+
+    // All images data
+    const allImages = useMemo(() => {
+        const basePath = '/images/course/ProTrader_Systems  - Session 1 - Other Screenshots/';
+        const flashCardsBaseSP = '/images/course/ProTrader_Systems  - Session 1 - Templates, indicators, pdf, screenshots/ETF S&P MOE Flash Cards/';
+        const flashCardsBaseREMOE = '/images/course/ProTrader_Systems  - Session 1 - Templates, indicators, pdf, screenshots/ETF REMOE Flash Cards/';
+
+        const otherScreenshots = [
+            '1 - max etf-primer components and shifts - 20200615 (convert.io).png',
+            '2 - trend mode - 20200615 - example 1 (convert.io).png',
+            '3 - trend mode - 20200615 - example 2 (convert.io).png',
+            '4 - counter-trend mode - 20200615 - example 1 (convert.io).png',
+            '5 - counter-trend mode - 20200615 - example 2 (convert.io).png',
+            '6 - consolidation zome mode - 20200615 - example 1 (convert.io).png',
+            '7 - consolidation zome mode - 20200615 - example 2 (convert.io).png',
+            '8 - choppy mode - 20200615 - example 1 (convert.io).png',
+            '9 - choppy mode - 20200615 - example 2 (convert.io).png',
+            '10 - choppy mode - 20200615 - example 3 (convert.io).png',
+            '11 - spaghetti zone - 20200615 - example 1 (convert.io).png',
+            '12 - spaghetti zone - 20200615 - example 2 (convert.io).png',
+            '13 - spaghetti zone - 20200615 - example 3 (convert.io).png',
+            '14 - spaghetti zone - 20200615 - example 4 (convert.io).png',
+            '15 - the movements the classic max primer looks for - 20200615 - example 1 (convert.io).png',
+            '16 - the movements the classic max primer looks for - 20200615 - example 2 (convert.io).png',
+            '17 - poor price action - 20200615 - example 1 (convert.io).png',
+            '18 - missed ample move - 20200615 - example 1 (convert.io).png',
+            '19 - trend vs counter-trend - 20200615 - example 1 (convert.io).png',
+            '20 - trend vs counter-trend - 20200615 - example 2 (convert.io).png',
+            '21 - trend vs counter-trend - 20200615 - example 3 (convert.io).png',
+            '22 - the movements the max etf-primer looks for - 20200615 - example 1 (convert.io) (1).png',
+            '23 - the movements the max etf-primer looks for - 20200615 - example 2 (convert.io).png',
+            '24 - etf s&p moe - 20200615 - example 1 (convert.io).png',
+            '25 - etf s&p moe - 20200615 - example 2 (convert.io).png',
+            '26 - etf s&p moe - 20200615 - example 3 (convert.io).png',
+            '27 - etf s&p moe - 20200615 - example 4 (convert.io).png',
+            '28 - etf remoe moe - 201200615 - example 1 (convert.io).png',
+            '29 - etf remoe moe - 201200615 - example 2 (convert.io).png',
+            '30 - etf remoe moe - 201200615 - example 3 (convert.io).png',
+            '31 - etf remoe moe - 201200615 - example 4 (convert.io).png',
+            '32 - etf remoe moe - 201200615 - example 5 (convert.io).png',
+        ];
+
+        const spMoeFlashCards = [
+            '1 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
+            '1 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
+            '1 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
+            '2 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
+            '2 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
+            '2 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
+            '3 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
+            '3 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
+            '3 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
+            '4 - etf s&p moe - flash card - part 1 - entry setup bar (convert.io).png',
+            '4 - etf s&p moe - flash card - part 2 - entry trigger bar (convert.io).png',
+            '4 - etf s&p moe - flash card - part 3 - movement (convert.io).png',
+        ];
+
+        const remoeFlashCards = [
+            '1 - remoe - flash card - part 1 - entry setup bar.png',
+            '1 - remoe - flash card - part 2 - entry trigger bar.png',
+            '1 - remoe - flash card - part 3 - movement.png',
+            '2 - remoe - flash card - part 1 - entry setup bar.png',
+            '2 - remoe - flash card - part 2 - entry trigger bar.png',
+            '2 - remoe - flash card - part 3 - movement.png',
+            '3 - remoe - flash card - part 1 - entry setup bar.png',
+            '3 - remoe - flash card - part 2 - entry trigger bar.png',
+            '3 - remoe - flash card - part 3 - movement.png',
+            '4 - remoe - flash card - part 1 - entry setup bar.png',
+            '4 - remoe - flash card - part 2 - entry trigger bar.png',
+            '4 - remoe - flash card - part 3 - movement.png',
+            '5 - remoe - flash card - part 1 - entry setup bar.png',
+            '5 - remoe - flash card - part 2 - entry trigger bar.png',
+            '5 - remoe - flash card - part 3 - movement.png',
+        ];
+
+        let id = 1;
+        const images: GalleryImage[] = [];
+
+        otherScreenshots.forEach(filename => {
+            images.push({
+                id: id++,
+                filename,
+                title: cleanTitle(filename),
+                category: getCategory(filename),
+                path: basePath + filename
+            });
+        });
+
+        spMoeFlashCards.forEach(filename => {
+            images.push({
+                id: id++,
+                filename,
+                title: cleanTitle(filename),
+                category: 'S&P MOE',
+                path: flashCardsBaseSP + filename
+            });
+        });
+
+        remoeFlashCards.forEach(filename => {
+            images.push({
+                id: id++,
+                filename,
+                title: cleanTitle(filename),
+                category: 'REMOE',
+                path: flashCardsBaseREMOE + filename
+            });
+        });
+
+        return images;
+    }, [t]);
     const [activeCategory, setActiveCategory] = useState<string>('all');
     const [lightboxImage, setLightboxImage] = useState<GalleryImage | null>(null);
     const location = useLocation();
@@ -184,7 +184,7 @@ const Session1Gallery = () => {
     };
 
     const getCategoryLabel = (cat: string): string => {
-        if (cat === 'all') return 'Все материалы';
+        if (cat === 'all') return t('gallery.all');
         return cat;
     };
 
@@ -210,7 +210,7 @@ const Session1Gallery = () => {
 
     const handleDownloadAll = () => {
         // This would typically trigger a zip download - for now just alert
-        alert('Функция скачивания архива будет добавлена позже');
+        alert(t('gallery.download_archive_later'));
     };
 
     const handleBack = () => {
@@ -233,13 +233,13 @@ const Session1Gallery = () => {
                     onClick={handleBack}
                 >
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Назад
+                    {t('gallery.back')}
                 </Button>
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-2">Скриншоты графиков</h1>
-                    <p className="text-gray-400">Session 1 - Визуальные примеры и флэш-карты</p>
+                    <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('gallery.title')}</h1>
+                    <p className="text-gray-400">{t('gallery.subtitle')}</p>
                 </div>
 
                 {/* Category Filters + Download Button */}
@@ -267,7 +267,7 @@ const Session1Gallery = () => {
                         onClick={handleDownloadAll}
                     >
                         <Download className="mr-2 h-4 w-4" />
-                        Скачать все архивом
+                        {t('gallery.download_all')}
                     </Button>
                 </div>
 
@@ -307,7 +307,7 @@ const Session1Gallery = () => {
                         type="button"
                         className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-50 pointer-events-auto cursor-pointer"
                         onClick={(e) => { e.stopPropagation(); setLightboxImage(null); }}
-                        aria-label="Закрыть"
+                        aria-label={t('gallery.aria.close')}
                     >
                         <X className="h-8 w-8" />
                     </button>
@@ -317,7 +317,7 @@ const Session1Gallery = () => {
                         type="button"
                         className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors pointer-events-auto cursor-pointer"
                         onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
-                        aria-label="Предыдущее"
+                        aria-label={t('gallery.aria.prev')}
                     >
                         <ChevronLeft className="h-8 w-8 text-white" />
                     </button>
@@ -326,7 +326,7 @@ const Session1Gallery = () => {
                         type="button"
                         className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors pointer-events-auto cursor-pointer"
                         onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
-                        aria-label="Следующее"
+                        aria-label={t('gallery.aria.next')}
                     >
                         <ChevronRight className="h-8 w-8 text-white" />
                     </button>
@@ -340,7 +340,12 @@ const Session1Gallery = () => {
                         />
                         <div className="mt-4 text-center">
                             <h3 className="text-xl font-semibold text-white">{lightboxImage.title}</h3>
-                            <Badge className="mt-2 bg-blue-600">{lightboxImage.category}</Badge>
+                            <div className="flex items-center justify-center gap-2 mt-2">
+                                <Badge className="bg-blue-600">{lightboxImage.category}</Badge>
+                                <span className="text-sm text-gray-400">
+                                    {filteredImages.findIndex(img => img.id === lightboxImage.id) + 1} {t('gallery.aria.current_of')} {filteredImages.length}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

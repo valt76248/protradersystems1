@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ListVideo, Play, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Video {
     id: string;
@@ -21,11 +22,13 @@ export const CurriculumGrid: React.FC<CurriculumGridProps> = ({
     completedVideos,
     onVideoSelect,
 }) => {
+    const { t } = useLanguage();
+
     return (
         <div className="mt-12">
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                 <ListVideo className="text-primary" />
-                Программа курса
+                {t('beginner.playlist-title')}
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -43,7 +46,7 @@ export const CurriculumGrid: React.FC<CurriculumGridProps> = ({
                             <div className="relative aspect-video bg-black">
                                 <img
                                     src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
-                                    alt={video.title}
+                                    alt={t(video.title)}
                                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
@@ -54,22 +57,22 @@ export const CurriculumGrid: React.FC<CurriculumGridProps> = ({
                                 {isCompleted && (
                                     <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
                                         <CheckCircle size={12} />
-                                        Просмотрено
+                                        {t('training.completed')}
                                     </div>
                                 )}
                                 {isActive && (
                                     <div className="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 animate-pulse">
                                         <Play size={12} fill="currentColor" />
-                                        Сейчас играет
+                                        {t('training.playing_now') || 'Сейчас играет'}
                                     </div>
                                 )}
                                 <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                                    Урок {index + 1}
+                                    {t('training.lesson')} {index + 1}
                                 </div>
                             </div>
                             <CardContent className="p-4">
                                 <h3 className={`font-medium line-clamp-2 ${isActive ? 'text-primary' : 'text-gray-200 group-hover:text-white'}`}>
-                                    {video.title}
+                                    {t(video.title)}
                                 </h3>
                             </CardContent>
                         </Card>

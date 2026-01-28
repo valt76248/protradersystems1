@@ -17,6 +17,7 @@ import TradingResultsSection from '../components/home/trading/TradingResultsSect
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import SEO from '../components/utils/SEO';
 import AuraBackground from '../components/ui/AuraBackground';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Home = () => {
   const { t } = useLanguage();

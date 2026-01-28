@@ -125,11 +125,15 @@ export default function Admin() {
 
             if (ordersError) throw ordersError;
 
-            // Для кожного замовлення отримуємо email користувача та назву курсу
+            // Для каждого замовлення отримуємо email користувача та назву курсу
             const enrichedOrders = await Promise.all(
                 (ordersData || []).map(async (order) => {
-                    // Отримуємо email користувача
-                    const { data: userData } = await supabase.auth.admin.getUserById(order.user_id);
+                    // Отримуємо email користувача з публічної таблиці profiles
+                    const { data: profileData } = await supabase
+                        .from('profiles')
+                        .select('email')
+                        .eq('id', order.user_id)
+                        .single();
 
                     // Отримуємо назву курсу
                     const { data: courseData } = await supabase
@@ -140,7 +144,7 @@ export default function Admin() {
 
                     return {
                         ...order,
-                        user_email: userData?.user?.email || 'Unknown',
+                        user_email: profileData?.email || 'Unknown',
                         course_title: courseData?.title || 'Unknown Course'
                     };
                 })

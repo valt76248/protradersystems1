@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { Suspense, lazy } from 'react';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { HelmetProvider } from 'react-helmet-async';
@@ -12,6 +12,8 @@ import BackToTopButton from "./components/layout/BackToTopButton";
 import MaintenanceGuard from "./components/shared/MaintenanceGuard";
 import { Loader } from "./components/ui/loader";
 import ReferralTracker from "./components/utils/ReferralTracker";
+import ErrorBoundary from "./components/shared/ErrorBoundary";
+import ScrollProgressBar from "./components/ui/ScrollProgressBar";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./pages/Home"));
@@ -33,8 +35,8 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const EligibleClients = lazy(() => import("./pages/EligibleClients"));
 const Login = lazy(() => import("./pages/Login"));
 const Admin = lazy(() => import("./pages/Admin"));
-const SessionETF = lazy(() => import("./pages/SessionETF"));
-const SessionAdvanced = lazy(() => import("./pages/SessionAdvanced"));
+const SessionOne = lazy(() => import("./pages/SessionOne"));
+const SessionTwo = lazy(() => import("./pages/SessionTwo"));
 const Session1Gallery = lazy(() => import("./pages/Session1Gallery"));
 const Session2Gallery = lazy(() => import("./pages/Session2Gallery"));
 const PreRegistration = lazy(() => import("./pages/PreRegistration"));
@@ -49,57 +51,58 @@ const queryClient = new QueryClient({
   },
 });
 
-
-
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <HelmetProvider>
-        <LanguageProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <MaintenanceGuard>
-              <BrowserRouter>
-                <ReferralTracker />
-                <ScrollToTop />
-                <BackToTopButton />
-                <Suspense fallback={<Loader />}>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/beginner-training" element={<BeginnerTraining />} />
+      <ErrorBoundary>
+        <HelmetProvider>
+          <LanguageProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <MaintenanceGuard>
+                <BrowserRouter>
+                  <ScrollProgressBar />
+                  <ReferralTracker />
+                  <ScrollToTop />
+                  <BackToTopButton />
+                  <Suspense fallback={<Loader />}>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/beginner-training" element={<BeginnerTraining />} />
 
-                    <Route path="/psychology" element={<Psychology />} />
-                    <Route path="/risk-management" element={<RiskManagement />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
-                    <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
-                    <Route path="/courses" element={<Courses />} />
+                      <Route path="/psychology" element={<Psychology />} />
+                      <Route path="/risk-management" element={<RiskManagement />} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
+                      <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
+                      <Route path="/courses" element={<Courses />} />
 
-                    <Route path="/payment-success" element={<PaymentSuccess />} />
-                    <Route path="/account" element={<Account />} />
-                    <Route path="/calculators" element={<Calculators />} />
-                    <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-                    <Route path="/session-1" element={<SessionETF />} />
-                    <Route path="/session-2" element={<SessionAdvanced />} />
-                    <Route path="/session-1-gallery" element={<Session1Gallery />} />
-                    <Route path="/session-2-gallery" element={<Session2Gallery />} />
-                    <Route path="/pre-registration" element={<PreRegistration />} />
+                      <Route path="/payment-success" element={<PaymentSuccess />} />
+                      <Route path="/account" element={<Account />} />
+                      <Route path="/calculators" element={<Calculators />} />
+                      <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+                      <Route path="/session-1" element={<SessionOne />} />
+                      <Route path="/session-2" element={<SessionTwo />} />
+                      <Route path="/session-1-gallery" element={<Session1Gallery />} />
+                      <Route path="/session-2-gallery" element={<Session2Gallery />} />
+                      <Route path="/pre-registration" element={<PreRegistration />} />
 
-                    {/* Legal Pages */}
-                    <Route path="/public-offer" element={<PublicOffer />} />
-                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                    <Route path="/eligible-clients" element={<EligibleClients />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
-              </BrowserRouter>
-            </MaintenanceGuard>
-          </TooltipProvider>
-        </LanguageProvider>
-      </HelmetProvider>
+                      {/* Legal Pages */}
+                      <Route path="/public-offer" element={<PublicOffer />} />
+                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                      <Route path="/eligible-clients" element={<EligibleClients />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Suspense>
+                </BrowserRouter>
+              </MaintenanceGuard>
+            </TooltipProvider>
+          </LanguageProvider>
+        </HelmetProvider>
+      </ErrorBoundary>
     </QueryClientProvider>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Download, X, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -31,135 +32,134 @@ const cleanTitle = (filename: string): string => {
         .replace(/\s*-\s*$/, '');
 };
 
-// Determine category from filename
-const getCategory = (filename: string): string => {
-    const lower = filename.toLowerCase();
-    if (lower.includes('ts') && lower.includes('bs')) return 'Exit: TS-BS';
-    if (lower.includes('ms') && lower.includes('ws')) return 'Exit: MS-WS';
-    if (lower.includes('e.div') || lower.includes('divs') || lower.includes('div')) return 'Exit: Divergence';
-    if (lower.includes('lb')) return 'Exit: LB';
-    if (lower.includes('hb') || lower.includes('rejection')) return 'Exit: HB Rejection';
-    if (lower.includes('tp')) return 'Exit: TP';
-    if (lower.includes('etr') || lower.includes('trend reversal')) return 'Exit: Trend Reversal';
-    if (lower.includes('smoothed')) return 'Smoothed Movement';
-    if (lower.includes('how to mark')) return 'Chart Marking';
-    return 'Другое';
-};
-
-// All images data
-const generateGalleryImages = (): GalleryImage[] => {
-    const basePath = '/images/course/Session 2/ProTrader_Systems - Session 2 - Other Screenshots/';
-    const flashCardsBase = '/images/course/Session 2/ProTrader_Systems - Session 2 - Flash Cards/';
-
-    const otherScreenshots = [
-        '1 - different types of ts and bs - 20200629 - example 1 (convert.io).png',
-        '2 - different types of ts and bs - 20200629 - example 2 (convert.io).png',
-        '3 - exit technique with storsi ts-bs - 20200629 - example 1 (convert.io).png',
-        '4 - exit technique with storsi ts-bs - 20200629 - example 2 (convert.io).png',
-        '5 - exit technique with storsi ms - ws - 20200629 - example 1 (convert.io).png',
-        '6 - exit technique with storsi ms - ws - 20200629 - example 2 (convert.io).png',
-        '7 - exit technique with storsi divs - 20200629 - example 1 (convert.io).png',
-        '8 - exit technique with storsi divs - 20200629 - example 2 (convert.io).png',
-        '9 - exit technique with storsi divs - 20200629 - example 3 (convert.io).png',
-        '10 - exit technique with storsi divs - 20200629 - example 4 (convert.io).png',
-        '11 - exit technique with lb - 20200629 - example 1 (convert.io).png',
-        '12 - exit technique with lb - 20200629 - example 2 (convert.io).png',
-        '13 - exit technique with lb - 20200629 - example 3 (convert.io).png',
-        '14 - exit technique with hb rejection - 20200629 - example 1 (convert.io).png',
-        '15 - exit technique with hb rejection - 20200629 - example 2 (convert.io).png',
-        '16 - exit technique with tp - 20200629 - example 1 (convert.io).png',
-        '17 - exit technique with tp - 20200629 - example 2 (convert.io).png',
-        '18 - exit technique with etf trend reversal - 20200629 - example 1 (convert.io).png',
-        '19 - exit technique with etf trend reversal - 20200629 - example 2 (convert.io).png',
-        '20 - putting it all together - how to mark a chart - 20200629 - example 1 (convert.io).png',
-        '21 - putting it all together - how to mark a chart - 20200629 - example 2 (convert.io).png',
-        '22 - smoothed movement - good one - 20200629 - example 1 (convert.io).png',
-        '23 - not smoothed movement - not good one - 20200629 - example 1 (convert.io).png',
-    ];
-
-    const flashCards = [
-        '3 - exit setup with ts - bs - part 1 - exit setup bar.png',
-        '3 - exit setup with ts - bs - part 2 - exit trigger bar.png',
-        '3 - exit setup with ts - bs - part 3 - movement.png',
-        '4 - exit setup with ts - bs - part 1 - exit setup bar.png',
-        '4 - exit setup with ts - bs - part 2 - exit trigger bar.png',
-        '4 - exit setup with ts - bs - part 3 - movement.png',
-        '5 - exit setup with ms - ws - part 1 - exit setup bar.png',
-        '5 - exit setup with ms - ws - part 2 - exit trigger bar.png',
-        '5 - exit setup with ms - ws - part 3 - movement.png',
-        '6 - exit setup with ms - ws - part 1 - exit setup bar.png',
-        '6 - exit setup with ms - ws - part 2 - exit trigger bar.png',
-        '6 - exit setup with ms - ws - part 3 - movement.png',
-        '7 - exit setup with div - part 1 - exit setup bar.png',
-        '7 - exit setup with div - part 2 - exit trigger bar.png',
-        '7 - exit setup with div - part 3 - movement.png',
-        '8 - exit setup with div - part 1 - exit setup bar.png',
-        '8 - exit setup with div - part 2 - exit trigger bar.png',
-        '8 - exit setup with div - part 3 - movement.png',
-        '9 - exit setup with e.div - part 1 - exit setup bar.png',
-        '9 - exit setup with e.div - part 2 - exit trigger bar.png',
-        '9 - exit setup with e.div - part 3 - movement.png',
-        '10 - exit setup with e.div - part 1 - exit setup bar.png',
-        '10 - exit setup with e.div - part 2 - exit trigger bar.png',
-        '10 - exit setup with e.div - part 3 - movement.png',
-        '11 - exit setup with lb - part 1 - exit setup bar.png',
-        '11 - exit setup with lb - part 2 - exit no trigger bar.png',
-        '11 - exit setup with lb - part 3 - movement.png',
-        '12 - exit setup with lb - part 1 - exit setup bar.png',
-        '12 - exit setup with lb - part 2 - exit trigger bar.png',
-        '12 - exit setup with lb - part 3 - movement.png',
-        '13 - exit setup with lb - part 1 - exit setup bar.png',
-        '13 - exit setup with lb - part 2 - exit trigger bar.png',
-        '13 - exit setup with lb - part 3 - movement.png',
-        '14 - exit setup with tp - part 1 - exit setup bar.png',
-        '14 - exit setup with tp - part 2 - exit trigger bar.png',
-        '14 - exit setup with tp - part 3 - movement.png',
-        '15 - exit setup with tp - part 1 - exit setup bar.png',
-        '15 - exit setup with tp - part 2 - exit trigger bar.png',
-        '15 - exit setup with tp - part 3 - movement.png',
-        '16 - exit setup with hb rej - part 1 - exit setup bar.png',
-        '16 - exit setup with hb rej - part 2 - exit trigger bar.png',
-        '16 - exit setup with hb rej - part 3 - movement.png',
-        '17 - exit setup with hb rej - part 1 - exit setup bar.png',
-        '17 - exit setup with hb rej - part 2 - exit trigger bar.png',
-        '17 - exit setup with hb rej - part 3 - movement.png',
-        '18 - exit setup with etr - part 1 - exit setup bar.png',
-        '18 - exit setup with etr - part 2 - exit trigger bar.png',
-        '18 - exit setup with etr - part 3 - movement.png',
-        '19 - exit setup with etr - part 1 - exit setup bar.png',
-        '19 - exit setup with etr - part 2 - exit trigger bar.png',
-        '19 - exit setup with etr - part 3 - movement.png',
-    ];
-
-    let id = 1;
-    const images: GalleryImage[] = [];
-
-    otherScreenshots.forEach(filename => {
-        images.push({
-            id: id++,
-            filename,
-            title: cleanTitle(filename),
-            category: getCategory(filename),
-            path: basePath + filename
-        });
-    });
-
-    flashCards.forEach(filename => {
-        images.push({
-            id: id++,
-            filename,
-            title: cleanTitle(filename),
-            category: getCategory(filename),
-            path: flashCardsBase + filename
-        });
-    });
-
-    return images;
-};
-
-const allImages = generateGalleryImages();
-
 const Session2Gallery = () => {
+    const { t } = useLanguage();
+
+    // Determine category from filename
+    const getCategory = (filename: string): string => {
+        const lower = filename.toLowerCase();
+        if (lower.includes('ts') && lower.includes('bs')) return 'Exit: TS-BS';
+        if (lower.includes('ms') && lower.includes('ws')) return 'Exit: MS-WS';
+        if (lower.includes('e.div') || lower.includes('divs') || lower.includes('div')) return 'Exit: Divergence';
+        if (lower.includes('lb')) return 'Exit: LB';
+        if (lower.includes('hb') || lower.includes('rejection')) return 'Exit: HB Rejection';
+        if (lower.includes('tp')) return 'Exit: TP';
+        if (lower.includes('etr') || lower.includes('trend reversal')) return 'Exit: Trend Reversal';
+        if (lower.includes('smoothed')) return 'Smoothed Movement';
+        if (lower.includes('how to mark')) return 'Chart Marking';
+        return 'Other'; // This would be better if localized, but usually "Other" is fine for technical categories
+    };
+
+    // All images data
+    const allImages = useMemo(() => {
+        const basePath = '/images/course/Session 2/ProTrader_Systems - Session 2 - Other Screenshots/';
+        const flashCardsBase = '/images/course/Session 2/ProTrader_Systems - Session 2 - Flash Cards/';
+
+        const otherScreenshots = [
+            '1 - different types of ts and bs - 20200629 - example 1 (convert.io).png',
+            '2 - different types of ts and bs - 20200629 - example 2 (convert.io).png',
+            '3 - exit technique with storsi ts-bs - 20200629 - example 1 (convert.io).png',
+            '4 - exit technique with storsi ts-bs - 20200629 - example 2 (convert.io).png',
+            '5 - exit technique with storsi ms - ws - 20200629 - example 1 (convert.io).png',
+            '6 - exit technique with storsi ms - ws - 20200629 - example 2 (convert.io).png',
+            '7 - exit technique with storsi divs - 20200629 - example 1 (convert.io).png',
+            '8 - exit technique with storsi divs - 20200629 - example 2 (convert.io).png',
+            '9 - exit technique with storsi divs - 20200629 - example 3 (convert.io).png',
+            '10 - exit technique with storsi divs - 20200629 - example 4 (convert.io).png',
+            '11 - exit technique with lb - 20200629 - example 1 (convert.io).png',
+            '12 - exit technique with lb - 20200629 - example 2 (convert.io).png',
+            '13 - exit technique with lb - 20200629 - example 3 (convert.io).png',
+            '14 - exit technique with hb rejection - 20200629 - example 1 (convert.io).png',
+            '15 - exit technique with hb rejection - 20200629 - example 2 (convert.io).png',
+            '16 - exit technique with tp - 20200629 - example 1 (convert.io).png',
+            '17 - exit technique with tp - 20200629 - example 2 (convert.io).png',
+            '18 - exit technique with etf trend reversal - 20200629 - example 1 (convert.io).png',
+            '19 - exit technique with etf trend reversal - 20200629 - example 2 (convert.io).png',
+            '20 - putting it all together - how to mark a chart - 20200629 - example 1 (convert.io).png',
+            '21 - putting it all together - how to mark a chart - 20200629 - example 2 (convert.io).png',
+            '22 - smoothed movement - good one - 20200629 - example 1 (convert.io).png',
+            '23 - not smoothed movement - not good one - 20200629 - example 1 (convert.io).png',
+        ];
+
+        const flashCards = [
+            '3 - exit setup with ts - bs - part 1 - exit setup bar.png',
+            '3 - exit setup with ts - bs - part 2 - exit trigger bar.png',
+            '3 - exit setup with ts - bs - part 3 - movement.png',
+            '4 - exit setup with ts - bs - part 1 - exit setup bar.png',
+            '4 - exit setup with ts - bs - part 2 - exit trigger bar.png',
+            '4 - exit setup with ts - bs - part 3 - movement.png',
+            '5 - exit setup with ms - ws - part 1 - exit setup bar.png',
+            '5 - exit setup with ms - ws - part 2 - exit trigger bar.png',
+            '5 - exit setup with ms - ws - part 3 - movement.png',
+            '6 - exit setup with ms - ws - part 1 - exit setup bar.png',
+            '6 - exit setup with ms - ws - part 2 - exit trigger bar.png',
+            '6 - exit setup with ms - ws - part 3 - movement.png',
+            '7 - exit setup with div - part 1 - exit setup bar.png',
+            '7 - exit setup with div - part 2 - exit trigger bar.png',
+            '7 - exit setup with div - part 3 - movement.png',
+            '8 - exit setup with div - part 1 - exit setup bar.png',
+            '8 - exit setup with div - part 2 - exit trigger bar.png',
+            '8 - exit setup with div - part 3 - movement.png',
+            '9 - exit setup with e.div - part 1 - exit setup bar.png',
+            '9 - exit setup with e.div - part 2 - exit trigger bar.png',
+            '9 - exit setup with e.div - part 3 - movement.png',
+            '10 - exit setup with e.div - part 1 - exit setup bar.png',
+            '10 - exit setup with e.div - part 2 - exit trigger bar.png',
+            '10 - exit setup with e.div - part 3 - movement.png',
+            '11 - exit setup with lb - part 1 - exit setup bar.png',
+            '11 - exit setup with lb - part 2 - exit no trigger bar.png',
+            '11 - exit setup with lb - part 3 - movement.png',
+            '12 - exit setup with lb - part 1 - exit setup bar.png',
+            '12 - exit setup with lb - part 2 - exit trigger bar.png',
+            '12 - exit setup with lb - part 3 - movement.png',
+            '13 - exit setup with lb - part 1 - exit setup bar.png',
+            '13 - exit setup with lb - part 2 - exit trigger bar.png',
+            '13 - exit setup with lb - part 3 - movement.png',
+            '14 - exit setup with tp - part 1 - exit setup bar.png',
+            '14 - exit setup with tp - part 2 - exit trigger bar.png',
+            '14 - exit setup with tp - part 3 - movement.png',
+            '15 - exit setup with tp - part 1 - exit setup bar.png',
+            '15 - exit setup with tp - part 2 - exit trigger bar.png',
+            '15 - exit setup with tp - part 3 - movement.png',
+            '16 - exit setup with hb rej - part 1 - exit setup bar.png',
+            '16 - exit setup with hb rej - part 2 - exit trigger bar.png',
+            '16 - exit setup with hb rej - part 3 - movement.png',
+            '17 - exit setup with hb rej - part 1 - exit setup bar.png',
+            '17 - exit setup with hb rej - part 2 - exit trigger bar.png',
+            '17 - exit setup with hb rej - part 3 - movement.png',
+            '18 - exit setup with etr - part 1 - exit setup bar.png',
+            '18 - exit setup with etr - part 2 - exit trigger bar.png',
+            '18 - exit setup with etr - part 3 - movement.png',
+            '19 - exit setup with etr - part 1 - exit setup bar.png',
+            '19 - exit setup with etr - part 2 - exit trigger bar.png',
+            '19 - exit setup with etr - part 3 - movement.png',
+        ];
+
+        let id = 1;
+        const images: GalleryImage[] = [];
+
+        otherScreenshots.forEach(filename => {
+            images.push({
+                id: id++,
+                filename,
+                title: cleanTitle(filename),
+                category: getCategory(filename),
+                path: basePath + filename
+            });
+        });
+
+        flashCards.forEach(filename => {
+            images.push({
+                id: id++,
+                filename,
+                title: cleanTitle(filename),
+                category: getCategory(filename),
+                path: flashCardsBase + filename
+            });
+        });
+
+        return images;
+    }, [t]);
     const [activeCategory, setActiveCategory] = useState<string>('all');
     const [lightboxImage, setLightboxImage] = useState<GalleryImage | null>(null);
     const location = useLocation();
@@ -182,7 +182,7 @@ const Session2Gallery = () => {
     };
 
     const getCategoryLabel = (cat: string): string => {
-        if (cat === 'all') return 'Все материалы';
+        if (cat === 'all') return t('gallery.all');
         return cat;
     };
 
@@ -207,7 +207,7 @@ const Session2Gallery = () => {
     };
 
     const handleDownloadAll = () => {
-        alert('Функция скачивания архива будет добавлена позже');
+        alert(t('gallery.download_archive_later'));
     };
 
     const handleBack = () => {
@@ -230,13 +230,13 @@ const Session2Gallery = () => {
                     onClick={handleBack}
                 >
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Назад
+                    {t('gallery.back')}
                 </Button>
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-2">Скриншоты графиков</h1>
-                    <p className="text-gray-400">Session 2 - Техники выхода и анализ тренда</p>
+                    <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('gallery.title')}</h1>
+                    <p className="text-gray-400">{t('gallery.subtitle')}</p>
                 </div>
 
                 {/* Category Filters + Download Button */}
@@ -264,7 +264,7 @@ const Session2Gallery = () => {
                         onClick={handleDownloadAll}
                     >
                         <Download className="mr-2 h-4 w-4" />
-                        Скачать все архивом
+                        {t('gallery.download_all')}
                     </Button>
                 </div>
 
@@ -304,7 +304,7 @@ const Session2Gallery = () => {
                         type="button"
                         className="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-50 pointer-events-auto cursor-pointer"
                         onClick={(e) => { e.stopPropagation(); setLightboxImage(null); }}
-                        aria-label="Закрыть"
+                        aria-label={t('gallery.aria.close')}
                     >
                         <X className="h-8 w-8" />
                     </button>
@@ -314,7 +314,7 @@ const Session2Gallery = () => {
                         type="button"
                         className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors pointer-events-auto cursor-pointer"
                         onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
-                        aria-label="Предыдущее"
+                        aria-label={t('gallery.aria.prev')}
                     >
                         <ChevronLeft className="h-8 w-8 text-white" />
                     </button>
@@ -323,7 +323,7 @@ const Session2Gallery = () => {
                         type="button"
                         className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors pointer-events-auto cursor-pointer"
                         onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
-                        aria-label="Следующее"
+                        aria-label={t('gallery.aria.next')}
                     >
                         <ChevronRight className="h-8 w-8 text-white" />
                     </button>
@@ -337,7 +337,12 @@ const Session2Gallery = () => {
                         />
                         <div className="mt-4 text-center">
                             <h3 className="text-xl font-semibold text-white">{lightboxImage.title}</h3>
-                            <Badge className="mt-2 bg-purple-600">{lightboxImage.category}</Badge>
+                            <div className="flex items-center justify-center gap-2 mt-2">
+                                <Badge className="bg-purple-600">{lightboxImage.category}</Badge>
+                                <span className="text-sm text-gray-400">
+                                    {filteredImages.findIndex(img => img.id === lightboxImage.id) + 1} {t('gallery.aria.current_of')} {filteredImages.length}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -7,38 +7,38 @@ export interface PlaylistVideo {
 export const beginnerPlaylist: PlaylistVideo[] = [
   {
     id: "6mXofDR4JNc",
-    title: "Что такое финансовый трейдинг?"
+    title: "beginner.playlist.video1"
   },
   {
     id: "Y8iIJMdBKt4",
-    title: "Суть торговли"
+    title: "beginner.playlist.video2"
   },
   {
     id: "75Tuk3tul8M",
-    title: "Основы акций"
+    title: "beginner.playlist.video3"
   },
   {
     id: "QZbVyj3D_xE",
-    title: "Разбираемся в фондовом рынке"
+    title: "beginner.playlist.video4"
   },
   {
     id: "VZM16btn0VU",
-    title: "Фондовые индексы"
+    title: "beginner.playlist.video5"
   },
   {
     id: "mkScEyprvOg",
-    title: "Что такое Форекс?"
+    title: "beginner.playlist.video6"
   },
   {
     id: "VUge8BspXbc",
-    title: "Основы торговли на Форекс"
+    title: "beginner.playlist.video7"
   },
   {
     id: "qb_hD_-GPEU",
-    title: "Основы сырьевых товаров"
+    title: "beginner.playlist.video8"
   },
   {
     id: "hnmYsJfLIuE",
-    title: "Торговля сырьём"
+    title: "beginner.playlist.video9"
   }
 ];

@@ -66,7 +66,7 @@ export const PlaylistSidebar: React.FC<PlaylistSidebarProps> = ({
 
                                 <div className="flex-1">
                                     <h4 className={`text-sm font-medium line-clamp-2 ${isActive ? 'text-primary' : 'text-gray-300 group-hover:text-white'}`}>
-                                        {video.title}
+                                        {t(video.title)}
                                     </h4>
                                     <span className="text-xs text-gray-500 mt-1 block">
                                         {t('training.lesson')} {index + 1}

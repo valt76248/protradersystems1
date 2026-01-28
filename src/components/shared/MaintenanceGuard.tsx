@@ -3,7 +3,7 @@ import React from 'react';
 import Maintenance from '@/pages/Maintenance';
 
 // Maintenance Mode Toggle
-const IS_MAINTENANCE_LOGIC_ENABLED = true;
+const IS_MAINTENANCE_LOGIC_ENABLED = false;
 
 const MaintenanceGuard = ({ children }: { children: React.ReactNode }) => {
     // If maintenance logic is disabled, show the app directly

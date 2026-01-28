@@ -21,7 +21,10 @@ export default function Calculators() {
 
     return (
         <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-            <SEO title="Calculators" description="Professional trading calculators for Risk, Lot size, Margin, and Compound interest." />
+            <SEO
+                title={t('seo.calculators.title')}
+                description={t('seo.calculators.description')}
+            />
             <Header />
 
             <main className="container mx-auto px-4 py-24 md:py-32">
