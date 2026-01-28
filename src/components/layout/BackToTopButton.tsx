@@ -7,17 +7,27 @@ const BackToTopButton = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+
         const toggleVisibility = () => {
-            if (window.scrollY > 300) {
-                setIsVisible(true);
-            } else {
-                setIsVisible(false);
-            }
+            if (timeoutId) return;
+
+            timeoutId = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    setIsVisible(true);
+                } else {
+                    setIsVisible(false);
+                }
+                timeoutId = undefined!;
+            }, 100); // Check every 100ms instead of every frame
         };
 
         window.addEventListener('scroll', toggleVisibility);
 
-        return () => window.removeEventListener('scroll', toggleVisibility);
+        return () => {
+            window.removeEventListener('scroll', toggleVisibility);
+            if (timeoutId) clearTimeout(timeoutId);
+        };
     }, []);
 
     const scrollToTop = () => {

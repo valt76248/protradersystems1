@@ -108,9 +108,12 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-blue-500;
   }
 
-  /* Aura Background Blobs */
+  /* Aura Background Blobs - Performance Optimized */
   .aura-blob {
-    @apply absolute rounded-full blur-[100px] opacity-40 mix-blend-screen pointer-events-none transition-all duration-1000;
+    @apply absolute rounded-full blur-[80px] opacity-40 mix-blend-screen pointer-events-none transition-transform duration-1000 ease-linear;
+    will-change: transform;
+    transform: translateZ(0);
+    /* Force GPU acceleration */
   }
 
   .aura-blob-blue {
