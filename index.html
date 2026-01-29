@@ -1,52 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProTrader Systems — Системный трейдинг</title>
-    <meta name="description" content="Обучение системному трейдингу. Курсы, калькуляторы и инструменты для трейдеров." />
-    <meta name="author" content="ProTrader Systems" />
 
-    <meta property="og:title" content="ProTrader Systems — Системный трейдинг" />
-    <meta property="og:description" content="Обучение системному трейдингу. Курсы, калькуляторы и инструменты для трейдеров." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://protradersystems.com" />
-    <meta property="og:image" content="https://protradersystems.com/og-image.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProTrader Systems — Системный трейдинг</title>
+  <meta name="description" content="Обучение системному трейдингу. Курсы, калькуляторы и инструменты для трейдеров." />
+  <meta name="author" content="ProTrader Systems" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@protradersystems" />
-    <meta name="twitter:image" content="https://protradersystems.com/og-image.png" />
-  </head>
+  <meta property="og:title" content="ProTrader Systems — Системный трейдинг" />
+  <meta property="og:description"
+    content="Обучение системному трейдингу. Курсы, калькуляторы и инструменты для трейдеров." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://protradersystems.com" />
+  <meta property="og:image" content="https://protradersystems.com/og-image.png" />
 
-  <body>
-    <div id="root"></div>
-    <!-- Global Error Handler for "Black Screen" Debugging -->
-    <script>
-      window.onerror = function(message, source, lineno, colno, error) {
-        const errorDiv = document.createElement('div');
-        errorDiv.style.position = 'fixed';
-        errorDiv.style.top = '0';
-        errorDiv.style.left = '0';
-        errorDiv.style.width = '100%';
-        errorDiv.style.height = '100%';
-        errorDiv.style.backgroundColor = '#000';
-        errorDiv.style.color = '#ff4444';
-        errorDiv.style.zIndex = '999999';
-        errorDiv.style.padding = '20px';
-        errorDiv.style.overflow = 'auto';
-        errorDiv.style.fontFamily = 'monospace';
-        errorDiv.innerHTML = '<h1>Global Error Caught</h1>' +
-          '<h3>' + message + '</h3>' +
-          '<p>Source: ' + source + ':' + lineno + ':' + colno + '</p>' +
-          '<pre>' + (error ? error.stack : 'No stack trace') + '</pre>';
-        document.body.appendChild(errorDiv);
-      };
-      
-      window.addEventListener('unhandledrejection', function(event) {
-         window.onerror('Unhandled Promise Rejection: ' + event.reason, 'Promse', 0, 0, event.reason);
-      });
-    </script>
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@protradersystems" />
+  <meta name="twitter:image" content="https://protradersystems.com/og-image.png" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <!-- Global Error Handler for "Black Screen" Debugging -->
+  <script>
+    window.onerror = function (message, source, lineno, colno, error) {
+      const errorDiv = document.createElement('div');
+      errorDiv.style.position = 'fixed';
+      errorDiv.style.top = '0';
+      errorDiv.style.left = '0';
+      errorDiv.style.width = '100%';
+      errorDiv.style.height = '100%';
+      errorDiv.style.backgroundColor = '#000';
+      errorDiv.style.color = '#ff4444';
+      errorDiv.style.zIndex = '999999';
+      errorDiv.style.padding = '20px';
+      errorDiv.style.overflow = 'auto';
+      errorDiv.style.fontFamily = 'monospace';
+      errorDiv.innerHTML = '<h1>Global Error Caught</h1>' +
+        '<h3>' + message + '</h3>' +
+        '<p>Source: ' + source + ':' + lineno + ':' + colno + '</p>' +
+        '<pre>' + (error ? error.stack : 'No stack trace') + '</pre>';
+      document.body.appendChild(errorDiv);
+    };
+
+    window.addEventListener('unhandledrejection', function (event) {
+      window.onerror('Unhandled Promise Rejection: ' + event.reason, 'Promse', 0, 0, event.reason);
+    });
+  </script>
+  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

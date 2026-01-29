@@ -9,6 +9,7 @@ import TradingSection from '../components/home/trading/TradingSection';
 import AnalyticsSection from '../components/home/info/AnalyticsSection';
 import ProtectionOverlay from '../components/shared/ProtectionOverlay';
 import QuizSection from '../components/home/QuizSection';
+import QuizIntro from '../components/home/QuizIntro';
 import ProblemSolutionSection from '../components/home/problem-solution/ProblemSolutionSection';
 import FAQSection from '../components/home/info/FAQSection';
 import InfoSection from '../components/home/info/InfoSection';
@@ -34,6 +35,7 @@ const Home = () => {
           animate={{ opacity: 1 }}
         >
           <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}><HeroSection /></m.section>
+          <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}><QuizIntro /></m.section>
           <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}><QuizSection /></m.section>
           <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}><TradingSection /></m.section>
           <m.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}><PhilosophySection /></m.section>
