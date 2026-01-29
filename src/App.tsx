@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import React, { Suspense, lazy } from 'react';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { HelmetProvider } from 'react-helmet-async';
@@ -13,8 +13,9 @@ import MaintenanceGuard from "./components/shared/MaintenanceGuard";
 import { Loader } from "./components/ui/loader";
 import ReferralTracker from "./components/utils/ReferralTracker";
 import ErrorBoundary from "./components/shared/ErrorBoundary";
-import { LazyMotion, domMax } from "framer-motion";
+import { LazyMotion, domMax, AnimatePresence, m } from "framer-motion";
 import ScrollProgressBar from "./components/ui/ScrollProgressBar";
+import CustomCursor from "./components/shared/CustomCursor";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./pages/Home"));
@@ -52,6 +53,48 @@ const queryClient = new QueryClient({
   },
 });
 
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <m.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<Home />} />
+          <Route path="/beginner-training" element={<BeginnerTraining />} />
+          <Route path="/psychology" element={<Psychology />} />
+          <Route path="/risk-management" element={<RiskManagement />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
+          <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/calculators" element={<Calculators />} />
+          <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+          <Route path="/session-1" element={<SessionOne />} />
+          <Route path="/session-2" element={<SessionTwo />} />
+          <Route path="/session-1-gallery" element={<Session1Gallery />} />
+          <Route path="/session-2-gallery" element={<Session2Gallery />} />
+          <Route path="/pre-registration" element={<PreRegistration />} />
+          <Route path="/public-offer" element={<PublicOffer />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/eligible-clients" element={<EligibleClients />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </m.div>
+    </AnimatePresence>
+  );
+};
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -66,38 +109,11 @@ const App = () => {
                   <BrowserRouter>
                     <ScrollToTop />
                     <Suspense fallback={<Loader />}>
+                      <CustomCursor />
                       <ScrollProgressBar />
                       <ReferralTracker />
                       <BackToTopButton />
-                      <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/beginner-training" element={<BeginnerTraining />} />
-
-                        <Route path="/psychology" element={<Psychology />} />
-                        <Route path="/risk-management" element={<RiskManagement />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/materials-manager" element={<ProtectedRoute><MaterialsManager /></ProtectedRoute>} />
-                        <Route path="/course-structure" element={<ProtectedRoute><CourseStructure /></ProtectedRoute>} />
-                        <Route path="/courses" element={<Courses />} />
-
-                        <Route path="/payment-success" element={<PaymentSuccess />} />
-                        <Route path="/account" element={<Account />} />
-                        <Route path="/calculators" element={<Calculators />} />
-                        <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-                        <Route path="/session-1" element={<SessionOne />} />
-                        <Route path="/session-2" element={<SessionTwo />} />
-                        <Route path="/session-1-gallery" element={<Session1Gallery />} />
-                        <Route path="/session-2-gallery" element={<Session2Gallery />} />
-                        <Route path="/pre-registration" element={<PreRegistration />} />
-
-                        {/* Legal Pages */}
-                        <Route path="/public-offer" element={<PublicOffer />} />
-                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                        <Route path="/eligible-clients" element={<EligibleClients />} />
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
+                      <AnimatedRoutes />
                     </Suspense>
                   </BrowserRouter>
                 </MaintenanceGuard>

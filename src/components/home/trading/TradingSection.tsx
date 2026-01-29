@@ -14,7 +14,7 @@ const TradingSection = () => {
     <div className="w-full py-16 px-4 relative no-select overflow-hidden bg-gray-900">
       {/* Background Image */}
       <div
-        className="absolute inset-0 z-0 opacity-20"
+        className="absolute inset-0 z-0 opacity-20 bg-fixed"
         style={{
           backgroundImage: 'url("/vintage_trading_bg.png")',
           backgroundSize: 'cover',

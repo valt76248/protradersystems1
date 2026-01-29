@@ -96,7 +96,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="w-full bg-trading-card/80 py-4 px-4 no-select sticky top-0 z-50 backdrop-blur-md premium-border-gradient">
+      <header className="w-full bg-transparent py-6 px-4 no-select sticky top-0 z-50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-3 group">
             <ChartLine className="h-7 w-7 text-primary transition-transform group-hover:scale-110 group-hover:rotate-3" />
@@ -112,13 +112,13 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "relative text-base font-bold tracking-wide transition-all duration-300 py-1 group ghost-glow-white hover:scale-110 text-3d-static-subtle",
-                  isActive(item.path) ? "text-white scale-105" : "text-white opacity-80"
+                  "relative text-base font-bold tracking-widest transition-all duration-300 py-1 group ghost-glow-white hover:scale-110",
+                  isActive(item.path) ? "text-white opacity-100 scale-110" : "text-white opacity-60 hover:opacity-100"
                 )}
               >
                 {t(item.labelKey)}
                 <span className={cn(
-                  "absolute -bottom-1 left-0 h-[2.5px] bg-white shadow-[0_0_12px_rgba(255,255,255,0.9)] transition-all duration-300",
+                  "absolute -bottom-1 left-0 h-[2px] bg-current shadow-[0_0_10px_currentColor] transition-all duration-300",
                   isActive(item.path) ? "w-full" : "w-0 group-hover:w-full"
                 )} />
               </Link>
@@ -133,18 +133,18 @@ const Header = () => {
                   <AuraButton
                     variant="ghost-glow-white"
                     size="default"
-                    className="hidden lg:flex text-3d-static-subtle"
+                    className="hidden lg:flex"
                   >
                     <User className="mr-2 h-4 w-4" />
-                    {firstName ? `Здравствуйте, ${firstName}` : t('nav.account')}
+                    {firstName ? firstName : t('nav.account')}
                   </AuraButton>
                 </Link>
                 <AuraButton
                   onClick={handleLogout}
-                  variant="outline"
-                  className="hidden lg:flex px-4 py-2 text-xs border-red-500/20 text-red-400 hover:border-red-500/40"
+                  variant="ghost-glow-cyan"
+                  className="hidden lg:flex"
                 >
-                  <LogOut className="mr-2 h-3 w-3" />
+                  <LogOut className="mr-2 h-4 w-4" />
                   {t('nav.logout')}
                 </AuraButton>
               </>
@@ -155,9 +155,9 @@ const Header = () => {
                 <Link to="/login">
                   <AuraButton
                     variant="ghost-glow-blue"
-                    className="hidden lg:flex text-3d-static-subtle"
+                    className="hidden lg:flex"
                   >
-                    <LogIn className="mr-2 h-3 w-3" />
+                    <LogIn className="mr-2 h-4 w-4" />
                     {t('nav.login')}
                   </AuraButton>
                 </Link>

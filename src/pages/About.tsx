@@ -3,8 +3,9 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Target, TrendingUp, Users, Shield, LineChart, Brain, Globe, Award } from 'lucide-react';
+import { Target, TrendingUp, Shield, LineChart, Brain, Globe, Award } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import Counter from '@/components/shared/Counter';
 
 const About = () => {
   const { t } = useLanguage();
@@ -45,7 +46,7 @@ const About = () => {
         {/* Hero Section */}
         <section className={`max-w-6xl mx-auto mb-20 text-center transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <Badge className="mb-4 bg-trading-accent/10 text-trading-accent hover:bg-trading-accent/20 border-trading-accent/20 px-4 py-1 text-sm">
-            Since 2020
+            Est. 2020
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500">
             О Проекте <br /> ProTrader Systems
@@ -100,20 +101,28 @@ const About = () => {
           <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-2xl p-8 md:p-12 border border-white/5">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-white mb-2">2-3</div>
-                <div className="text-sm text-gray-400">{t('about.stat.lessons')}</div>
+                <div className="text-4xl font-bold text-white mb-2 flex items-center justify-center">
+                  <Counter target={10} duration={1.5} />+
+                </div>
+                <div className="text-sm text-gray-400 tracking-wider uppercase font-medium">{t('about.stat.experience')}</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-white mb-2">∞</div>
-                <div className="text-sm text-gray-400">{t('about.stat.access')}</div>
+                <div className="text-4xl font-bold text-white mb-2 flex items-center justify-center">
+                  <Counter target={1500} duration={2} />+
+                </div>
+                <div className="text-sm text-gray-400 tracking-wider uppercase font-medium">{t('about.stat.students')}</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-white mb-2">PRO</div>
-                <div className="text-sm text-gray-400">{t('about.stat.risk_reward')}</div>
+                <div className="text-4xl font-bold text-white mb-2 flex items-center justify-center">
+                  <Counter target={296} duration={2} />%
+                </div>
+                <div className="text-sm text-gray-400 tracking-wider uppercase font-medium">Monthly Gain</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-white mb-2">📱</div>
-                <div className="text-sm text-gray-400">{t('about.stat.telegram')}</div>
+                <div className="text-4xl font-bold text-white mb-2 flex items-center justify-center">
+                  <Counter target={1} duration={1} />
+                </div>
+                <div className="text-sm text-gray-400 tracking-wider uppercase font-medium">Unified System</div>
               </div>
             </div>
           </div>

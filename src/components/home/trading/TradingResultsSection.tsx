@@ -2,6 +2,7 @@ import React from 'react';
 import { TrendingUp, Target, Shield, Clock, CheckCircle } from 'lucide-react';
 import StartTrainingButton from '@/components/shared/StartTrainingButton';
 import { useLanguage } from '@/contexts/LanguageContext';
+import Counter from '@/components/shared/Counter';
 
 const TradingResultsSection = () => {
     const { t } = useLanguage();
@@ -9,25 +10,29 @@ const TradingResultsSection = () => {
     const stats = [
         {
             icon: TrendingUp,
-            value: '70-85%',
+            value: 85,
+            suffix: '%',
             label: t('results.winrate'),
             color: 'text-green-400'
         },
         {
             icon: Shield,
-            value: '0.5-1%',
+            value: 1,
+            suffix: '%',
             label: t('results.max_risk'),
             color: 'text-yellow-400'
         },
         {
             icon: Clock,
-            value: '1-12',
+            value: 12,
+            suffix: '',
             label: t('results.trades_day'),
             color: 'text-purple-400'
         },
         {
             icon: Target,
-            value: '21+',
+            value: 21,
+            suffix: '+',
             label: t('results.hours_content'),
             color: 'text-blue-400'
         }
@@ -62,7 +67,7 @@ const TradingResultsSection = () => {
                         >
                             <stat.icon className={`h-8 w-8 ${stat.color} mx-auto mb-3`} />
                             <div className={`text-3xl md:text-4xl font-bold ${stat.color} mb-2`}>
-                                {stat.value}
+                                <Counter target={stat.value} duration={2} />{stat.suffix}
                             </div>
                             <div className="text-sm text-gray-400">
                                 {stat.label}

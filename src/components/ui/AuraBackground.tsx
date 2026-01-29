@@ -1,8 +1,26 @@
 import React, { useMemo } from 'react';
-import { m, useReducedMotion } from 'framer-motion';
+import { m, useSpring, useMotionValue, useReducedMotion } from 'framer-motion';
 
 const AuraBackground = () => {
     const shouldReduceMotion = useReducedMotion();
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // Smooth physics for the mouse movement
+    const springX = useSpring(mouseX, { damping: 50, stiffness: 20 });
+    const springY = useSpring(mouseY, { damping: 50, stiffness: 20 });
+
+    React.useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            // Factor down the movement to keep it subtle
+            mouseX.set(e.clientX * 0.1);
+            mouseY.set(e.clientY * 0.1);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, [mouseX, mouseY]);
 
     // Disable background animations entirely if user prefers reduced motion
     if (shouldReduceMotion) {
@@ -11,15 +29,21 @@ const AuraBackground = () => {
 
     return (
         <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-[#020617] isolation-auto">
-            {/* Static blobs for Desktop to save CPU/GPU cycles during scroll */}
-            <div className="absolute aura-blob aura-blob-blue w-[400px] h-[400px] -top-24 -left-24 opacity-10" />
-            <div className="absolute aura-blob aura-blob-purple w-[500px] h-[500px] bottom-0 -right-24 opacity-10" />
-
-            {/* Reduced motion or purely decorative central glow */}
+            {/* Interactive container */}
             <m.div
-                className="absolute aura-blob glow-cyan w-[300px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5"
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                style={{ translateX: springX, translateY: springY }}
+                className="absolute inset-0"
+            >
+                {/* Static blobs inside the interactive container */}
+                <div className="absolute aura-blob aura-blob-blue w-[600px] h-[600px] -top-32 -left-32 opacity-20" />
+                <div className="absolute aura-blob aura-blob-purple w-[700px] h-[700px] bottom-0 -right-32 opacity-20" />
+            </m.div>
+
+            {/* Central stable glow */}
+            <m.div
+                className="absolute aura-blob glow-cyan w-[400px] h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
             />
         </div>
     );

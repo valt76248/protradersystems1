@@ -71,7 +71,7 @@ const ProblemSolutionSection = () => {
             className="bg-trading-dark relative"
             style={{ height: `${problemsSolutions.length * 80 + 100}vh` }}
         >
-            <div className="absolute inset-0 z-0 opacity-100 bg-ledger-desk" />
+            <div className="absolute inset-0 z-0 opacity-100 bg-ledger-desk bg-fixed" />
             <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center relative z-10">
 
                 {/* Header - Stays at top */}
