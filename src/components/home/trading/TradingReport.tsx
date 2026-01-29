@@ -97,6 +97,14 @@ const TradingReport = () => {
           .ptr-table td { padding: 12px 18px; border-bottom: 1px solid #374151; color: #e5e7eb; }
           .ptr-table tr:last-child td { border-bottom: none; }
           
+          /* New Classes for report elements */
+          .ptr-log-title { margin: 0 0 15px 5px; font-size: 16px; color: #d1d5db; }
+          .ptr-col-time { color: #9ca3af; }
+          .ptr-phase-row td { text-align: center; padding: 20px; color: #6b7280; font-style: italic; }
+          .ptr-footer-row { background-color: #374151; }
+          .ptr-footer-label { text-align: right; font-weight: bold; color: #fff; }
+          .ptr-footer-value { font-weight: bold; font-size: 16px; }
+
           /* Бейджи типов сделок */
           .ptr-badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
           .badge-buy { background-color: rgba(16, 185, 129, 0.15); color: #34d399; }
@@ -137,7 +145,7 @@ const TradingReport = () => {
                     <img src="/trading_report_chart.png" alt="Growth Chart" className="ptr-chart-img" />
                 </div>
 
-                <h3 style={{ margin: '0 0 15px 5px', fontSize: '16px', color: '#d1d5db' }}>{t('report.log')}</h3>
+                <h3 className="ptr-log-title">{t('report.log')}</h3>
                 <div className="ptr-table-wrapper">
                     <table className="ptr-table">
                         <thead>
@@ -152,7 +160,7 @@ const TradingReport = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td style={{ color: '#9ca3af' }}>2025.05.19</td>
+                                <td className="ptr-col-time">2025.05.19</td>
                                 <td><span className="ptr-badge badge-deposit">DEPOSIT</span></td>
                                 <td>-</td>
                                 <td>-</td>
@@ -184,8 +192,8 @@ const TradingReport = () => {
                                 <td className="text-green">+10.61</td>
                             </tr>
 
-                            <tr>
-                                <td colSpan={6} style={{ textAlign: 'center', padding: '20px', color: '#6b7280', fontStyle: 'italic' }}>
+                            <tr className="ptr-phase-row">
+                                <td colSpan={6}>
                                     &darr; ... {t('report.phase')} ... &darr;
                                 </td>
                             </tr>
@@ -215,9 +223,9 @@ const TradingReport = () => {
                                 <td className="text-green">+2.87</td>
                             </tr>
 
-                            <tr style={{ backgroundColor: '#374151' }}>
-                                <td colSpan={5} style={{ textAlign: 'right', fontWeight: 'bold', color: '#fff' }}>{t('report.total_net_profit')}</td>
-                                <td className="text-green" style={{ fontWeight: 'bold', fontSize: '16px' }}>$396.93</td>
+                            <tr className="ptr-footer-row">
+                                <td colSpan={5} className="ptr-footer-label">{t('report.total_net_profit')}</td>
+                                <td className="text-green ptr-footer-value">$396.93</td>
                             </tr>
                         </tbody>
                     </table>

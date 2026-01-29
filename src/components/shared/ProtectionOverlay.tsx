@@ -56,11 +56,7 @@ const ProtectionOverlay: React.FC = () => {
     <>
       {/* Protected content watermark - Optimized to single element */}
       <div
-        className="fixed inset-0 pointer-events-none z-50 opacity-[0.03]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' transform='rotate(-45 80 80)' font-family='Arial' font-size='12' fill='gray'%3EPROTRADER%3C/text%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat'
-        }}
+        className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] bg-protection-watermark"
       />
 
       {/* Warning popup */}

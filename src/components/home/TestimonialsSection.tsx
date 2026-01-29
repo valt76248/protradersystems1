@@ -171,6 +171,8 @@ const TestimonialsSection: React.FC = () => {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-400 hover:text-blue-300 transition-colors"
+                                            aria-label={`Telegram of ${currentTestimonial.name}`}
+                                            title={`Telegram of ${currentTestimonial.name}`}
                                         >
                                             <ExternalLink className="h-4 w-4" />
                                         </a>
@@ -222,6 +224,7 @@ const TestimonialsSection: React.FC = () => {
                             size="icon"
                             onClick={prevSlide}
                             className="rounded-full border-gray-700 hover:bg-gray-800"
+                            aria-label="Previous testimonial"
                         >
                             <ChevronLeft className="h-5 w-5" />
                         </Button>
@@ -232,6 +235,7 @@ const TestimonialsSection: React.FC = () => {
                                 <button
                                     key={index}
                                     onClick={() => setCurrentIndex(index)}
+                                    aria-label={`Go to slide ${index + 1}`}
                                     className={`w-2 h-2 rounded-full transition-all ${index === currentIndex
                                         ? 'bg-blue-500 w-6'
                                         : 'bg-gray-600 hover:bg-gray-500'
@@ -245,6 +249,7 @@ const TestimonialsSection: React.FC = () => {
                             size="icon"
                             onClick={nextSlide}
                             className="rounded-full border-gray-700 hover:bg-gray-800"
+                            aria-label="Next testimonial"
                         >
                             <ChevronRight className="h-5 w-5" />
                         </Button>

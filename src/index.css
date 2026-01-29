@@ -67,10 +67,12 @@
 
     /* Disable expensive blur on desktop viewports where area is huge */
     @media (min-width: 1024px) {
+      -webkit-backdrop-filter: none !important;
       backdrop-filter: none !important;
     }
 
     @media (max-width: 1023px) {
+      -webkit-backdrop-filter: blur(4px);
       backdrop-filter: blur(4px);
     }
   }
@@ -167,7 +169,7 @@
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox and modern Chrome (121+) */
+    /* Firefox */
   }
 
   .scrollbar-hide::-webkit-scrollbar {
@@ -222,6 +224,25 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+  }
+
+  .bg-philosophy-vintage {
+    background-image: url('/images/philosophy_vintage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .bg-vintage-trading {
+    background-image: url('/vintage_trading_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .bg-protection-watermark {
+    background-image: url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle' transform='rotate(-45 80 80)' font-family='Arial' font-size='12' fill='gray'%3EPROTRADER%3C/text%3E%3C/svg%3E");
+    background-repeat: repeat;
   }
 
   .text-shadow-hero-subtitle {

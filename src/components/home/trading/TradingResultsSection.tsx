@@ -10,31 +10,35 @@ const TradingResultsSection = () => {
     const stats = [
         {
             icon: TrendingUp,
-            value: 85,
+            value: 82.0,
             suffix: '%',
             label: t('results.winrate'),
-            color: 'text-green-400'
+            color: 'text-green-400',
+            decimals: 1
         },
         {
             icon: Shield,
             value: 1,
             suffix: '%',
             label: t('results.max_risk'),
-            color: 'text-yellow-400'
+            color: 'text-yellow-400',
+            decimals: 0
         },
         {
             icon: Clock,
             value: 12,
             suffix: '',
             label: t('results.trades_day'),
-            color: 'text-purple-400'
+            color: 'text-purple-400',
+            decimals: 0
         },
         {
             icon: Target,
-            value: 21,
+            value: 24,
             suffix: '+',
             label: t('results.hours_content'),
-            color: 'text-blue-400'
+            color: 'text-blue-400',
+            decimals: 0
         }
     ];
 
@@ -60,20 +64,34 @@ const TradingResultsSection = () => {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    {stats.map((stat, index) => (
-                        <div
-                            key={index}
-                            className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 text-center hover:border-gray-700 transition-all hover:scale-105"
-                        >
-                            <stat.icon className={`h-8 w-8 ${stat.color} mx-auto mb-3`} />
-                            <div className={`text-3xl md:text-4xl font-bold ${stat.color} mb-2`}>
-                                <Counter target={stat.value} duration={2} />{stat.suffix}
+                    {stats.map((stat, index) => {
+                        // Special handling for Winrate to show range as requested
+                        const isWinrate = index === 0;
+
+                        return (
+                            <div
+                                key={index}
+                                className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 text-center hover:border-gray-700 transition-all hover:scale-105"
+                            >
+                                <stat.icon className={`h-8 w-8 ${stat.color} mx-auto mb-3`} />
+                                <div className={`text-3xl md:text-4xl font-bold ${stat.color} mb-2`}>
+                                    {isWinrate ? (
+                                        "70-85"
+                                    ) : (
+                                        <Counter
+                                            target={stat.value}
+                                            duration={2}
+                                            decimals={stat.decimals}
+                                        />
+                                    )}
+                                    {stat.suffix}
+                                </div>
+                                <div className="text-sm text-gray-400">
+                                    {stat.label}
+                                </div>
                             </div>
-                            <div className="text-sm text-gray-400">
-                                {stat.label}
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 {/* Features List */}

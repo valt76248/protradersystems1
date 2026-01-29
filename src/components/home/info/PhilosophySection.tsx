@@ -8,9 +8,9 @@ const PhilosophySection = () => {
     return (
         <section className="w-full bg-trading-dark pb-20 relative overflow-hidden">
             {/* 1. Full Width Image Banner */}
+            {/* 1. Full Width Image Banner */}
             <div
-                className="w-full h-[80vh] md:h-[100vh] relative bg-black bg-fixed bg-center bg-cover bg-no-repeat"
-                style={{ backgroundImage: 'url(/images/philosophy_vintage.jpg)' }}
+                className="w-full h-[80vh] md:h-[100vh] relative bg-black bg-fixed bg-philosophy-vintage"
                 aria-label="Trading Philosophy - Compass and Discipline"
                 role="img"
             />
@@ -32,7 +32,7 @@ const PhilosophySection = () => {
                 </div>
 
                 {/* Main Philosophy Text */}
-                <div className="space-y-12 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <div className="space-y-12 animate-fade-in-up animation-delay-200">
 
                     {/* Header */}
                     <div className="text-center space-y-4">

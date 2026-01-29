@@ -83,9 +83,6 @@ const ProblemSolutionSection = () => {
                         <h2 className="text-3xl md:text-5xl font-bold text-center mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 pb-2">
                             {t('problems.title')}
                         </h2>
-                        <h3 className="text-xl md:text-3xl text-center font-normal text-gray-400">
-                            {t('problems.subtitle')}
-                        </h3>
                     </div>
                 </m.div>
 
