@@ -110,6 +110,10 @@
   h2 {
     font-family: 'Playfair Display', serif;
     font-style: italic;
+    /* Black outline for premium readability */
+    paint-order: stroke fill;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -260,6 +264,8 @@
     font-style: italic;
     letter-spacing: 0.02em;
     line-height: 1.1;
+    paint-order: stroke fill;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
     /* Premium 3D shadow: light from top-left, distant blurry dark-purple shadow */
     text-shadow:
       1px 1px 0px #3b0764,
