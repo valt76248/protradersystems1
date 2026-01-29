@@ -3,9 +3,10 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Target, TrendingUp, Shield, LineChart, Brain, Globe, Award } from 'lucide-react';
+import { Target, TrendingUp, Shield, LineChart, Brain, Globe, Award, ShieldAlert, BarChart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Counter from '@/components/shared/Counter';
+import { motion } from 'framer-motion';
 
 const About = () => {
   const { t } = useLanguage();
@@ -14,6 +15,24 @@ const About = () => {
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const systemFeatures = [
+    {
+      title: t('features.card1.title'),
+      desc: t('features.card1.desc'),
+      icon: <Target className="h-6 w-6 text-cyan-400" />,
+    },
+    {
+      title: t('features.card2.title'),
+      desc: t('features.card2.desc'),
+      icon: <ShieldAlert className="h-6 w-6 text-cyan-400" />,
+    },
+    {
+      title: t('features.card3.title'),
+      desc: t('features.card3.desc'),
+      icon: <BarChart className="h-6 w-6 text-cyan-400" />,
+    },
+  ];
 
   const features = [
     {
@@ -92,6 +111,52 @@ const About = () => {
                   <h3 className="font-semibold text-white">{feature.title}</h3>
                 </CardContent>
               </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* System Features Section (Moved from Home) */}
+        <section className="max-w-6xl mx-auto mb-20">
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-5xl font-bold mb-6 text-white tracking-tight"
+            >
+              {t('features.title')}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-lg text-gray-400 max-w-2xl mx-auto"
+            >
+              {t('features.subtitle')}
+            </motion.p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {systemFeatures.map((feature, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-lg backdrop-blur hover:bg-white/10 transition-all duration-300 group"
+              >
+                <div className="p-3 rounded-2xl bg-white/5 w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-400 leading-relaxed font-medium">
+                  {feature.desc}
+                </p>
+              </motion.div>
             ))}
           </div>
         </section>

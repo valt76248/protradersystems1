@@ -22,6 +22,7 @@ const HeroSection = () => {
           className="absolute inset-0 z-0 bg-black bg-fixed bg-[url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"
           aria-hidden="true"
         />
+
       </div>
 
       <div className="relative mx-auto flex max-w-[1100px] flex-col px-4 pb-14 pt-8 md:pt-16 z-20">
