@@ -95,16 +95,22 @@ const QuizSection = () => {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
 
-                await fetch('https://n8n.protradersystems.com/webhook/quiz-lead', {
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const webhookUrl = isLocal
+                    ? 'https://n8n.protradersystems.com/webhook-test/quiz-lead'
+                    : 'https://n8n.protradersystems.com/webhook/quiz-lead';
+
+                await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        email,
-                        score,
-                        percentage,
-                        segment,
-                        refCode,
-                        timestamp: new Date().toISOString()
+                        email: email.trim(),
+                        score: Number(score),
+                        percentage: Math.round(percentage),
+                        segment: String(segment),
+                        refCode: refCode || "",
+                        timestamp: new Date().toISOString(),
+                        is_test: isLocal ? "true" : "false"
                     }),
                     signal: controller.signal
                 });

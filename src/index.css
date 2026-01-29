@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Manrope:wght@200;300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -296,30 +296,29 @@
   /* Ghost Glow Styles - No Background, Pure Letters + Glow (Neon Style) */
   .ghost-glow-base {
     @apply bg-transparent border-none p-0 h-auto self-center transition-all duration-300 hover:bg-transparent hover:scale-110 active:scale-95;
-    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-    /* Double layered glow */
+    /* Strong black base shadow for readability + color glow */
+    text-shadow:
+      0px 0px 3px rgba(0, 0, 0, 1),
+      0px 0px 8px rgba(0, 0, 0, 0.8),
+      0 0 12px currentColor;
     -webkit-font-smoothing: antialiased;
   }
 
   .ghost-glow-green {
     @apply ghost-glow-base text-[#4ade80] hover:text-[#22c55e];
-    /* Bright Green */
-    filter: drop-shadow(0 0 15px rgba(74, 222, 128, 0.6));
+    /* Bright Green - No extra filter to avoid blobs */
   }
 
   .ghost-glow-blue {
     @apply ghost-glow-base text-blue-400 hover:text-blue-300;
-    filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.5));
   }
 
   .ghost-glow-cyan {
     @apply ghost-glow-base text-cyan-400 hover:text-cyan-300;
-    filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.5));
   }
 
   .ghost-glow-white {
-    @apply ghost-glow-base text-white/90 hover:text-white;
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+    @apply ghost-glow-base text-white hover:text-white;
   }
 
   /* Consolidated Aura Styles */
@@ -691,5 +690,65 @@
 
   .typography-protrade p:last-child {
     margin-bottom: 0;
+  }
+
+  /* Shadow Design Styles */
+  .pts-noise {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .pts-noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+    mix-blend-mode: overlay;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.08) 0 2px, transparent 3px),
+      radial-gradient(circle at 80% 30%, rgba(0, 0, 0, 0.18) 0 2px, transparent 3px),
+      radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.06) 0 2px, transparent 3px);
+    background-size: 180px 180px;
+    filter: blur(0.2px);
+  }
+
+  .pts-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: hsl(0 0% 100%);
+    /* 3D "stepped" shadow effect matching the image + increased soft glow */
+    text-shadow:
+      2px 2px 0px #003366,
+      3px 3px 0px #003366,
+      4px 4px 0px #003366,
+      5px 5px 0px #003366,
+      0px 4px 15px rgba(0, 0, 0, 0.9),
+      0px 10px 30px rgba(0, 0, 0, 0.8),
+      0px 15px 50px rgba(0, 0, 0, 0.6);
+  }
+
+  .pts-hero-title .accent {
+    color: #40E0D0;
+    /* Turquoise */
+    text-shadow:
+      2px 2px 0px #003366,
+      3px 3px 0px #003366,
+      4px 4px 0px #003366,
+      5px 5px 0px #003366,
+      0px 4px 18px rgba(0, 0, 0, 1),
+      0px 12px 35px rgba(0, 0, 0, 0.9),
+      0px 20px 60px rgba(0, 0, 0, 0.7);
+  }
+
+  .pts-cta {
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
   }
 }
