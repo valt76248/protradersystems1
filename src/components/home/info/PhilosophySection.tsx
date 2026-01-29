@@ -13,7 +13,7 @@ const PhilosophySection = () => {
             {/* 1. Full Width Image Banner */}
             {/* 1. Full Width Image Banner */}
             <div
-                className="w-full h-[85vh] md:h-[100vh] relative bg-black"
+                className="w-full h-[110vh] md:h-[120vh] relative bg-black"
                 aria-label="Trading Philosophy - Compass and Discipline"
                 role="img"
             >
