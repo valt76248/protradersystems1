@@ -1,0 +1,235 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - link "ProTrader Systems" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e11]: ProTrader Systems
+        - navigation [ref=e12]:
+          - link "Обзор" [ref=e13] [cursor=pointer]:
+            - /url: /
+            - text: Обзор
+          - link "Каталог курсов" [ref=e14] [cursor=pointer]:
+            - /url: /courses
+            - text: Каталог курсов
+          - link "Обучение для начинающих" [ref=e15] [cursor=pointer]:
+            - /url: /beginner-training
+            - text: Обучение для начинающих
+          - link "Инструменты PRO" [ref=e16] [cursor=pointer]:
+            - /url: /calculators
+            - text: Инструменты PRO
+          - link "Психология" [ref=e17] [cursor=pointer]:
+            - /url: /psychology
+            - text: Психология
+        - generic [ref=e18]:
+          - button "Начать обучение" [ref=e20] [cursor=pointer]:
+            - generic [ref=e21]: Начать обучение
+          - link "Вход" [ref=e22] [cursor=pointer]:
+            - /url: /login
+            - button "Вход" [ref=e24]:
+              - generic [ref=e25]:
+                - img [ref=e26]
+                - text: Вход
+          - button "УКР" [ref=e29] [cursor=pointer]
+          - generic [ref=e30]:
+            - generic [ref=e33]: Protected View
+            - img [ref=e34]
+    - main [ref=e37]:
+      - generic [ref=e38]:
+        - heading "n8n Workflow Lab" [level=1] [ref=e39]
+        - paragraph [ref=e40]: Центр управления и отладки системных импульсов
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - heading "Available Systems" [level=2] [ref=e44]:
+              - img [ref=e45]
+              - text: Available Systems
+            - generic [ref=e48]:
+              - 'button "Flywheel: Pre-Registration Сбор заявок на обучение с обогащением в CRM и Brevo." [ref=e49] [cursor=pointer]':
+                - generic [ref=e50]:
+                  - img [ref=e52]
+                  - generic [ref=e55]:
+                    - generic [ref=e56]: "Flywheel: Pre-Registration"
+                    - generic [ref=e57]: Сбор заявок на обучение с обогащением в CRM и Brevo.
+              - 'button "Flywheel: Quiz Lead Engine Сегментация студентов по знаниям и авто-рассылка уроков." [ref=e58] [cursor=pointer]':
+                - generic [ref=e59]:
+                  - img [ref=e61]
+                  - generic [ref=e66]:
+                    - generic [ref=e67]: "Flywheel: Quiz Lead Engine"
+                    - generic [ref=e68]: Сегментация студентов по знаниям и авто-рассылка уроков.
+              - 'button "Flywheel: Referral Signup Регистрация связки пригласивший-приглашенный." [ref=e69] [cursor=pointer]':
+                - generic [ref=e70]:
+                  - img [ref=e72]
+                  - generic [ref=e76]:
+                    - generic [ref=e77]: "Flywheel: Referral Signup"
+                    - generic [ref=e78]: Регистрация связки пригласивший-приглашенный.
+              - 'button "Flywheel: Referral Purchase Зачисление выплаты после покупки курса приглашенным." [ref=e79] [cursor=pointer]':
+                - generic [ref=e80]:
+                  - img [ref=e82]
+                  - generic [ref=e84]:
+                    - generic [ref=e85]: "Flywheel: Referral Purchase"
+                    - generic [ref=e86]: Зачисление выплаты после покупки курса приглашенным.
+              - 'button "Flywheel: NPS Feedback Обработка оценок качества и обратной связи." [ref=e87] [cursor=pointer]':
+                - generic [ref=e88]:
+                  - img [ref=e90]
+                  - generic [ref=e92]:
+                    - generic [ref=e93]: "Flywheel: NPS Feedback"
+                    - generic [ref=e94]: Обработка оценок качества и обратной связи.
+              - 'button "Flywheel: Testimonial submission Прием отзывов с выдачей промокода за активность." [ref=e95] [cursor=pointer]':
+                - generic [ref=e96]:
+                  - img [ref=e98]
+                  - generic [ref=e100]:
+                    - generic [ref=e101]: "Flywheel: Testimonial submission"
+                    - generic [ref=e102]: Прием отзывов с выдачей промокода за активность.
+              - 'button "Flywheel: Apollo Enrichment Интеллектуальный поиск данных о лиде." [ref=e103] [cursor=pointer]':
+                - generic [ref=e104]:
+                  - img [ref=e106]
+                  - generic [ref=e110]:
+                    - generic [ref=e111]: "Flywheel: Apollo Enrichment"
+                    - generic [ref=e112]: Интеллектуальный поиск данных о лиде.
+              - 'button "Flywheel: Clay Enrichment Глубокое обогащение для B2B сегмента." [ref=e113] [cursor=pointer]':
+                - generic [ref=e114]:
+                  - img [ref=e116]
+                  - generic [ref=e120]:
+                    - generic [ref=e121]: "Flywheel: Clay Enrichment"
+                    - generic [ref=e122]: Глубокое обогащение для B2B сегмента.
+              - 'button "Flywheel: Daily Analytics Сбор статистики за 24 часа в Telegram." [ref=e123] [cursor=pointer]':
+                - generic [ref=e124]:
+                  - img [ref=e126]
+                  - generic [ref=e129]:
+                    - generic [ref=e130]: "Flywheel: Daily Analytics"
+                    - generic [ref=e131]: Сбор статистики за 24 часа в Telegram.
+              - 'button "Flywheel: Win-back Campaign Реактивация спящих пользователей." [ref=e132] [cursor=pointer]':
+                - generic [ref=e133]:
+                  - img [ref=e135]
+                  - generic [ref=e137]:
+                    - generic [ref=e138]: "Flywheel: Win-back Campaign"
+                    - generic [ref=e139]: Реактивация спящих пользователей.
+          - generic [ref=e140]:
+            - heading "Live Metrics" [level=2] [ref=e141]:
+              - img [ref=e142]
+              - text: Live Metrics
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]: Uptime
+                - generic [ref=e147]: 99.9%
+              - generic [ref=e148]:
+                - generic [ref=e149]: Requests
+                - generic [ref=e150]: "0"
+          - generic [ref=e151]:
+            - heading "Automated Auditor" [level=2] [ref=e152]:
+              - img [ref=e153]
+              - text: Automated Auditor
+            - paragraph [ref=e158]: Запускает Playwright-робота, который имитирует действия пользователя и проверяет ответ n8n.
+            - button "Run E2E Automaton" [ref=e160] [cursor=pointer]:
+              - generic [ref=e161]:
+                - img [ref=e162]
+                - text: Run E2E Automaton
+        - generic [ref=e164]:
+          - generic [ref=e165]:
+            - generic [ref=e167]:
+              - img [ref=e168]
+              - text: SYNCING WITH N8N.PROTRADERSYSTEMS.COM
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - generic [ref=e173]: Waiting
+                - generic [ref=e174]: "Webhook: Pre-Registration"
+              - generic [ref=e177]:
+                - generic [ref=e178]: Waiting
+                - generic [ref=e179]: Save to Supabase
+              - generic [ref=e182]:
+                - generic [ref=e183]: Waiting
+                - generic [ref=e184]: Add to Brevo
+              - generic [ref=e187]:
+                - generic [ref=e188]: Waiting
+                - generic [ref=e189]: Send Confirmation Email
+              - generic [ref=e192]:
+                - generic [ref=e193]: Waiting
+                - generic [ref=e194]: Notify Admin (Telegram)
+              - generic [ref=e197]:
+                - generic [ref=e198]: Waiting
+                - generic [ref=e199]: Respond Success
+            - generic [ref=e200]:
+              - generic [ref=e201]:
+                - generic [ref=e202]: Active Path
+                - generic [ref=e204]: Pending
+              - button "Execute Logic Pulse" [ref=e207] [cursor=pointer]:
+                - generic [ref=e208]:
+                  - img [ref=e209]
+                  - text: Execute Logic Pulse
+          - generic [ref=e211]:
+            - generic [ref=e212]:
+              - generic [ref=e213]:
+                - generic [ref=e214]: Payload Source
+                - button "Reset" [ref=e217] [cursor=pointer]:
+                  - generic [ref=e218]: Reset
+              - textbox "JSON Payload Editor" [ref=e219]: "{ \"firstName\": \"Alex\", \"lastName\": \"Trader\", \"email\": \"alex@protrader.com\", \"phone\": \"+380501234567\", \"messenger\": \"Telegram\", \"telegramNick\": \"@alextrade\", \"instagramNick\": \"@alex_insta\", \"income\": \"1000-3000$\", \"problems\": [ \"Психология\", \"Мани-менеджмент\" ], \"mainRequest\": \"Хочу выйти на стабильность\", \"desiredResult\": \"5-10% в месяц\", \"whyNow\": \"Хочу начать новый год с обучения\", \"readyToPay\": \"ready\" }"
+            - generic [ref=e220]:
+              - generic [ref=e221]:
+                - generic [ref=e222]:
+                  - img [ref=e223]
+                  - generic [ref=e225]: Output Stream
+                - generic [ref=e227]: Waiting for kernel response...
+              - generic [ref=e228]:
+                - generic [ref=e229]:
+                  - img [ref=e230]
+                  - generic [ref=e232]: Telemetry Log
+                - generic [ref=e234]: Core initialized. System ready.
+      - generic [ref=e235]:
+        - generic [ref=e236]:
+          - img [ref=e237]
+          - heading "Endpoint Security" [level=4] [ref=e240]
+          - paragraph [ref=e241]: Все запросы отправляются через SSL-шифрование напрямую в доверенный шлюз n8n.
+        - generic [ref=e242]:
+          - img [ref=e243]
+          - heading "Real-time Execution" [level=4] [ref=e245]
+          - paragraph [ref=e246]: Симуляция визуализирует путь данных по вашим функциональным узлам в n8n.
+        - generic [ref=e247]:
+          - img [ref=e248]
+          - heading "Multi-Process Support" [level=4] [ref=e252]
+          - paragraph [ref=e253]: "Поддержка всех ключевых сценариев: от регистрации до реферальных бонусов."
+        - generic [ref=e254]:
+          - img [ref=e255]
+          - heading "Data Persistence" [level=4] [ref=e259]
+          - paragraph [ref=e260]: Убедитесь, что ноды "Supabase" или "Postgres" корректно сохраняют приходящие данные.
+    - contentinfo [ref=e261]:
+      - generic [ref=e262]:
+        - link "Контакты" [ref=e264] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e265]: Контакты
+          - img [ref=e266]
+        - generic [ref=e269]:
+          - link "YouTube" [ref=e270] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e271]
+          - link "Instagram" [ref=e274] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e275]
+          - link "TikTok" [ref=e278] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e279]
+          - link "X" [ref=e281] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e282]
+          - link "Telegram" [ref=e285] [cursor=pointer]:
+            - /url: https://t.me/forexgbpgpy
+            - img [ref=e286]
+        - generic [ref=e289]:
+          - link "О системе" [ref=e290] [cursor=pointer]:
+            - /url: /about
+          - generic [ref=e291]: •
+          - link "Публичная оферта" [ref=e292] [cursor=pointer]:
+            - /url: /public-offer
+          - generic [ref=e293]: •
+          - link "Политика конфиденциальности" [ref=e294] [cursor=pointer]:
+            - /url: /privacy-policy
+          - generic [ref=e295]: •
+          - link "Допустимые клиенты" [ref=e296] [cursor=pointer]:
+            - /url: /eligible-clients
+```

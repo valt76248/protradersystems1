@@ -9,12 +9,36 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "localhost",
     port: 8080,
-
+    proxy: {
+      '/n8n-api': {
+        target: 'https://n8n.protradersystems.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/n8n-api/, ''),
+        secure: true,
+      }
+    }
   },
   plugins: [
     react(),
     mode === 'development' &&
     componentTagger(),
+    mode === 'development' && {
+      name: 'playwright-test-runner',
+      configureServer(server: any) {
+        server.middlewares.use('/api/run-n8n-test', async (req: any, res: any) => {
+          const { exec } = await import('child_process');
+          res.setHeader('Content-Type', 'application/json');
+
+          exec('npx playwright test tests/e2e/n8n_lab.spec.ts', (error, stdout, stderr) => {
+            res.end(JSON.stringify({
+              success: !error,
+              stdout: stdout,
+              stderr: stderr
+            }));
+          });
+        });
+      }
+    }
   ].filter(Boolean),
   resolve: {
     alias: {

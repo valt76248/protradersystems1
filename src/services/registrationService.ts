@@ -21,7 +21,12 @@ export const registrationService = {
         const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://n8n.protradersystems.com/webhook/pre-registration';
 
         try {
-            const response = await fetch(webhookUrl, {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const targetUrl = (isLocal && webhookUrl.includes('n8n.protradersystems.com'))
+                ? webhookUrl.replace('https://n8n.protradersystems.com', '/n8n-api')
+                : webhookUrl;
+
+            const response = await fetch(targetUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

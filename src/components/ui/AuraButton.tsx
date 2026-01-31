@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 import Magnetic from '../shared/Magnetic';
 
 interface AuraButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
-    variant?: 'primary' | 'secondary' | 'outline' | 'ghost-glow-green' | 'ghost-glow-blue' | 'ghost-glow-cyan' | 'ghost-glow-white' | 'ghost-glow-emerald' | 'ghost-glow-silver' | 'ghost-glow-gold';
-    size?: 'default' | 'lg' | 'xl';
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'ghost-glow-green' | 'ghost-glow-blue' | 'ghost-glow-cyan' | 'ghost-glow-white' | 'ghost-glow-emerald' | 'ghost-glow-silver' | 'ghost-glow-gold';
+    size?: 'default' | 'sm' | 'lg' | 'xl';
     className?: string;
     children: React.ReactNode;
 }
@@ -23,7 +23,9 @@ const AuraButton = ({ variant = 'primary', size = 'default', className, children
                     variant === 'primary' && "bg-white text-black hover:bg-white/90 shadow-lg hover:shadow-white/20 rounded-full",
                     variant === 'secondary' && "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-blue-500/20 rounded-full",
                     variant === 'outline' && "bg-transparent border border-white/20 text-white hover:border-white/40 rounded-full",
+                    variant === 'ghost' && "bg-transparent border-none text-gray-400 hover:text-white rounded-md",
                     variant.startsWith('ghost-glow') && cn("bg-transparent border-none p-0 shadow-none ring-0", variant),
+                    size === 'sm' && "px-4 py-2 text-sm",
                     size === 'lg' && "text-xl py-4",
                     size === 'xl' && "text-[24px] md:text-[32px] py-6 font-black uppercase tracking-tighter",
                     className

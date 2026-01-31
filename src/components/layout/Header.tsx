@@ -97,16 +97,18 @@ const Header = () => {
   return (
     <>
       <header className="w-full bg-transparent py-6 px-4 no-select sticky top-0 z-50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-3 group">
-            <ChartLine className="h-7 w-7 text-primary transition-transform group-hover:scale-110 group-hover:rotate-3" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-500 bg-clip-text text-transparent">
-              ProTrader Systems
-            </span>
-          </Link>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex-1 flex justify-start">
+            <Link to="/" className="flex items-center space-x-3 group">
+              <ChartLine className="h-7 w-7 text-primary transition-transform group-hover:scale-110 group-hover:rotate-3" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-500 bg-clip-text text-transparent">
+                ProTrader Systems
+              </span>
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center justify-center space-x-8">
             {navItems.map(item => (
               <Link
                 key={item.path}
@@ -125,14 +127,14 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex-1 flex justify-end items-center gap-4">
             {/* Desktop Auth Buttons */}
             {user ? (
               <>
                 <Link to="/account">
                   <AuraButton
                     variant="ghost-glow-white"
-                    size="default"
+                    size="sm"
                     className="hidden lg:flex"
                   >
                     <User className="mr-2 h-4 w-4" />
@@ -142,6 +144,7 @@ const Header = () => {
                 <AuraButton
                   onClick={handleLogout}
                   variant="ghost-glow-cyan"
+                  size="sm"
                   className="hidden lg:flex"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
@@ -155,7 +158,8 @@ const Header = () => {
                 <Link to="/login">
                   <AuraButton
                     variant="ghost-glow-blue"
-                    className="hidden lg:flex"
+                    size="sm"
+                    className="hidden lg:flex text-sm"
                   >
                     <LogIn className="mr-2 h-4 w-4" />
                     {t('nav.login')}
@@ -166,11 +170,11 @@ const Header = () => {
 
             <LanguageSwitcher />
 
-            <div className="hidden lg:flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+            <div className="hidden lg:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
               <div className="relative">
                 <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse-glow text-cyan-400" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{t('nav.protected-view')}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 whitespace-nowrap">{t('nav.protected-view')}</span>
               <Lock size={12} className="text-gray-500" />
             </div>
 

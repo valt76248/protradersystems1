@@ -721,28 +721,24 @@
     line-height: 1.1;
     letter-spacing: -0.01em;
     color: hsl(0 0% 100%);
-    /* 3D "stepped" shadow effect matching the image + increased soft glow */
+    /* Stronger contour and 3D shadow for maximum readability */
+    -webkit-text-stroke: 1.5px #001533;
+    paint-order: stroke fill;
     text-shadow:
-      2px 2px 0px #003366,
-      3px 3px 0px #003366,
-      4px 4px 0px #003366,
-      5px 5px 0px #003366,
-      0px 4px 15px rgba(0, 0, 0, 0.9),
-      0px 10px 30px rgba(0, 0, 0, 0.8),
-      0px 15px 50px rgba(0, 0, 0, 0.6);
+      2px 2px 0px #001533,
+      4px 4px 0px #000,
+      0px 4px 20px rgba(0, 0, 0, 1),
+      0px 10px 40px rgba(0, 0, 0, 0.9);
   }
 
   .pts-hero-title .accent {
     color: #40E0D0;
     /* Turquoise */
     text-shadow:
-      2px 2px 0px #003366,
-      3px 3px 0px #003366,
-      4px 4px 0px #003366,
-      5px 5px 0px #003366,
-      0px 4px 18px rgba(0, 0, 0, 1),
-      0px 12px 35px rgba(0, 0, 0, 0.9),
-      0px 20px 60px rgba(0, 0, 0, 0.7);
+      2px 2px 0px #001533,
+      4px 4px 0px #000,
+      0px 4px 25px rgba(0, 0, 0, 1),
+      0px 15px 45px rgba(0, 0, 0, 0.95);
   }
 
   .pts-cta {

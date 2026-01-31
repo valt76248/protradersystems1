@@ -42,6 +42,7 @@ const SessionTwo = lazy(() => import("./pages/SessionTwo"));
 const Session1Gallery = lazy(() => import("./pages/Session1Gallery"));
 const Session2Gallery = lazy(() => import("./pages/Session2Gallery"));
 const PreRegistration = lazy(() => import("./pages/PreRegistration"));
+const N8NLab = lazy(() => import("./pages/N8NLab"));
 
 // Create a client
 const queryClient = new QueryClient({
@@ -85,6 +86,7 @@ const AnimatedRoutes = () => {
           <Route path="/session-1-gallery" element={<Session1Gallery />} />
           <Route path="/session-2-gallery" element={<Session2Gallery />} />
           <Route path="/pre-registration" element={<PreRegistration />} />
+          <Route path="/n8n-lab" element={<N8NLab />} />
           <Route path="/public-offer" element={<PublicOffer />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/eligible-clients" element={<EligibleClients />} />

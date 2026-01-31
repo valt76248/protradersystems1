@@ -6,11 +6,11 @@ import { cn } from '@/lib/utils';
 
 interface StartTrainingButtonProps {
     className?: string;
-    size?: 'default' | 'sm' | 'lg' | 'icon';
+    size?: 'default' | 'sm' | 'lg' | 'xl';
     text?: string;
 }
 
-const StartTrainingButton = ({ className, text }: StartTrainingButtonProps) => {
+const StartTrainingButton = ({ className, size = 'xl', text }: StartTrainingButtonProps) => {
     const navigate = useNavigate();
     const { t } = useLanguage();
 
@@ -22,7 +22,7 @@ const StartTrainingButton = ({ className, text }: StartTrainingButtonProps) => {
         <AuraButton
             onClick={handleStartLearning}
             variant="ghost-glow-green"
-            size="xl"
+            size={size}
             className={cn("w-full md:w-auto tracking-widest", className)}
         >
             {text || t('hero.start') || "НАЧАТЬ ОБУЧЕНИЕ"}

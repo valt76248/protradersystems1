@@ -19,29 +19,34 @@ const HeroSection = () => {
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 z-0 bg-black bg-fixed bg-[url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center"
+          className="absolute inset-0 z-0 bg-black bg-fixed bg-[url('/images/hero_main_perfect.png')] bg-no-repeat bg-[length:60%_auto] bg-[60%_85%]"
+          aria-hidden="true"
+        />
+        {/* Darkening gradient: blurred edges to black */}
+        <div
+          className="absolute inset-0 z-[5] bg-[linear-gradient(to_right,#000_0%,transparent_20%,transparent_80%,#000_100%)]"
           aria-hidden="true"
         />
 
       </div>
 
       <div className="relative mx-auto flex max-w-[1100px] flex-col px-4 pb-14 pt-8 md:pt-16 z-20">
-        <div className="mx-auto max-w-[820px] text-center">
+        <div className="mx-auto max-w-[700px] text-center">
           {/* Floating Badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mx-auto inline-flex items-center gap-2 text-[11px] md:text-[13px] font-bold tracking-[0.4em] text-cyan-200/80 mb-6"
+            className="mx-auto inline-flex items-center gap-2 text-[11px] md:text-[13px] font-bold tracking-[0.4em] text-cyan-200 mb-6"
             style={{
-              textShadow: '0 0 10px rgba(34,211,238,0.4), 0 2px 4px rgba(0,0,0,0.5)'
+              textShadow: '0 0 12px rgba(0,0,0,1), 0 2px 4px rgba(0,0,0,1), -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000'
             }}
           >
-            <span className="opacity-90 uppercase">
+            <span className="opacity-100 uppercase">
               {t('hero.badge').split('•')[0].trim()}
             </span>
-            <span className="opacity-40">•</span>
-            <span className="opacity-90 uppercase">
+            <span className="opacity-60">•</span>
+            <span className="opacity-100 uppercase">
               {t('hero.badge').split('•')[1]?.trim() || ''}
             </span>
           </motion.div>
@@ -65,7 +70,10 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-8 text-[16px] leading-7 text-white font-medium sm:text-[19px] max-w-3xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+            className="mt-8 text-[16px] leading-7 text-white font-bold sm:text-[20px] max-w-[540px] mx-auto whitespace-pre-line"
+            style={{
+              textShadow: '0 2px 8px rgba(0,0,0,1), 0 4px 16px rgba(0,0,0,0.8), -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000'
+            }}
           >
             {t('hero.subtitle')}
           </motion.p>
