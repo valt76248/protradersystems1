@@ -19,7 +19,7 @@ const HeroSection = () => {
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 z-0 bg-black bg-fixed bg-[url('/images/hero_main_perfect.png')] bg-no-repeat bg-[length:60%_auto] bg-[60%_85%]"
+          className="absolute inset-0 z-0 bg-black bg-fixed bg-[url('/images/hero_main_perfect.png')] bg-no-repeat bg-[length:54%_auto] bg-[60%_85%]"
           aria-hidden="true"
         />
         {/* Darkening gradient: blurred edges to black */}
@@ -89,7 +89,7 @@ const HeroSection = () => {
               <StartTrainingButton className="pts-cta h-14 w-full max-w-[520px] text-[18px] md:text-[22px] font-black text-emerald-400 hover:scale-[1.05] active:scale-[0.95] transition-all duration-300 uppercase tracking-[0.3em] bg-transparent border-none" />
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <AuraButton
                 onClick={() => navigate('/pre-registration')}
                 variant="ghost-glow-cyan"
