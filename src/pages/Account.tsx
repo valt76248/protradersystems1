@@ -10,7 +10,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { ProfileTab } from '@/components/account/ProfileTab';
-import { OrdersTab } from '@/components/account/OrdersTab';
 import { SettingsTab } from '@/components/account/SettingsTab';
 import { ReferralSection } from '@/components/account/ReferralSection';
 import PaymentModal from '@/components/payment/PaymentModal';
@@ -40,8 +39,6 @@ const Account = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState<CourseWithAccess[]>([]);
-  const [orders, setOrders] = useState<any[]>([]);
-  const [ordersLoading, setOrdersLoading] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
     firstName: '',
@@ -82,8 +79,6 @@ const Account = () => {
         phone: user.user_metadata?.phone || ''
       });
 
-      // Fetch orders for this user
-      fetchOrders(user.id);
 
       // 2. Отримуємо всі доступні курси
       const { data: coursesData, error: coursesError } = await supabase
@@ -133,38 +128,6 @@ const Account = () => {
     navigate('/');
   };
 
-  const fetchOrders = async (userId: string) => {
-    setOrdersLoading(true);
-    try {
-      const { data: ordersData, error } = await supabase
-        .from('orders')
-        .select(`
-          id,
-          course_id,
-          amount,
-          tx_hash,
-          status,
-          created_at,
-          courses ( title )
-        `)
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      // Transform data to include course title
-      const transformedOrders = (ordersData || []).map((order: any) => ({
-        ...order,
-        course_title: (order.courses as any)?.title || 'Курс'
-      }));
-
-      setOrders(transformedOrders);
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-    } finally {
-      setOrdersLoading(false);
-    }
-  };
 
 
 
@@ -244,7 +207,7 @@ const Account = () => {
           </div>
 
           <Tabs defaultValue="courses" className="space-y-6">
-            <TabsList className="flex flex-nowrap overflow-x-auto w-full bg-trading-card border-gray-800 md:grid md:grid-cols-5 scrollbar-hide">
+            <TabsList className="flex flex-nowrap overflow-x-auto w-full bg-trading-card border-gray-800 md:grid md:grid-cols-4 scrollbar-hide">
               <TabsTrigger value="courses" className="flex items-center gap-2">
                 <Book className="h-4 w-4" />
                 <span className="hidden sm:inline">{t('account.tab.courses')}</span>
@@ -259,11 +222,6 @@ const Account = () => {
                 <User className="h-4 w-4" />
                 <span className="hidden sm:inline">{t('account.tab.profile')}</span>
                 <span className="sm:hidden">{t('account.tab.profile')}</span>
-              </TabsTrigger>
-              <TabsTrigger value="orders" className="flex items-center gap-2">
-                <CreditCard className="h-4 w-4" />
-                <span className="hidden sm:inline">{t('account.tab.orders')}</span>
-                <span className="sm:hidden">{t('account.tab.orders')}</span>
               </TabsTrigger>
               <TabsTrigger value="settings" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
@@ -412,9 +370,6 @@ const Account = () => {
               />
             </TabsContent>
 
-            <TabsContent value="orders">
-              <OrdersTab orders={orders} loading={ordersLoading} />
-            </TabsContent>
 
             <TabsContent value="settings">
               <SettingsTab />
