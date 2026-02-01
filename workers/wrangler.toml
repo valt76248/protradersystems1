@@ -7,3 +7,9 @@ ENVIRONMENT = "production"
 
 # Routes - будет настроено после деплоя
 # routes = [{ pattern = "api.yourdomain.com/*", zone_name = "yourdomain.com" }]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "protrade-db"
+database_id = "to-be-generated-on-deploy"
+migrations_dir = "migrations"

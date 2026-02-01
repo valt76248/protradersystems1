@@ -15,6 +15,22 @@ const corsHeaders = {
     'Access-Control-Max-Age': '86400',
 };
 
+interface Env {
+    DB: D1Database;
+    ENVIRONMENT: string;
+}
+
+// Helper to log audit events
+async function logAuditEvent(db: D1Database, userId: string | null, eventType: string, ipAddress: string) {
+    try {
+        await db.prepare(
+            'INSERT INTO audit_logs (user_id, event_type, ip_address) VALUES (?, ?, ?)'
+        ).bind(userId, eventType, ipAddress).run();
+    } catch (e) {
+        console.error('Audit Logging Error:', e);
+    }
+}
+
 // Helper to create JSON response
 function jsonResponse(data: unknown, status = 200): Response {
     return new Response(JSON.stringify(data), {
@@ -46,7 +62,7 @@ async function parseBody<T>(request: Request): Promise<T> {
 
 // Main fetch handler
 export default {
-    async fetch(request: Request): Promise<Response> {
+    async fetch(request: Request, env: Env): Promise<Response> {
         // Handle CORS preflight
         if (request.method === 'OPTIONS') {
             return new Response(null, { headers: corsHeaders });
@@ -181,19 +197,31 @@ export default {
             // POST /api/auth/register
             if (path === '/api/auth/register' && request.method === 'POST') {
                 const { email, password } = await parseBody<{ email: string, password: string }>(request);
+                const ip = request.headers.get('cf-connecting-ip') || 'unknown';
 
                 if (!email || !password) return errorResponse('Email and password required');
 
                 const { hash, salt } = await hashPassword(password);
+                const userId = crypto.randomUUID();
 
-                // MOCK: In a real app, save to Database (KV, D1, or Supabase)
-                console.log(`User registered: ${email}`);
+                try {
+                    await env.DB.prepare(
+                        'INSERT INTO users (id, email, password_hash, salt) VALUES (?, ?, ?, ?)'
+                    ).bind(userId, email, hash, salt).run();
 
-                return jsonResponse({
-                    success: true,
-                    message: 'User registered successfully (Mock)',
-                    user: { email }
-                }, 201);
+                    await logAuditEvent(env.DB, userId, 'registration', ip);
+
+                    return jsonResponse({
+                        success: true,
+                        message: 'User registered successfully',
+                        user: { id: userId, email }
+                    }, 201);
+                } catch (e: any) {
+                    if (e.message?.includes('UNIQUE constraint failed')) {
+                        return errorResponse('User with this email already exists', 409);
+                    }
+                    throw e;
+                }
             }
 
             // POST /api/auth/login
@@ -205,15 +233,29 @@ export default {
 
                 const { email, password } = await parseBody<{ email: string, password: string }>(request);
 
-                // MOCK: Fetch user from Database
-                // const user = await db.getUser(email);
-                const mockUser = { id: 'uuid-123', email, hash: '...', salt: '...' };
+                if (!email || !password) return errorResponse('Email and password required');
 
-                const isValid = await verifyPassword(password, mockUser.hash, mockUser.salt);
-                // if (!isValid) return errorResponse('Invalid credentials', 401);
+                // Fetch user from D1
+                const user: any = await env.DB.prepare(
+                    'SELECT * FROM users WHERE email = ?'
+                ).bind(email).first();
 
-                const accessToken = await createAccessToken({ id: mockUser.id, email: mockUser.email });
-                const refreshToken = await createRefreshToken({ id: mockUser.id });
+                if (!user) {
+                    await logAuditEvent(env.DB, null, 'login_failed', ip);
+                    return errorResponse('Invalid credentials', 401);
+                }
+
+                const isValid = await verifyPassword(password, user.password_hash, user.salt);
+
+                if (!isValid) {
+                    await logAuditEvent(env.DB, user.id, 'login_failed', ip);
+                    return errorResponse('Invalid credentials', 401);
+                }
+
+                await logAuditEvent(env.DB, user.id, 'login_success', ip);
+
+                const accessToken = await createAccessToken({ id: user.id, email: user.email });
+                const refreshToken = await createRefreshToken({ id: user.id });
 
                 return jsonResponse({
                     success: true,
