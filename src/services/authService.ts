@@ -31,6 +31,17 @@ export const authService = {
         return data;
     },
 
+    async signInWithGoogle() {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/auth/callback`,
+            },
+        });
+        if (error) throw error;
+        return data;
+    },
+
     async register({ email, password, firstName, lastName, phone, referralCode, metadata }: RegisterParams) {
         const fullName = `${firstName} ${lastName}`.trim();
 
@@ -115,5 +126,19 @@ export const authService = {
         const { data: { user }, error } = await supabase.auth.getUser();
         if (error) throw error;
         return user;
+    },
+
+    async getUserProfile(userId: string) {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('first_name, last_name, phone')
+            .eq('id', userId)
+            .single();
+
+        if (error) {
+            console.error('Error fetching profile:', error);
+            return null;
+        }
+        return data;
     }
 };

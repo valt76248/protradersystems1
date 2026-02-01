@@ -222,14 +222,14 @@ const CoursePage = () => {
                                                         </p>
                                                         <div className="flex flex-col gap-3 max-w-md mx-auto">
                                                             <Button
-                                                                onClick={() => navigate('/session-1', { state: { fromCourse: id } })}
+                                                                onClick={() => navigate('/session/session-1', { state: { fromCourse: id } })}
                                                                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-6 text-base shadow-lg shadow-blue-900/50 transition-all hover:scale-105"
                                                             >
                                                                 <Play className="mr-3 h-5 w-5 fill-current" />
                                                                 {t('course.session_content')} 1
                                                             </Button>
                                                             <Button
-                                                                onClick={() => navigate('/session-1-gallery', { state: { fromCourse: id } })}
+                                                                onClick={() => navigate('/gallery/session-1', { state: { fromCourse: id } })}
                                                                 variant="outline"
                                                                 className="w-full border-blue-500/50 text-blue-400 hover:bg-blue-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >
@@ -280,14 +280,14 @@ const CoursePage = () => {
                                                         </p>
                                                         <div className="flex flex-col gap-3 max-w-md mx-auto">
                                                             <Button
-                                                                onClick={() => navigate('/session-2', { state: { fromCourse: id } })}
+                                                                onClick={() => navigate('/session/session-2', { state: { fromCourse: id } })}
                                                                 className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 px-6 text-base shadow-lg shadow-purple-900/50 transition-all hover:scale-105"
                                                             >
                                                                 <Play className="mr-3 h-5 w-5 fill-current" />
                                                                 {t('course.session_content')} 2
                                                             </Button>
                                                             <Button
-                                                                onClick={() => navigate('/session-2-gallery', { state: { fromCourse: id } })}
+                                                                onClick={() => navigate('/gallery/session-2', { state: { fromCourse: id } })}
                                                                 variant="outline"
                                                                 className="w-full border-purple-500/50 text-purple-400 hover:bg-purple-500/10 font-semibold py-4 px-6 text-base transition-all hover:scale-105"
                                                             >

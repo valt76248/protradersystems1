@@ -73,21 +73,21 @@ const Footer = () => {
           </Link>
           <span className="hidden md:inline text-zinc-800">•</span>
           <Link
-            to="/public-offer"
+            to="/legal/public-offer"
             className="hover:text-zinc-300 transition-colors"
           >
             {t('footer.offer')}
           </Link>
           <span className="hidden md:inline text-zinc-800">•</span>
           <Link
-            to="/privacy-policy"
+            to="/legal/privacy-policy"
             className="hover:text-zinc-300 transition-colors"
           >
             {t('footer.privacy')}
           </Link>
           <span className="hidden md:inline text-zinc-800">•</span>
           <Link
-            to="/eligible-clients"
+            to="/legal/eligible-clients"
             className="hover:text-zinc-300 transition-colors"
           >
             {t('footer.admissible')}

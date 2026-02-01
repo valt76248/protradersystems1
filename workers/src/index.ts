@@ -169,6 +169,59 @@ export default {
                 return jsonResponse({ success: true, ...result });
             }
 
+            // --- AUTHENTICATION ROUTES ---
+            const {
+                hashPassword,
+                verifyPassword,
+                createAccessToken,
+                createRefreshToken,
+                checkRateLimit
+            } = await import('./auth');
+
+            // POST /api/auth/register
+            if (path === '/api/auth/register' && request.method === 'POST') {
+                const { email, password } = await parseBody<{ email: string, password: string }>(request);
+
+                if (!email || !password) return errorResponse('Email and password required');
+
+                const { hash, salt } = await hashPassword(password);
+
+                // MOCK: In a real app, save to Database (KV, D1, or Supabase)
+                console.log(`User registered: ${email}`);
+
+                return jsonResponse({
+                    success: true,
+                    message: 'User registered successfully (Mock)',
+                    user: { email }
+                }, 201);
+            }
+
+            // POST /api/auth/login
+            if (path === '/api/auth/login' && request.method === 'POST') {
+                const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+                if (!checkRateLimit(ip)) {
+                    return errorResponse('Too many attempts. Please try again later.', 429);
+                }
+
+                const { email, password } = await parseBody<{ email: string, password: string }>(request);
+
+                // MOCK: Fetch user from Database
+                // const user = await db.getUser(email);
+                const mockUser = { id: 'uuid-123', email, hash: '...', salt: '...' };
+
+                const isValid = await verifyPassword(password, mockUser.hash, mockUser.salt);
+                // if (!isValid) return errorResponse('Invalid credentials', 401);
+
+                const accessToken = await createAccessToken({ id: mockUser.id, email: mockUser.email });
+                const refreshToken = await createRefreshToken({ id: mockUser.id });
+
+                return jsonResponse({
+                    success: true,
+                    accessToken,
+                    refreshToken
+                });
+            }
+
             // 404 for unknown routes
             return errorResponse(`Not found: ${path}`, 404);
 

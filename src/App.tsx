@@ -32,15 +32,11 @@ const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const Account = lazy(() => import("./pages/Account"));
 const Calculators = lazy(() => import("./pages/Calculators"));
 const CoursePage = lazy(() => import("./pages/CoursePage"));
-const PublicOffer = lazy(() => import("./pages/PublicOffer"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const EligibleClients = lazy(() => import("./pages/EligibleClients"));
+const LegalPage = lazy(() => import("./pages/LegalPage"));
 const Login = lazy(() => import("./pages/Login"));
 const Admin = lazy(() => import("./pages/Admin"));
-const SessionOne = lazy(() => import("./pages/SessionOne"));
-const SessionTwo = lazy(() => import("./pages/SessionTwo"));
-const Session1Gallery = lazy(() => import("./pages/Session1Gallery"));
-const Session2Gallery = lazy(() => import("./pages/Session2Gallery"));
+const SessionPage = lazy(() => import("./pages/SessionPage"));
+const GalleryPage = lazy(() => import("./pages/GalleryPage"));
 const PreRegistration = lazy(() => import("./pages/PreRegistration"));
 const N8NLab = lazy(() => import("./pages/N8NLab"));
 
@@ -81,15 +77,11 @@ const AnimatedRoutes = () => {
           <Route path="/course/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-          <Route path="/session-1" element={<SessionOne />} />
-          <Route path="/session-2" element={<SessionTwo />} />
-          <Route path="/session-1-gallery" element={<Session1Gallery />} />
-          <Route path="/session-2-gallery" element={<Session2Gallery />} />
+          <Route path="/session/:sessionId" element={<SessionPage />} />
+          <Route path="/gallery/:sessionId" element={<GalleryPage />} />
           <Route path="/pre-registration" element={<PreRegistration />} />
           <Route path="/n8n-lab" element={<N8NLab />} />
-          <Route path="/public-offer" element={<PublicOffer />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/eligible-clients" element={<EligibleClients />} />
+          <Route path="/legal/:slug" element={<LegalPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </m.div>

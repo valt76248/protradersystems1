@@ -218,6 +218,90 @@ export type Database = {
                     },
                 ]
             }
+            quiz_leads: {
+                Row: {
+                    id: string
+                    email: string
+                    telegram: string | null
+                    quiz_score: number
+                    quiz_percentage: number
+                    segment: string
+                    referral_code: string | null
+                    source: string
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    email: string
+                    telegram?: string | null
+                    quiz_score: number
+                    quiz_percentage: number
+                    segment: string
+                    referral_code?: string | null
+                    source: string
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    email?: string
+                    telegram?: string | null
+                    quiz_score?: number
+                    quiz_percentage?: number
+                    segment?: string
+                    referral_code?: string | null
+                    source?: string
+                    created_at?: string
+                }
+                Relationships: []
+            }
+            pre_registrations: {
+                Row: {
+                    id: string
+                    first_name: string
+                    last_name: string | null
+                    email: string
+                    phone: string | null
+                    messenger: string | null
+                    telegram_nick: string | null
+                    income: string | null
+                    problems: string[] | null
+                    main_request: string | null
+                    desired_result: string | null
+                    ready_to_pay: string | null
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    first_name: string
+                    last_name?: string | null
+                    email: string
+                    phone?: string | null
+                    messenger?: string | null
+                    telegram_nick?: string | null
+                    income?: string | null
+                    problems?: string[] | null
+                    main_request?: string | null
+                    desired_result?: string | null
+                    ready_to_pay?: string | null
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    first_name?: string
+                    last_name?: string | null
+                    email?: string
+                    phone?: string | null
+                    messenger?: string | null
+                    telegram_nick?: string | null
+                    income?: string | null
+                    problems?: string[] | null
+                    main_request?: string | null
+                    desired_result?: string | null
+                    ready_to_pay?: string | null
+                    created_at?: string
+                }
+                Relationships: []
+            }
         }
         Views: {
             [_ in never]: never

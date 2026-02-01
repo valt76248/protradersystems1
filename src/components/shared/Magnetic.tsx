@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { m } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface MagneticProps {
     children: React.ReactNode;
@@ -27,7 +27,7 @@ const Magnetic: React.FC<MagneticProps> = ({ children }) => {
     const { x, y } = position;
 
     return (
-        <m.div
+        <motion.div
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -36,7 +36,7 @@ const Magnetic: React.FC<MagneticProps> = ({ children }) => {
             className="inline-block"
         >
             {children}
-        </m.div>
+        </motion.div>
     );
 };
 

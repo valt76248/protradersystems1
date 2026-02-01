@@ -9,6 +9,7 @@ import StartTrainingButton from '@/components/shared/StartTrainingButton';
 import PreRegistrationModal from './PreRegistrationModal';
 import { supabase } from '@/lib/supabaseClient';
 import { useToast } from '@/components/ui/use-toast';
+import { authService } from '@/services/authService';
 import AuraButton from '@/components/ui/AuraButton';
 import { cn } from '@/lib/utils';
 
@@ -23,23 +24,11 @@ const Header = () => {
   const [firstName, setFirstName] = useState<string | null>(null);
 
   const fetchUserProfile = async (userId: string) => {
-    console.log('Fetching profile for:', userId);
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('first_name')
-      .eq('id', userId)
-      .single();
-
-    if (error) {
-      console.error('Error fetching profile:', error);
-    }
-
-    if (data?.first_name) {
-      setFirstName(data.first_name);
+    const profile = await authService.getUserProfile(userId);
+    if (profile?.first_name) {
+      setFirstName(profile.first_name);
     }
   };
-
-
 
   // Check auth state on mount and listen for changes
   useEffect(() => {
@@ -99,11 +88,15 @@ const Header = () => {
       <header className="w-full bg-transparent py-6 px-4 no-select sticky top-0 z-50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex-1 flex justify-start">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <ChartLine className="h-7 w-7 text-primary transition-transform group-hover:scale-110 group-hover:rotate-3" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-500 bg-clip-text text-transparent">
-                ProTrader Systems
-              </span>
+            <Link to="/" className="flex items-center justify-center group relative">
+              <div className="relative w-16 h-16 flex items-center justify-center">
+                <div className="absolute inset-0 bg-cyan-500/20 blur-xl rounded-full group-hover:bg-cyan-500/40 transition-all duration-300" />
+                <img
+                  src="/protrader_emblem.png"
+                  alt="ProTrader Systems"
+                  className="w-full h-full object-contain relative z-10 transition-transform group-hover:scale-105"
+                />
+              </div>
             </Link>
           </div>
 
@@ -153,13 +146,13 @@ const Header = () => {
               </>
             ) : (
               <>
-                <StartTrainingButton size="sm" className="hidden lg:flex" />
+                <StartTrainingButton size="sm" className="hidden lg:flex w-36 justify-center" />
 
                 <Link to="/login">
                   <AuraButton
                     variant="ghost-glow-blue"
                     size="sm"
-                    className="hidden lg:flex text-sm"
+                    className="hidden lg:flex text-sm w-36 justify-center"
                   >
                     <LogIn className="mr-2 h-4 w-4" />
                     {t('nav.login')}
