@@ -31,17 +31,6 @@ export const authService = {
         return data;
     },
 
-    async signInWithGoogle() {
-        const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-            },
-        });
-        if (error) throw error;
-        return data;
-    },
-
     async register({ email, password, firstName, lastName, phone, referralCode, metadata }: RegisterParams) {
         const fullName = `${firstName} ${lastName}`.trim();
 
@@ -99,7 +88,7 @@ export const authService = {
         }
 
         // Insert into Supabase referrals table
-        const { error } = await (supabase.from('referrals') as any).insert({
+        const { error } = await (supabase as any).from('referrals').insert({
             referral_code: referralCode,
             referred_email: referredEmail,
             referred_user_id: referredUserId,
